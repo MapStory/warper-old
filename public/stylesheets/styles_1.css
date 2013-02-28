@@ -285,18 +285,14 @@ body
 
 .headerDiv h1 a {
 	color: #FFF;
-	margin-left: 120px;
+	margin-left: 140px;
 }
 
 .headerDiv h1 a:link, .headerDiv h1 a:visited {
 	color: #FFF;
 }
 
-#nav li {
-	color: #020;
-}
-
- h2 {
+h2 {
 font-size: 1.5em;
 margin: .83em 0;
 }
@@ -395,7 +391,6 @@ font-weight: strong;
 .headerDiv {
 	position: relative;
 	margin: 0 !important;
-	background: #454238 url(/images/head_bar_shadow.png) 0 -30px;
 	background-repeat:no-repeat;
 	padding: 1px 0 0 0 !important;;
 }
@@ -411,9 +406,11 @@ h1 span {
 	text-align: right;
 }
 .headerDiv .user_status a {
-	background: #e3e3d4;
-	font-weight: bold;
-	padding: 0 3px 3px  !important;;
+	background-color: #f47a20;
+	font-weight: normal;
+	font-family: 'Marvel', sans-serif;
+	color: #FFFFFF;
+	padding: 0 3px 3px  !important;
 }
 
 #align_form_div {
@@ -654,7 +651,8 @@ font-weight: bold;
 	padding: 3px 0 3px 1em;
 	margin: 0;
 	border-bottom: 1px solid #999;
-	font-weight: bold;
+	font-weight: normal;
+	font-family: 'Marvel', sans-serif;
 }
 
 #navlist li {
@@ -668,7 +666,7 @@ font-weight: bold;
 	margin-left: 3px;
 	border: 1px solid #999;
 	border-bottom: none;
-	background: #e3e3d4;
+	background-color: #f47a20;
 	text-decoration: none;
 }
 
