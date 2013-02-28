@@ -678,7 +678,7 @@ class MapsController < ApplicationController
 #Checks to see if mapscript is available, then redirects to cgi, or does it itself.
 ###############################################
   begin
-    include Mapscript if require 'ruby_mapscript'
+    include Mapscript if require 'mapscript'
     @@mapscript_exists = true #YES, this means that all requests will go to cgi (seems quicker)
   rescue LoadError
     @@mapscript_exists = false #YES, this means that all requests will go to cgi (seems quicker)
