@@ -646,13 +646,14 @@ font-weight: bold;
 #nav {
 	margin: 0;
 	padding: 0;
+	border-bottom: 20px solid #f47a20;
 }
 #navlist {
 	padding: 3px 0 3px 1em;
 	margin: 0;
-	border-bottom: 1px solid #999;
-	font-weight: normal;
+	font-weight: bold;
 	font-family: 'Marvel', sans-serif;
+	font-size: 16px;
 }
 
 #navlist li {
@@ -664,15 +665,9 @@ font-weight: bold;
 #navlist li a, #navlist li span {
 	padding: 3px 1em;
 	margin-left: 3px;
-	border: 1px solid #999;
-	border-bottom: none;
 	background-color: #f47a20;
 	text-decoration: none;
 	color: #FFFFFF;
-}
-
-#navlist li span {
-	border-bottom: 1px solid white;
 }
 
 #footer {
