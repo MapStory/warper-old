@@ -442,7 +442,7 @@ end
 
 
 
-  require 'mapscript'
+  require 'ruby_mapscript'
   include Mapscript
   def wms()
     begin

@@ -1,7 +1,7 @@
 class AddIndexesToMemberships < ActiveRecord::Migration
   def self.up
     add_index :memberships, [:user_id, :group_id], :unique =>true
-    add_index :memberships, :user_id
+    #add_index :memberships, :user_id
   end
 
   def self.down

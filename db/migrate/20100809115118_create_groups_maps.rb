@@ -5,7 +5,7 @@ class CreateGroupsMaps < ActiveRecord::Migration
       t.timestamps
     end
     add_index :groups_maps, [:map_id, :group_id], :unique =>true
-    add_index :groups_maps, :map_id
+    #add_index :groups_maps, :map_id
   end
 
   def self.down

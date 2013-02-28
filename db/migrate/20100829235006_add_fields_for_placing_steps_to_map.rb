@@ -4,7 +4,7 @@ class AddFieldsForPlacingStepsToMap < ActiveRecord::Migration
     add_column :maps,  :rough_lon, :decimal, :precision => 15, :scale => 10
     
     add_column :maps, :rough_centroid, :point
-    add_index :maps, :rough_centroid, :spatial => true
+    #add_index :maps, :rough_centroid, :spatial => true
 
     add_column :maps, :rough_zoom, :integer
     add_column :maps, :rough_state, :integer

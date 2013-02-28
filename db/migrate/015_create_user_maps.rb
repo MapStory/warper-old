@@ -6,7 +6,7 @@ class CreateUserMaps < ActiveRecord::Migration
       t.timestamps
     end
     add_index :my_maps, [:map_id, :user_id], :unique =>true
-    add_index :my_maps, :map_id
+    #add_index :my_maps, :map_id
   end
 
   def self.down

@@ -7,7 +7,7 @@ class CreateLayerMaps < ActiveRecord::Migration
     end
     
     add_index :layers_maps, [:map_id]
-    add_index :layers_maps, [:layer_id]
+    #add_index :layers_maps, [:layer_id]
   end
 
   def self.down
