@@ -6,7 +6,7 @@
     <title><%= h(@html_title) || ''-%> MapStory : Map Warper </title>
 
     <%= yield :head %>
-    <%= render "includes" %>
+    <%= render "layouts/includes" %>
     
     <script language="javascript" type="text/javascript">
       OpenLayers.ImgPath = '<%=request.protocol + request.host_with_port + ActionController::Base.relative_url_root.to_s%>/javascripts/openlayers/img/';
