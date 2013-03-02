@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title><%= h(@html_title) || ''-%> Gaia GPS - Map Warper </title>
+    <title><%= h(@html_title) || ''-%> - Map Warper </title>
 
     <%= yield :head %>
     <!--[if lte IE 8]>
@@ -31,6 +31,15 @@
       var addthis_config = {
         ui_click : true
       };
+      var uvOptions = {};
+      (function() {
+       var uv = document.createElement('script'); uv.type =
+      'text/javascript'; uv.async = true;
+       uv.src = ('https:' == document.location.protocol ? 'https://' :
+      'http://') + 'widget.uservoice.com/DhyHXis6WVw0y7RC7hHUNw.js';
+       var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(uv, s);
+      })();
     </script>
 
   </head>
