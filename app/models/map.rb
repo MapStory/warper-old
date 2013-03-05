@@ -618,7 +618,9 @@ class Map < ActiveRecord::Base
       warp_output = w_out
 
       # gdaladdo
-    command = "#{GDAL_PATH}gdaladdo -r average #{dest_filename} 2 4 8 16 32 64"
+      #command = "#{GDAL_PATH}gdaladdo -r average #{dest_filename} 2 4 8 16 32 64"
+      # Setting this to use cubic and compression as well, should speed things up.
+      command = "#{GDAL_PATH}gdaladdo -r cubic --config COMPRESS_OVERVIEW DEFLATE #{dest_filename} 2 4 8 16 32 64"
       o_stdin, o_stdout, o_stderr = Open3::popen3(command)
       logger.info command
 
