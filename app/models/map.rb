@@ -106,7 +106,10 @@ class Map < ActiveRecord::Base
       logger.info "We convert to tiff"
       # -co compress=DEFLATE for compression?
       # -expand rgb   for tifs with LZW compression. sigh
-      command  = "#{GDAL_PATH}gdal_translate #{self.upload.path} #{outsize} -co PHOTOMETRIC=RGB -co PROFILE=BASELINE #{tiffed_file_path}"
+      #command  = "#{GDAL_PATH}gdal_translate #{self.upload.path} #{outsize} -co PHOTOMETRIC=RGB -co PROFILE=BASELINE #{tiffed_file_path}"
+      # Setting photometric to RGB breaks gif support, it should autodetect this...
+      # turning on compression...
+      command  = "#{GDAL_PATH}gdal_translate #{self.upload.path} #{outsize} -co COMPRESS=LZW -co PROFILE=BASELINE #{tiffed_file_path}"
       logger.info command
       ti_stdin, ti_stdout, ti_stderr =  Open3::popen3( command )
       logger.info ti_stdout.readlines.to_s
