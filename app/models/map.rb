@@ -117,7 +117,7 @@ class Map < ActiveRecord::Base
 
       #command = "#{GDAL_PATH}gdaladdo -r average #{tiffed_file_path} 2 4 8 16 32 64"
       # cubic goes much faster than average...
-      command = "#{GDAL_PATH}gdaladdo -r average --config COMPRESS_OVERVIEW DEFLATE #{tiffed_file_path} 2 4 8 16 32 64"
+      command = "#{GDAL_PATH}gdaladdo -r cubic --config COMPRESS_OVERVIEW DEFLATE #{tiffed_file_path} 2 4 8 16 32 64"
       o_stdin, o_stdout, o_stderr = Open3::popen3(command)
       logger.info command
 
