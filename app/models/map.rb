@@ -109,13 +109,15 @@ class Map < ActiveRecord::Base
       #command  = "#{GDAL_PATH}gdal_translate #{self.upload.path} #{outsize} -co PHOTOMETRIC=RGB -co PROFILE=BASELINE #{tiffed_file_path}"
       # Setting photometric to RGB breaks gif support, it should autodetect this...
       # turning on compression...
-      command  = "#{GDAL_PATH}gdal_translate #{self.upload.path} #{outsize} -co COMPRESS=LZW -co PROFILE=BASELINE #{tiffed_file_path}"
+      command  = "#{GDAL_PATH}gdal_translate #{self.upload.path} #{outsize} -co COMPRESS=DEFLATE -co PROFILE=BASELINE #{tiffed_file_path}"
       logger.info command
       ti_stdin, ti_stdout, ti_stderr =  Open3::popen3( command )
       logger.info ti_stdout.readlines.to_s
       logger.info ti_stderr.readlines.to_s
 
-      command = "#{GDAL_PATH}gdaladdo -r average #{tiffed_file_path} 2 4 8 16 32 64"
+      #command = "#{GDAL_PATH}gdaladdo -r average #{tiffed_file_path} 2 4 8 16 32 64"
+      # cubic goes much faster than average...
+      command = "#{GDAL_PATH}gdaladdo -r average --config COMPRESS_OVERVIEW DEFLATE #{tiffed_file_path} 2 4 8 16 32 64"
       o_stdin, o_stdout, o_stderr = Open3::popen3(command)
       logger.info command
 
