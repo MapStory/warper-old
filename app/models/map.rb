@@ -101,6 +101,10 @@ class Map < ActiveRecord::Base
       orig_ext = File.extname(self.upload_file_name).to_s.downcase
     
       tiffed_filename = (orig_ext == ".tif" || orig_ext == ".tiff")? self.upload_file_name : self.upload_file_name + ".tif"
+      
+      # this is a good place to rename the tif file to make it unique...
+      tiffed_filename = ActiveSupport::SecureRandom.hex(16).to_s + "_" + tiffed_filename
+
       tiffed_file_path = File.join(maps_dir , tiffed_filename)
 
       logger.info "We convert to tiff"
