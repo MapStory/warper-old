@@ -54,9 +54,10 @@ class Map < ActiveRecord::Base
   #CUSTOM VALIDATIONS
   #############################################
 
-  def validate_on_create
-    errors.add(:filename, "is already being used") if Map.find_by_upload_file_name(upload.original_filename)
-  end
+  # unique filenames are being created now. Very unlikely for a collision to occur.
+  #def validate_on_create
+  #  errors.add(:filename, "is already being used") if Map.find_by_upload_file_name(upload.original_filename)
+  #end
 
 
   #############################################
