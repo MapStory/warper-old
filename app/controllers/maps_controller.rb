@@ -218,10 +218,13 @@ class MapsController < ApplicationController
   end
 
   # used for posting data to mapstory.
+	# This should be posted to itself, since it modifies state.
   def mapstory
     unless @map.status == :warped && @map.map_type == :is_map
       flash.now[:notice] = "Map needs to be rectified before being able to be exported"
     end
+
+		logger.info "Sending map over to mapstory"
 
     # do things here! 
     # TODO
