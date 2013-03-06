@@ -69,9 +69,11 @@ ActionController::Routing::Routes.draw do |map|
   map.align_map '/maps/align/:id', :controller => 'maps', :action => 'align'
   map.warped_map '/maps/preview/:id', :controller => 'maps', :action => 'warped'
   map.export_map '/maps/export/:id', :controller => 'maps', :action => 'export'
+  map.mapstory_map '/maps/mapstory/:id', :controller => 'maps', :action => 'mapstory'
   #map.map_status '/maps/status/:id', :controller => 'maps', :action => 'status'
   map.map_status '/maps/:id/status', :controller => 'maps', :action => 'status'
   map.metadata_map '/maps/metadata/:id', :controller => 'maps', :action => 'metadata'
+
 
   map.export_map '/maps/export/:id', :controller => 'maps', :action => 'export'
   map.formatted_export_map '/maps/export/:id.:format', :controller => 'maps', :action => 'export'
