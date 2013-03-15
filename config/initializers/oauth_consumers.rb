@@ -3,7 +3,7 @@
 #
 # eg. :twitter => TwitterToken, :hour_feed => HourFeedToken etc.
 #
-# OAUTH_CREDENTIALS={
+OAUTH_CREDENTIALS={
 #   :twitter=>{
 #     :key=>"",
 #     :secret=>""
@@ -28,6 +28,17 @@
 #       :site=>"http://hourfeed.com" # Remember to add a site for a generic OAuth site
 #     }
 #   },
+    :mapstory=>{
+      :key=>"",
+      :secret=>"",
+      :options=>{
+        :site=>"http://mapstory.dev.opengeo.org",
+        :request_token_path=>"/oauth2/access_token",
+        :access_token_path=>"/oauth2/2/access_token",
+        :authorize_path=>"/oauth2/authorize",
+        :http_method=>:post
+      }
+    },
 #   :nu_bux=>{
 #     :key=>"",
 #     :secret=>"",
@@ -38,7 +49,7 @@
 #       :site=>"http://nubux.heroku.com" 
 #     }
 #   }
-# }
+}
 # 
 OAUTH_CREDENTIALS={
 } unless defined? OAUTH_CREDENTIALS
