@@ -11,6 +11,11 @@ ActionController::Routing::Routes.draw do |map|
   #map.authorize '/oauth/authorize', :controller => 'oauth', :action => 'authorize'
   #map.oauth '/oauth', :controller => 'oauth', :action => 'index'
 
+  map.authorize '/mapstory/authorize', :controller => 'mapstory', :action => 'authorize'
+  map.callback '/mapstory/callback', :controller => 'mapstory', :action => 'callback'
+  map.mapstory '/mapstory', :controller => 'mapstory', :action => 'index'
+
+
   map.root :controller => "home", :action => "index"
   
   map.user_activity '/users/:id/activity', :controller => 'audits', :action => 'for_user'
