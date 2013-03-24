@@ -15,7 +15,7 @@ class MapstoryController < ApplicationController
 			token = client.auth_code.get_token(params[:code], :redirect_uri => 'http://warper.mapstory.org/mapstory/callback')
 			
 			@displayToken = token.token.to_s
-			Rails.logger.info "Obtained token: " + @token.token.to_s
+			Rails.logger.info "Obtained token: " + token.token.to_s
 		end
 
 	end
