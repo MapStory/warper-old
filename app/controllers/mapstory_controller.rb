@@ -7,12 +7,15 @@ class MapstoryController < ApplicationController
 	end
 
 	def callback
-		@token = "none"
+		@displayToken = "none"
 		client = OAuth2::Client.new('c4c15df0710b16f01216', 'fb74460f583399db7d4337b2d2401c6fe9ba1f93', :site => 'http://mapstory.dev.opengeo.org', :token_url => '/oauth2/access_token/', :authorize_url => '/oauth2/authorize/') 
 
 		if params[:code]
-			@token = client.auth_code.get_token(params[:code], :redirect_uri => 'http://warper.mapstory.org/mapstory/callback')
-			Rails.logger.info "Obtained token: " + @token.to_s
+			# do we store the code or the token?
+			token = client.auth_code.get_token(params[:code], :redirect_uri => 'http://warper.mapstory.org/mapstory/callback')
+			
+			@displayToken = token.token.to_s
+			Rails.logger.info "Obtained token: " + @token.token.to_s
 		end
 
 	end
