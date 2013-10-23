@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
       cookies.delete :auth_token
       # Also remove the mapstory cookie, user will have to re-log at mapstory
       # to gain access again.
-      cookies.delete :msid
+      cookies.delete :msid, :domain => "mapstory.org"
       reset_session
       flash[:notice] = "You have been logged out."
       redirect_to login_path
