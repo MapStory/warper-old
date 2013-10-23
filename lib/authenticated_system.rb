@@ -232,7 +232,9 @@ module AuthenticatedSystem
 
           if user.nil?
             Rails.logger.info "Creating new warper account for #{mapstory_username}"
-            user = User.new(:login => mapstory_username, :enabled => true, :activated_at => Time.now.utc)
+            user = User.new(:login => mapstory_username)
+            user.enabled = true
+            user.activated_at = Time.now.utc
             user.save
           end
 
