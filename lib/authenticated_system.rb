@@ -231,7 +231,7 @@ module AuthenticatedSystem
           user = User.find_by_login(mapstory_username)
 
           if user.nil?
-            Rails.logger.info "Creating new warper account for #{mapstory_username}"
+            Rails.logger.info "Creating new warper account for #{mapstory_username} from MapStory Cookie"
             user = User.new(:login => mapstory_username)
             user.enabled = true
             user.activated_at = Time.now.utc
