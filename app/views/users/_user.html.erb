@@ -15,9 +15,6 @@
     </td>
     <td>
       <%= user.active? ? 'yes' : 'no' -%>
-      <% if !user.active? -%>
-        <%= link_to('activate', force_activate_path(user.id), :method => :put) -%>
-      <% end-%>
     </td>
     <td><%= link_to 'edit roles', user_roles_path(user) -%></td>
   <% end -%>

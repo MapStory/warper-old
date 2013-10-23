@@ -78,28 +78,6 @@ class UsersController < ApplicationController
 
    end
 
-   # render new.rhtml
-   def new
-      @html_title = "Sign Up"
-      @user = User.new
-   end
-
-   def create
-      cookies.delete :auth_token
-      @user = User.new(params[:user])
-      @user.save!
-      # Uncomment to have the user automatically
-      # logged in after creating an account - Not Recommended
-      # self.current_user = @user
-      flash[:notice] = "Thanks for signing up! Please check your email to activate your account before logging in. If you dont recieve an email, then %s"
-      flash[:notice_item] = ["click here to resend the email",
-        resend_activation_path] 
-      redirect_to login_path
-   rescue ActiveRecord::RecordInvalid
-      flash[:error] = "There was a problem creating your account."
-      render :action => 'new'
-   end
-
    def edit
       @html_title = "Edit User Setttings"
       @user = current_user
@@ -134,9 +112,9 @@ class UsersController < ApplicationController
      unless @user.has_role?("administrator") ||  @user.has_role?("super user")
        #disable
       if @user.update_attribute(:enabled, false)
-         @user.forgot_password
-         @user.save  #user_observer sends password now
-         flash[:notice] = "User disabled, and an email sent with password reset link"
+         #@user.forgot_password
+         #@user.save  #user_observer sends password now
+         flash[:notice] = "User disabled"
        else
         flash[:error] = "Sorry, there was a problem disbaling this user"
        end
@@ -165,57 +143,5 @@ class UsersController < ApplicationController
       end
       redirect_to :action => 'index'
    end
-
-   def activate  
-      @user = User.find_by_activation_code(params[:id])
-      if @user and @user.activate
-         self.current_user = @user
-         redirect_back_or_default(:controller => '/user_account', :action => 'index')
-         flash[:notice] = "Your account has been activated."
-     end
-      redirect_to :action => 'index'
-   end
-
-  #called from admin console thingy
-   def force_activate
-     @user = User.find(params[:id])
-     if !@user.active?
-       @user.force_activate!
-       if @user.active? 
-         flash[:notice] = "User activated"
-       else
-         flash[:error] = "There was a problem activating this user."
-       end
-     else
-       flash[:notice] = "User already active"
-     end
-     redirect_to :action => 'index'
-   end
    
-   #only admin can do this
-   def force_resend_activation
-     @user = User.find(params[:id])
-      if @user && !@user.active?
-        flash[:notice] = "Activation email sent to user."
-        UserMailer.deliver_signup_notification(@user)
-      else
-        flash[:notice] = "Activation email was not sent, maybe because it has already been activated!"
-      end
-      redirect_to :action => 'show'
-   end
-
-   def resend_activation
-    return unless request.post?
-
-    @user = User.find_by_email(params[:email])
-    if @user && !@user.active?
-      flash[:notice] = "Activation email has been resent, check your email."
-      UserMailer.deliver_signup_notification(@user)
-      redirect_to login_path and return
-    else
-      flash[:notice] = "Activation email was not sent, either because the email was not the same as you gave when you signed up, or you have already been activated!"
-      
-    end
-   end
-
 end

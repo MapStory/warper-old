@@ -48,16 +48,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
-  map.signup '/signup', :controller => 'users', :action => 'new'
-  map.resend_activation '/resend_activation', :controller => 'users', :action => 'resend_activation'
-  map.force_resend_activation '/force_resend_activation/:id', :controller => 'users', :action => 'force_resend_activation'
-  map.activate '/activate/:id', :controller => 'user_accounts', :action => 'show'
-  map.change_password '/change_password',   :controller => 'user_accounts', :action => 'edit'
-  map.forgot_password '/forgot_password',   :controller => 'passwords', :action => 'new'
-  map.reset_password '/reset_password/:id', :controller => 'passwords', :action => 'edit'
-  # map.resources :users, :has_many => :user_maps,
-  map.force_activate '/force_activate/:id', :controller => 'users', :action => 'force_activate', :conditions =>{:method => :put}
-  map.disable_and_reset '/disable_and_reset/:id', :controller => 'users', :action => 'disable_and_reset', :conditions => {:method => :put}
   map.resources :users, :member => {:enable => :put, :disable => :put } do |users|
     users.resource :user_account
     users.resources :roles
