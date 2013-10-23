@@ -7,7 +7,7 @@ class MapstoryCookie
 		MAPSTORY_COOKIE_KEY
 
 		# Remove the quotes from the cookie string, then split.
-		name, hash = data.gsub('"','')split(":")
+		name, hash = data.gsub('"',"").split(":")
 
 		Rails.logger.info "Cookie Decode: Not doing anything at the moment."
 		Rails.logger.info "Name is: #{name}"
