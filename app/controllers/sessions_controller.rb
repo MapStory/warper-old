@@ -19,28 +19,12 @@ class SessionsController < ApplicationController
    def destroy
       self.current_user.forget_me if logged_in?
       cookies.delete :auth_token
+      # Also remove the mapstory cookie, user will have to re-log at mapstory
+      # to gain access again.
+      cookies.delete :msid
       reset_session
       flash[:notice] = "You have been logged out."
       redirect_to login_path
-   end
-
-   protected
-
-   def password_authentication(email, password)
-
-      user = User.authenticate(email, password)
-        logger.info user
-      if user == nil
-       
-         failed_login("Your email or password is incorrect.")
-      elsif user.activated_at.blank?
-         failed_login("Your account is not active, please check your email for the activation code. %s", ["Resend activation email?", resend_activation_path])
-      elsif user.enabled == false
-         failed_login("Your account has been disabled.")
-      else
-         self.current_user = user
-         successful_login
-      end
    end
 
    private
@@ -52,10 +36,6 @@ class SessionsController < ApplicationController
    end
 
    def successful_login
-      if params[:remember_me] == "1"
-         self.current_user.remember_me
-         cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
-      end
       flash.now[:notice] = "Logged in successfully"
       #logger.info "successful login = " + session[:return_to]
       return_to = session[:return_to]

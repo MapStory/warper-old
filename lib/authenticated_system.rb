@@ -9,6 +9,10 @@ module AuthenticatedSystem
 
     # Accesses the current user from the session. 
     # Future calls avoid the database because nil is not equal to false.
+    #
+    # Log in if an existing session is created, or if a mapstory cookie
+    # is set.
+    #
     def current_user
       @current_user ||= (login_from_session || login_from_mapstory || :false )
     #  logger.info @current_user.inspect
