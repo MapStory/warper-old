@@ -12,4 +12,7 @@ class MapstoryCookie
 	end
 
 
+	
+
+
 end

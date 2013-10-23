@@ -2,7 +2,7 @@ require 'digest/sha1'
 require 'base64'
 class User < ActiveRecord::Base
    # Virtual attribute for the unencrypted password
-   attr_accessor :password
+   #attr_accessor :password
    
    has_many :memberships, :dependent => :destroy
    has_many :groups, :through => :memberships
@@ -14,21 +14,23 @@ class User < ActiveRecord::Base
    has_many :client_applications
    has_many :tokens, :class_name => "OauthToken", :order => "authorized_at desc", :include => [:client_application]
 
-   validates_presence_of     :login, :email
-   validates_presence_of     :password,                   :if => :password_required?
-   validates_presence_of     :password_confirmation,      :if => :password_required?
-   validates_length_of       :password, :within => 4..40, :if => :password_required?
-   validates_confirmation_of :password,                   :if => :password_required?
+   #validates_presence_of     :login, :email
+   validates_presence_of     :login
+   #validates_presence_of     :password,                   :if => :password_required?
+   #validates_presence_of     :password_confirmation,      :if => :password_required?
+   #validates_length_of       :password, :within => 4..40, :if => :password_required?
+   #validates_confirmation_of :password,                   :if => :password_required?
    validates_length_of       :login,    :within => 3..40
-   validates_length_of       :email,    :within => 6..100
-   validates_uniqueness_of   :login, :email, :case_sensitive => false
-   validates_format_of       :email, :with => /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i
+   #validates_length_of       :email,    :within => 6..100
+   #validates_uniqueness_of   :login, :email, :case_sensitive => false
+   validates_uniqueness_of   :login
+   #validates_format_of       :email, :with => /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i
 
    has_many :permissions
    has_many :roles, :through => :permissions
   
-   before_save :encrypt_password
-   before_create :make_activation_code
+   #before_save :encrypt_password
+   #before_create :make_activation_code
 
    # prevents a user from submitting a crafted form that bypasses activation
    # anything else you want your user to change should be added here.
@@ -86,15 +88,15 @@ class User < ActiveRecord::Base
    end
 
    # Encrypts some data with the salt.
-   def self.encrypt(password)
-     # Digest::SHA1.hexdigest("–#{salt}–#{password}–")
-      '{SHA}'+ Base64.encode64(Digest::SHA1.digest(password))
-   end
+   # def self.encrypt(password)
+   #   # Digest::SHA1.hexdigest("–#{salt}–#{password}–")
+   #    '{SHA}'+ Base64.encode64(Digest::SHA1.digest(password))
+   # end
 
    # Encrypts the password with the user salt
-   def encrypt(password)
-      self.class.encrypt(password)
-   end
+   # def encrypt(password)
+   #    self.class.encrypt(password)
+   # end
 
    def authenticated?(password)
       crypted_password == encrypt(password)
@@ -164,23 +166,23 @@ class User < ActiveRecord::Base
    protected
 
    # before filter
-   def encrypt_password
-      return if password.blank?
-    #  self.salt = Digest::SHA1.hexdigest("–#{Time.now.to_s}–#{login}–") if new_record?
-      self.crypted_password = encrypt(password)
-   end
+   # def encrypt_password
+   #    return if password.blank?
+   #  #  self.salt = Digest::SHA1.hexdigest("–#{Time.now.to_s}–#{login}–") if new_record?
+   #    self.crypted_password = encrypt(password)
+   # end
 
-   def password_required?
-      crypted_password.blank? || !password.blank?
-   end
+   # def password_required?
+   #    crypted_password.blank? || !password.blank?
+   # end
 
-   def make_activation_code
-      self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
-   end
+   # def make_activation_code
+   #    self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+   # end
 
-   def make_password_reset_code
-      self.password_reset_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
-   end
+   # def make_password_reset_code
+   #    self.password_reset_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+   # end
 
    
    private
