@@ -228,11 +228,13 @@ module AuthenticatedSystem
       if cookies[:msid]
         mapstory_username = MapstoryCookie.decode(cookies[:msid])
         if mapstory_username
-          user = User.find_or_create_by(:login => mapstory_username) do |c|
+          user = User.find_by_login(mapstory_username)
+
+          if user.nil?
             Rails.logger.info "Creating new warper account for #{mapstory_username}"
-            c.enabled = true
-            c.activated_at = Time.now.utc
+            user = User.create(:login => mapstory_username, :enabled => true, :activated_at => Time.now.utc)
           end
+
           self.current_user = user
         end
       end
