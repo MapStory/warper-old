@@ -8,7 +8,6 @@
     <%= link_to "Log Out", logout_url %>
   <% else %>
     <%= link_to "Sign In", new_session_path %>
-    <%= link_to "Create Account", new_user_path %>
   <% end %>
   <% if logged_in? %>
     <% if current_user.has_role?("administrator") || current_user.has_role?("super user") %>
