@@ -10,31 +10,25 @@ class ApplicationController < ActionController::Base
   # Uncomment the :secret if you're not using the cookie session store
   protect_from_forgery # :secret => '02fd3a68fbbf6bb592746ba9dd1e79d6'
 
- 	before_filter :check_cookie
 
 
 
 layout 'application'
    
-	# Debugging for now.
+	# Debugging method to check for a MapStory Cookie
+	# Call with a before_filter.
 	def check_cookie
-		Rails.logger.info "Checking the cookie"
+		Rails.logger.info "Checking for MapStory cookie"
 
 		if cookies[:msid]
-			Rails.logger.info "We have a msid cookie"
-
+			Rails.logger.info "-- We have a msid cookie"
 			decoded_value = MapstoryCookie.decode(cookies[:msid])
-
-			Rails.logger.info "Our decoded value is: " + decoded_value.inspect
-
+			Rails.logger.info "-- Our decoded value is: " + decoded_value.inspect
 			return decoded_value
 		else
-			Rails.logger.info "No cookie detected"
+			Rails.logger.info "-- No cookie detected"
 			return false
 		end
 	end
-
-
-
 
 end
