@@ -12,9 +12,9 @@ class SessionsController < ApplicationController
    end
    end
 
-   def create
-      password_authentication(params[:email], params[:password])
-   end
+   # def create
+   #    password_authentication(params[:email], params[:password])
+   # end
 
    def destroy
       self.current_user.forget_me if logged_in?

@@ -1,24 +1,5 @@
+<h2>Login with MapStory account</h2>
 
-	<h2>Login with MapStory account</h2>
-
-	<p><a href="http://mapstory.dev.opengeo.org/oauth2/authorize/?client_id=c4c15df0710b16f01216&redirect_uri=http%3A%2F%2Fwarper.mapstory.org%2F&response_type=code&status=abc">Login</a></p>
-
-
-    <h2>Login with User ID and Password:</h2>
-    
-    <% form_tag session_path do %>
-
-    <p><label for="email">Email</label><br/>
-    <%= text_field_tag "email" %></p>
-
-    <p><label for="password">Password</label><br />
-    <%= password_field_tag "password" %></p>
-
-    <p><label for="remember_me">Remember me:</label>
-    <%= check_box_tag "remember_me" %></p>
-
-    <p><%= submit_tag "Log in" %><%= link_to "Sign Up", new_user_path %></p>
-
-    <p><%= link_to "Forgot Password?", forgot_password_path %>
-    </p>
-    <% end %>
+<p>Visit <a href="http://mapstory.org">MapStory</a> and log in. Once you are logged in return to
+    <a href="http://warper.mapstory.org">this page</a> and you will automatically be logged in.</p>
+	
