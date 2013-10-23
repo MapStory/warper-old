@@ -4,26 +4,11 @@ class MapstoryCookie
 	# Pass in the contents of the cookie to verify and decode.
 	# returns the username if success, false otherwise.
 	def self.decode(data)
-		MAPSTORY_COOKIE_KEY
-
 		# Remove the quotes from the cookie string, then split.
 		name, hash = data.gsub('"',"").split(":")
-
-		Rails.logger.info "Cookie Decode: Not doing anything at the moment."
-		Rails.logger.info "Name is: #{name}"
-		Rails.logger.info "Hash is: #{hash}"
-
 		hash_check = OpenSSL::HMAC.hexdigest(OpenSSL::Digest::Digest.new('sha1'), MAPSTORY_COOKIE_KEY, name)
-
-		Rails.logger.info "Our generated hash is: #{hash_check}"
-
-		if hash_check == hash
-			Rails.logger.info "Hash verifies"
-		else
-			Rails.logger.info "Unable to verify hash!!!!"
-		end
-
-		data
+		return name if hash_check == hash  	# Hash verifies, return user name.
+		false																# Hash didn't verify, return false
 	end
 
 
