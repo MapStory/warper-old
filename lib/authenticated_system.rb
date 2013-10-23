@@ -236,6 +236,8 @@ module AuthenticatedSystem
             user.enabled = true
             user.activated_at = Time.now.utc
             user.save
+          else
+            Rails.logger.info "Found existing account for #{mapstory_username} from MapStory Cookie"
           end
 
           self.current_user = user
