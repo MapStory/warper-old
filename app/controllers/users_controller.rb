@@ -29,7 +29,7 @@ class UsersController < ApplicationController
 
    def index
       @html_title = "Users"
-      sort_init 'email'
+      sort_init 'login'
       sort_update
       @query = params[:query]
       @field = %w(login email).detect{|f| f == (params[:field])}
@@ -48,7 +48,7 @@ class UsersController < ApplicationController
    def index_for_group
       @group = Group.find(params[:group_id])
       @html_title = "Users in Group " + @group.id.to_s
-      sort_init 'email'
+      sort_init 'login'
       sort_update
       @query = params[:query]
       @field = %w(login email).detect{|f| f == (params[:field])}
