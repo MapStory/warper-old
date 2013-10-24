@@ -7,6 +7,11 @@ If you are interested in forking this project, I suggest you go with the origina
 
 This project is currently in use at warper.mapstory.org
 
-## Login
-The login code has been stripped out, and a cookie from MapStory is required
-to be a logged in user.
+
+## Map Story Integration
+
+### Login
+A cookie set by mapstory.org is required to log on.
+
+### User name Restrictions
+User names must not contain colons or double quotes.
