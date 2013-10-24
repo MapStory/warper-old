@@ -116,7 +116,7 @@ class UsersController < ApplicationController
          #@user.save  #user_observer sends password now
          flash[:notice] = "User disabled"
        else
-        flash[:error] = "Sorry, there was a problem disbaling this user"
+        flash[:error] = "Sorry, there was a problem disabling this user"
        end
      else
        flash[:error] = "Admins cannot be disabled and reset, sorry"
