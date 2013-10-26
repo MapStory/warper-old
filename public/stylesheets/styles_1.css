@@ -39,6 +39,10 @@ div.comment span.comment_metadata {
   font-style: italic;
 }
 
+.wrap {
+	max-width: 30em;
+}
+
 #warper-maindiv {
     margin: 1.5em;
 }
