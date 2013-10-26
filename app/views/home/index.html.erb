@@ -1,28 +1,34 @@
 <div id="container">
 
 <div id="left-col">
-<div id="video-intro"><h2>Overview</h2>
- Find maps and other imagery, upload, and rectify against a real map.<br />
- You can then download and use the rectified map in your mapping applications.<br />
- Just sign up and you can start uploading and get warping!
-  <h4>
-  <%= link_to "Upload Map!", new_map_path -%>
-  </h4>
+  <h2>Welcome!</h2>
+
+  <div id="video-intro">
+   
+  </div>
+
+  <p>
+    This Warper lets you plot scanned maps and images in the geographic space of a digital map. 
+    Some people call this process ‘warping’ and some call it ‘geo-rectifying’. 
+    Confused? don’t worry! Just watch the video or go to <a href="#">(link)</a> for 
+    tutorials and examples.  You can also <a href="#">post your questions</a> to the 
+    global MapStory community.
+  </p>
+
+  <p>
+    The Warper makes it easy to incorporate historical maps and 
+    imagery - like aerial photos - into your 
+    MapStory projects. Its free to use...so enjoy! 
+  </p>
+
+  <div id="tag-cloud">
+    <h4 class="smaller">Tags</h4>
+    <% tag_cloud @tags, %w(css1 css2 css3 css4) do |tag, css_class| %>
+      <%= link_to tag.name, { :controller=>:maps, :action => :tag, :id => tag.name }, :class => css_class %>
+    <% end %>
+  </div>
 </div>
 
-<div>
-<h2>What is it?</h2>
-<p>It's a free to use, open source map warper / map georectifier, it's a bit unstable! This project is supported by <a href="http://entropyfree.com">Entropy Free</a> and the <a href="http://maps.nypl.org">New York Public Library</a>.
-</p>
-</div>
-<div id="tag-cloud">
-  <h4 class="smaller">Tags</h4>
-  <% tag_cloud @tags, %w(css1 css2 css3 css4) do |tag, css_class| %>
-    <%= link_to tag.name, { :controller=>:maps, :action => :tag, :id => tag.name }, :class => css_class %>
-  <% end %>
-</div>
-
-</div>
 <div id="right-col">
   <div id="search-form">
     <%= render :partial => 'shared/search' -%>
