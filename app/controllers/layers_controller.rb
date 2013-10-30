@@ -151,11 +151,11 @@ end
     if !map.nil?
       @map = Map.find(map)
       @layers = @map.layers.paginate(paginate_params)
-      @html_title = "Layer List for Map #{@map.id}"
+      @html_title = "Mosaic List for Map #{@map.id}"
       @page = "for_map"
     else
       @layers = Layer.paginate(paginate_params)
-      @html_title = "Browse Layer List"
+      @html_title = "Browse Mosaic List"
     end
     
     if request.xhr?
