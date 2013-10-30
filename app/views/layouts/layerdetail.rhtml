@@ -188,7 +188,7 @@
 
     <% if admin_authorized? %>
       <div id="year-dialog" class="hidden">
-        Add / edit year that this layer depicts: <br />
+        Add / edit year that this mosaic depicts: <br />
         <% remote_form_for :layer, @layer, :html => {:id =>"year-form" },
           :url => url_for(:controller => 'layers', :action => 'update_year', :id => @layer.id),
           :complete => "jQuery('#year-dialog').dialog('close');jQuery('#depicts-year-span-top').effect('highlight', {}, 3000); ",

@@ -38,7 +38,7 @@
 
 
       <% if admin_authorized? and @layer -%>
-        | <%= link_to "remove map from this layer", {:controller => "layers", :action=>"remove_map", :id => @layer, :map_id => map} %>
+        | <%= link_to "remove map from this mosaic", {:controller => "layers", :action=>"remove_map", :id => @layer, :map_id => map} %>
       <%end -%>
 
       <% if admin_authorized? -%>
