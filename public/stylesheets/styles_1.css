@@ -311,12 +311,12 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 a, a:link {
-	color: #002200;
+	color: #F46817;
 	text-decoration: none;
 }
 
 a:visited {
-	color: #002200;
+	color: #F46817;
 }
 
 a:hover {
@@ -537,6 +537,7 @@ clear: both;
 	width: 320px;
 	background: #eeeee0;
 	border: 1px solid #ccc;
+	font-size: 85%;
 }
 
 #left-col h2 {
