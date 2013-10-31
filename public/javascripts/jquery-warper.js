@@ -17,7 +17,7 @@ function bigModalDialog(message){
           draggable: false,
           modal: true,
           hide: 'slow',
-          title: 'Warper is Working...',
+          title: 'Rectifier is Working...',
         //  close: function(){document.getElementById("warp_button").disabled = false; },
           zIndex: 1008
           });
@@ -49,7 +49,7 @@ function bigModalDialog2(message){
           draggable: false,
           modal: true,
           hide: 'slow',
-          title: 'Warper is Working...',
+          title: 'Rectifier is Working...',
         //  close: function(){document.getElementById("warp_button").disabled = false; },
           zIndex: 1008
           });

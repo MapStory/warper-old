@@ -1,14 +1,14 @@
-WillPaginate::Collection.class_eval do  alias :to_json_without_paginate 
-:to_json 
-def to_json(options = {}) 
-  { :current_page => current_page, 
-    :per_page => per_page, 
-    :total_entries => total_entries, 
-    :total_pages => total_pages, 
-    :items => to_a 
-  }.to_json(options) 
-end 
-end 
+WillPaginate::Collection.class_eval do  alias :to_json_without_paginate
+:to_json
+def to_json(options = {})
+  { :current_page => current_page,
+    :per_page => per_page,
+    :total_entries => total_entries,
+    :total_pages => total_pages,
+    :items => to_a
+  }.to_json(options)
+end
+end
 
 if RUBY_VERSION < "1.8.7"
 require 'enumerator'

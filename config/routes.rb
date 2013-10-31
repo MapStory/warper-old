@@ -1,14 +1,18 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :oauth_clients
+  #map.resources :oauth_consumers,:member=>{:callback=>:get}
 
-  map.test_request '/oauth/test_request', :controller => 'oauth', :action => 'test_request'
-  map.access_token '/oauth/access_token', :controller => 'oauth', :action => 'access_token'
-  map.request_token '/oauth/request_token', :controller => 'oauth', :action => 'request_token'
-  map.authorize '/oauth/authorize', :controller => 'oauth', :action => 'authorize'
-  map.oauth '/oauth', :controller => 'oauth', :action => 'index'
+  #map.resources :oauth_consumers,:member=>{:callback=>:get}
+
+  #map.resources :oauth_clients
+
+  #map.test_request '/oauth/test_request', :controller => 'oauth', :action => 'test_request'
+  #map.access_token '/oauth/access_token', :controller => 'oauth', :action => 'access_token'
+  #map.request_token '/oauth/request_token', :controller => 'oauth', :action => 'request_token'
+  #map.authorize '/oauth/authorize', :controller => 'oauth', :action => 'authorize'
+  #map.oauth '/oauth', :controller => 'oauth', :action => 'index'
 
   map.root :controller => "home", :action => "index"
-
+  
   map.user_activity '/users/:id/activity', :controller => 'audits', :action => 'for_user'
   map.formatted_user_activity '/users/:id/activity.:format', :controller => 'audits', :action => 'for_user'
   map.connect '/users/stats', :controller => 'users', :action => 'stats'
@@ -17,14 +21,14 @@ ActionController::Routing::Routes.draw do |map|
   map.formatted_maps_activity  '/maps/activity.:format', :controller => 'audits', :action => 'for_map_model'
   map.map_activity '/maps/:id/activity', :controller => 'audits', :action => 'for_map'
   map.formatted_map_activity '/maps/:id/activity.:format', :controller => 'audits', :action => 'for_map'
-  
+
   map.activity '/activity', :controller => 'audits'
-  map.formatted_activity '/activity.:format', :controller => 'audits' 
-  map.activity_details '/activity/:id', :controller => 'audits',:action => 'show' 
-  
-  
+  map.formatted_activity '/activity.:format', :controller => 'audits'
+  map.activity_details '/activity/:id', :controller => 'audits',:action => 'show'
+
+
   map.connect '/maps/activity', :controller => 'audits', :action => 'for_map_model'
- 
+
   map.connect '/gcp/', :controller => 'gcp', :action => 'index'
   map.connect '/gcp/:id', :controller => 'gcp', :action=> 'show'
 #  map.connect '/gcp/show/:id', :controller=> 'gcp', :action=>'show'
@@ -44,19 +48,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
-  map.signup '/signup', :controller => 'users', :action => 'new'
-  map.resend_activation '/resend_activation', :controller => 'users', :action => 'resend_activation'
-  map.force_resend_activation '/force_resend_activation/:id', :controller => 'users', :action => 'force_resend_activation'
-  map.activate '/activate/:id', :controller => 'user_accounts', :action => 'show'
-  map.change_password '/change_password',   :controller => 'user_accounts', :action => 'edit'
-  map.forgot_password '/forgot_password',   :controller => 'passwords', :action => 'new'
-  map.reset_password '/reset_password/:id', :controller => 'passwords', :action => 'edit'
-# map.resources :users, :has_many => :user_maps,  
-  map.force_activate '/force_activate/:id', :controller => 'users', :action => 'force_activate', :conditions =>{:method => :put}
-  map.disable_and_reset '/disable_and_reset/:id', :controller => 'users', :action => 'disable_and_reset', :conditions => {:method => :put}
-  map.resources :users, :member => {:enable => :put, :disable => :put } do |users| 
-  users.resource :user_account
-  users.resources :roles
+  map.resources :users, :member => {:enable => :put, :disable => :put } do |users|
+    users.resource :user_account
+    users.resources :roles
   end
 
   map.resource :session
@@ -69,8 +63,11 @@ ActionController::Routing::Routes.draw do |map|
   map.align_map '/maps/align/:id', :controller => 'maps', :action => 'align'
   map.warped_map '/maps/preview/:id', :controller => 'maps', :action => 'warped'
   map.export_map '/maps/export/:id', :controller => 'maps', :action => 'export'
+  map.mapstory_map '/maps/mapstory/:id', :controller => 'maps', :action => 'mapstory'
   #map.map_status '/maps/status/:id', :controller => 'maps', :action => 'status'
   map.map_status '/maps/:id/status', :controller => 'maps', :action => 'status'
+  map.metadata_map '/maps/metadata/:id', :controller => 'maps', :action => 'metadata'
+
 
   map.export_map '/maps/export/:id', :controller => 'maps', :action => 'export'
   map.formatted_export_map '/maps/export/:id.:format', :controller => 'maps', :action => 'export'
@@ -82,10 +79,11 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/maps/:id/save_mask', :controller => 'maps', :action => 'save_mask'
   map.connect '/maps/:id/delete_mask', :controller => 'maps', :action => 'delete_mask'
   map.connect '/maps/:id/mask_map', :controller => 'maps', :action => 'mask_map'
-  
+
   map.connect '/maps/geosearch', :controller => 'maps', :action => 'geosearch'
   map.connect '/maps/geo', :controller => 'maps', :action => 'geo'
-  
+
+  map.map_tag '/maps/tag/:id', :controller => 'maps', :action => 'tag', :requirements => { :id => %r([^/;,?]+) }
 
   map.connect '/maps/:id/gcps.:format', :controller => 'maps', :action => 'gcps'
   map.connect '/maps/tile/:id/:z/:x/:y.png', :controller => 'maps', :action => 'tile'
@@ -98,66 +96,45 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect '/layers/geosearch', :controller => 'layers', :action => 'geosearch'
   map.connect '/layers/thumb/:id', :controller => 'layers', :action => 'thumb'
- map.connect '/layers/:id/maps.:format', :controller => 'layers', :action => 'maps'
+  map.connect '/layers/:id/maps.:format', :controller => 'layers', :action => 'maps'
   map.connect '/layers/wms2', :controller => 'layers', :action => 'wms2'
-map.comments_layer '/layers/:id/comments', :controller => 'layers', :action => 'comments'
+  map.comments_layer '/layers/:id/comments', :controller => 'layers', :action => 'comments'
 
   map.resources :maps  do |a |
     a.resources :layers
-    end
- map.resources :layers
-  
- map.digitize_layer '/layers/digitize/:id', :controller => 'layers', :action => 'digitize'
- map.export_layer '/layers/export/:id', :controller => 'layers', :action => 'export'
- map.metadata_layer '/layers/metadata/:id', :controller => 'layers', :action => 'metadata'
+  end
+  map.resources :layers
+
+  map.digitize_layer '/layers/digitize/:id', :controller => 'layers', :action => 'digitize'
+  map.export_layer '/layers/export/:id', :controller => 'layers', :action => 'export'
+  map.metadata_layer '/layers/metadata/:id', :controller => 'layers', :action => 'metadata'
   map.connect '/layers/tile/:id/:z/:x/:y.png', :controller => 'layers', :action => 'tile'
- map.connect 'digitize/subtype.:format', :controller => 'digitize', :action=> 'subtype'
+  map.connect 'digitize/subtype.:format', :controller => 'digitize', :action=> 'subtype'
+
+  map.resources :groups 
+  
+  map.new_group_user '/groups/:group_id/users/new', :controller => 'memberships', :action => 'new'
+  map.destroy_group_user '/groups/:group_id/users/destroy/:id', :controller => 'memberships', :action => 'destroy', :conditions => { :method => :delete}
  
+  map.group_users '/groups/:group_id/users', :controller => 'users', :action => 'index_for_group'
+  map.group_maps '/groups/:group_id/maps', :controller => 'mapss', :action => 'index_for_map'
+
+  map.resources :imports, :member => {:maps => :get, :start => :get, :status => :get }
+ 
+  
   # The priority is based upon order of creation: first created -> highest priority.
 
-  # Sample of regular route:
-  #   map.connect 'products/:id', :controller => 'catalog', :action => 'view'
-  # Keep in mind you can assign values other than :controller and :action
 
-  # Sample of named route:
-  #   map.purchase 'products/:id/purchase', :controller => 'catalog', :action => 'purchase'
-  # This route can be invoked with purchase_url(:id => product.id)
-
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   map.resources :products
-
-  # Sample resource route with options:
-  #   map.resources :products, :member => { :short => :get, :toggle => :post }, :collection => { :sold => :get }
-
-  # Sample resource route with sub-resources:
-  #   map.resources :products, :has_many => [ :comments, :sales ], :has_one => :seller
-
-  # Sample resource route within a namespace:
-  #   map.namespace :admin do |admin|
-  #     # Directs /admin/products/* to Admin::ProductsController (app/controllers/admin/products_controller.rb)
-  #     admin.resources :products
-  #   end
-
-  # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-  # map.root :controller => "welcome"
-
-  # See how all your routes lay out with "rake routes"
-
- #for legacy urls
+  #for legacy urls
   #map.connect '/mapscans/*', :controller => 'maps'
   map.connect '/maps/:id', :controller => 'maps', :action => "show"
-   map.connect '/maps/:action/:id', :controller => 'maps'
+  map.connect '/maps/:action/:id', :controller => 'maps'
   map.connect '/maps/:action/:id.:format', :controller => 'maps'
-
-
-  map.connect '/mapscans/:id', :controller => 'maps', :action => "show"
-  map.connect '/mapscans/:action/:id', :controller => 'maps'
-  map.connect '/mapscans/:action/:id.:format', :controller => 'maps'
 
   # Install the default routes as the lowest priority.
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
   #map.connect '', :controller => "mapscans"
   map.connect '', :controller => "home"
- 
+
 end

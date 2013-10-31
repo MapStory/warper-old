@@ -1,0 +1,20 @@
+MAP
+	SIZE 1024 768
+	EXTENT -180 -90 180 90
+	IMAGETYPE PNG24
+	UNITS DD
+
+PROJECTION
+"init=epsg:900913"
+END
+
+	WEB
+		METADATA
+			"wms_title" "geowarp wms server"
+			ows_enable_request "*"
+		END
+	END
+
+	INCLUDE "layers.map"
+
+END

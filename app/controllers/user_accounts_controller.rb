@@ -25,6 +25,7 @@ flash[:notice_item] = [" resend the email here", resend_activation_path]
    end
 
    def edit
+     @html_title = "Change Password"
    end
 
    # Change password action

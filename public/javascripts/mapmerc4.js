@@ -2,7 +2,7 @@ var temp_gcp_status = false;
 var from_templl;
 var to_templl;
 var warped_layer; //the warped wms layer
-var to_layer_switcher; 
+var to_layer_switcher;
 var navig;
 var navigFrom;
 var to_vectors;
@@ -25,7 +25,7 @@ function init() {
     });
   //  from_map.addControl(new OpenLayers.Control.MousePosition());
 
-    var image = new OpenLayers.Layer.WMS( title, 
+    var image = new OpenLayers.Layer.WMS( title,
         wms_url, {
         format: 'image/png',
         status: 'unwarped'},
@@ -63,8 +63,8 @@ function init() {
     {   projection: "epsg:4326",  units: "m"}
     );
 
-   
-    var warpedOpacity = 0.6; 
+
+    var warpedOpacity = 0.6;
     warped_layer.setOpacity(warpedOpacity);
     warped_layer.setVisibility(false);
     warped_layer.setIsBaseLayer(false);
@@ -72,15 +72,11 @@ function init() {
 
     to_map.addLayer(mapnik);
 
-    nyc.setIsBaseLayer(true);
-    to_map.addLayer(nyc);
 
     for (var i =0; i < layers_array.length;i++){
       to_map.addLayer(get_map_layer(layers_array[i]));
     }
 
-    ortho.setVisibility(false);
-    to_map.addLayer(ortho);
 
     jpl_wms.setVisibility(false);
     to_map.addLayer(jpl_wms);
@@ -92,10 +88,10 @@ function init() {
       to_map.zoomToExtent(map_bounds_merc);
 
     } else {
-      //set to new york
-        to_map.setCenter(lonLatToMercator(new OpenLayers.LonLat(-73.8701, 40.74164)), 10);
+      //set to the world
+        to_map.setCenter(lonLatToMercator(new OpenLayers.LonLat(0.0, 0.0)), 10);
     }
-  
+
     //style for the active, temporary vector marker, the one the user actually adds themselves,
     var active_style = OpenLayers.Util.extend({},
         OpenLayers.Feature.Vector.style['default']);
@@ -104,8 +100,8 @@ function init() {
     active_style.graphicHeight = 22;
     active_style.graphicXOffset = - (active_style.graphicWidth/2);
     active_style.graphicYOffset = - active_style.graphicHeight;
-    active_style.externalGraphic = icon_imgPath + "AQUA.png";  
-    
+    active_style.externalGraphic = icon_imgPath + "AQUA.png";
+
     to_vectors = new OpenLayers.Layer.Vector("To vector markers");
     to_vectors.displayInLayerSwitcher = false;
 
@@ -114,7 +110,7 @@ function init() {
 
     active_to_vectors = new OpenLayers.Layer.Vector("active To vector markers", {style: active_style});
     active_to_vectors.displayInLayerSwitcher = false;
-    
+
     active_from_vectors = new OpenLayers.Layer.Vector("active from vector markers", {style: active_style});
     active_from_vectors.displayInLayerSwitcher = false;
 
@@ -152,7 +148,7 @@ function init() {
     dragMarkerFrom.onComplete = function(feature) {
       saveDraggedMarker(feature);
     };
-    
+
     navig = new OpenLayers.Control.Navigation({title: "Move Around Map"});
     navigFrom = new OpenLayers.Control.Navigation({title: "Move Around Map"});
 
@@ -161,11 +157,11 @@ function init() {
 
     from_panel.addControls([navigFrom, dragMarkerFrom, drawFeatureFrom]);
     from_map.addControl(from_panel);
-    
+
     //we'll add generic navigation controls so we can zoom whilst addingd
     to_map.addControl(new OpenLayers.Control.Navigation());
-    from_map.addControl(new OpenLayers.Control.Navigation());  
-    
+    from_map.addControl(new OpenLayers.Control.Navigation());
+
     navig.activate();
     navigFrom.activate();
 
@@ -173,11 +169,6 @@ function init() {
     joinControls(navig, navigFrom);
     joinControls(drawFeatureTo, drawFeatureFrom);
 
-    to_map.events.register("zoomend", mapnik, function(){
-        if (this.map.getZoom() > 18 && this.visibility === true){
-          this.map.setBaseLayer(nyc);
-        }
-        });
 
       //set up jquery slider for warped layer
       jQuery("#warped-slider").slider({
@@ -197,7 +188,7 @@ function init() {
     });
 
 
-    } 
+    }
 
 function joinControls(first, second){
   first.events.register("activate", first, function(){second.activate();});
@@ -281,7 +272,7 @@ function toggleJoinLinks(){
   }  else {
        mapLinked = true;
        document.getElementById('link-map-button').className = 'link-map-button-on';
- }   
+ }
   if(mapLinked === true){
     from_map.events.register("moveend",1, moveEnd);
     to_map.events.register("moveend",0, moveEnd);
@@ -307,7 +298,7 @@ function update_gcp_field(gcp_id, elem) {
     var value = elem.value;
     var attrib = elem.id.substring(0, (elem.id.length - (id+"").length));
     var url = gcp_update_field_url + "/" + id;
-    
+
     Element.show('spinner');
     gcp_notice('Updating...');
 
@@ -319,19 +310,19 @@ function update_gcp_field(gcp_id, elem) {
           gcp_notice("Control Point updated!");
           move_map_markers(gcp_id, elem);
                      },
-        onFailure: function(transport) { 
+        onFailure: function(transport) {
           gcp_notice("Had trouble updating that point with the server. Try again?");
           elem.value = value; },
         onComplete: function(transport) {Element.hide('spinner');},
         evalScripts: true };
-        
+
   request = new Ajax.Request(url, options);
 }
 
 function update_gcp(gcp_id, listele) {
   var id = gcp_id;
   var url = gcp_update_url + "/" + id;
- 
+
   for (i=0;i<listele.childNodes.length; i++){
     listtd = listele.childNodes[i]; //td
     for (e=0;e<listtd.childNodes.length; e++){
@@ -353,12 +344,12 @@ function update_gcp(gcp_id, listele) {
         onSuccess: function(transport) {
           gcp_notice("Control Point updated");
           },
-        onFailure: function(transport) { 
+        onFailure: function(transport) {
           gcp_notice("Had trouble updating that point with the server. Try again?");
            },
         onComplete: function(transport) {Element.hide('spinner');},
         evalScripts: true };
-        
+
   request = new Ajax.Request(url, options);
 
 }
@@ -416,14 +407,14 @@ function move_map_markers(gcp_id, elem){
 
 //when a vector marker is dragged, update values on form and save
 function saveDraggedMarker(feature){
-  
+
   var listele = document.getElementById("gcp"+feature.gcp_id); //listele is a tr
   for (i=0;i<listele.childNodes.length; i++){
     listtd = listele.childNodes[i];//listtd is a td
 
     for (e=0;e<listtd.childNodes.length; e++){
       listItem = listtd.childNodes[e]; //listitem is the input field
-     
+
       if (feature.layer == from_vectors){
         if (listItem.id == "x"+feature.gcp_id) { listItem.value = feature.geometry.x;}
         if (listItem.id == "y"+feature.gcp_id) { listItem.value = image_height - feature.geometry.y;}
@@ -434,7 +425,7 @@ function saveDraggedMarker(feature){
         if (listItem.id == "lon"+feature.gcp_id) { listItem.value = vll.lon;}
         if (listItem.id == "lat"+feature.gcp_id) { listItem.value = vll.lat;}
       }
-    }//for 
+    }//for
   }//for
   update_gcp(feature.gcp_id, listele);
 }
@@ -453,7 +444,7 @@ function save_new_gcp(x, y, lon, lat) {
         parameters: 'authenticity_token=' + encodeURIComponent(window._token) + "&x=" + x + "&y=" + y + "&lat=" + lat + "&lon=" + lon,
         onComplete: function(transport){
           update_row_numbers();
-          Element.hide('spinner'); 
+          Element.hide('spinner');
         },
         onFailure: function(transport) {gcp_notice("Had trouble saving that point to the server. Try again?");},
         onSuccess: function() {      }
@@ -501,12 +492,12 @@ function update_row_numbers(){
     updateGcpColor(from_vectors.features[a], color);
     updateGcpColor(to_vectors.features[a], color);
     ////////////
-    
+
     span_ele = li_ele.getElementsByTagName("span");
     if (span_ele[0].className == "marker_number"){
       var thishtml = "<img src='"+icon_imgPath+(temp_marker.id_index + 1) + color + ".png' />";
       //var thishtml = "<img src='../../images/icons/"+(temp_marker.id_index + 1) + ".png' />";
-      span_ele[0].innerHTML = thishtml; 
+      span_ele[0].innerHTML = thishtml;
     }
   }
 redrawGcpLayers();
@@ -542,8 +533,8 @@ function getColorString(error){
   return colorString;
   //return "";
 }
-  
-  
+
+
 function populate_gcps(gcp_id, img_lon, img_lat, dest_lon, dest_lat, error) {
   error = typeof(error) != "undefined" ? error : 0;
   var color = getColorString(error);
@@ -594,7 +585,7 @@ function add_gcp_marker(markers_layer, lonlat, is_active_marker, id_index, gcp_i
   style_mark.graphicXOffset = -(style_mark.graphicWidth/2);
   style_mark.graphicYOffset = -style_mark.graphicHeight;
   if (is_active_marker === true){
-    active_style.externalGraphic = icon_imgPath+"AQUA.png"; 
+    active_style.externalGraphic = icon_imgPath+"AQUA.png";
   } else {
     style_mark.externalGraphic = icon_imgPath+(id_index + 1) + color + '.png';
   }
@@ -604,8 +595,8 @@ function add_gcp_marker(markers_layer, lonlat, is_active_marker, id_index, gcp_i
   pointFeature.gcp_id = gcp_id;
 
   markers_layer.addFeatures([pointFeature]);
-     
-  resetHighlighting();    
+
+  resetHighlighting();
 }
 
 
@@ -643,7 +634,7 @@ function addLayerToDest(frm){
 
 function show_warped_map(){
   warped_layer.setVisibility(true);
-  warped_layer.mergeNewParams({'random':Math.random()}); 
+  warped_layer.mergeNewParams({'random':Math.random()});
   warped_layer.redraw(true);
   to_layer_switcher.maximizeControl();
 
@@ -667,7 +658,7 @@ function check_if_gcp_ready() {
 
 function newaddGCPto(feat) {
   if (active_to_vectors.features.length > 1) {
-    var to_destroy = new Array(); 
+    var to_destroy = new Array();
     for (var a=0; a< active_to_vectors.features.length; a++) {
       if (active_to_vectors.features[a] != feat) {
         to_destroy.push(active_to_vectors.features[a]);
@@ -677,14 +668,14 @@ function newaddGCPto(feat) {
   }
   var lonlat = new OpenLayers.LonLat(feat.geometry.x, feat.geometry.y);
   highlight(to_map.div);
-  
+
   to_templl = lonlat;
   check_if_gcp_ready();
 }
 
 function newaddGCPfrom(feat) {
   if (active_from_vectors.features.length > 1) {
-    var to_destroy = new Array(); 
+    var to_destroy = new Array();
     for (var a=0; a< active_from_vectors.features.length; a++) {
       if (active_from_vectors.features[a] != feat) {
         to_destroy.push(active_from_vectors.features[a]);
@@ -694,9 +685,30 @@ function newaddGCPfrom(feat) {
   }
   var lonlat = new OpenLayers.LonLat(feat.geometry.x, feat.geometry.y);
   highlight(from_map.div);
-  
+
   from_templl = lonlat;
   check_if_gcp_ready();
+}
+
+function addLayerToDest(frm){
+    num =frm.layer_num.value;
+    new_wms_url = empty_wms_url+'/'+num;
+
+    new_warped_layer = new OpenLayers.Layer.WMS.Untiled("warped map "+num, new_wms_url, 
+        {   format: 'image/png', status: 'warped' },
+        {   TRANSPARENT: 'true', reproject: 'true' },
+        {   gutter: 15, buffer: 0},
+        {   projection: "epsg:4326", units: "m"}
+    );
+    new_warped_layer.setOpacity(.6);
+    new_warped_layer.setVisibility(true);
+    new_warped_layer.setIsBaseLayer(false);
+    to_map.addLayer(new_warped_layer);
+
+    to_layer_switcher.maximizeControl();
+
+    Element.hide('add_layer');
+
 }
 
 function resetHighlighting(){
@@ -711,7 +723,7 @@ function highlight(thingToHighlight){
 }
 
 
-//TODO deprecate these transform methods to use OL's transform command 
+//TODO deprecate these transform methods to use OL's transform command
 function mercatorToLonLat(merc) {
     var lon = (merc.lon / 20037508.34) * 180;
     var lat = (merc.lat / 20037508.34) * 180;
@@ -742,7 +754,7 @@ function lonLatToMercatorBounds(llbounds){
 //this function is called is a map has no gcps, and fuzzy best guess
 //locations are found. This uses Yahoo's Placemaker service.
 function bestGuess(guessObj){
-  jQuery("#to_map_notification").hide(); 
+  jQuery("#to_map_notification").hide();
   if (guessObj["status"] == "ok" && guessObj["count"] > 0){
     var siblingExtent = guessObj["sibling_extent"];
     zoom = 10;
@@ -760,10 +772,10 @@ function bestGuess(guessObj){
       for (var i = 1; i< places.length; i++){
         var place = places[i];
         message = message + "<a href='#' onclick='centerToMap("+place.lon+","+place.lat+","+zoom+");return false;'>"+place.name + "</a><br />"
-      } 
+      }
     }
-    jQuery("#to_map_notification_inner").html(message); 
-    jQuery("#to_map_notification").show('slow'); 
+    jQuery("#to_map_notification_inner").html(message);
+    jQuery("#to_map_notification").show('slow');
   }
 
 }

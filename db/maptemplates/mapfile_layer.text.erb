@@ -1,0 +1,44 @@
+MAP
+  NAME "Map Warper Layer"
+  SIZE 256 256
+  EXTENT -180 -90 180 90
+  IMAGETYPE png
+  #INTERLACE OFF
+  UNITS DD
+
+  PROJECTION
+"init=epsg:4326"
+  END
+
+  WEB
+    IMAGEPATH "/tmp"
+    METADATA
+      "wms_title"     "Map Warper WMS Layer"
+      "wms_srs"       "EPSG:4269 EPSG:4326 EPSG:900913"
+      ows_enable_request "*"
+    END
+  END
+
+  LAYER
+    NAME '<%= layer_name %>'
+    TILEINDEX "<%= tileindex %> "
+    TILEITEM "Location"
+    TYPE RASTER
+    METADATA
+      'wms_title' 'Layer <%=wms_name %> '
+    END
+    STATUS ON
+    TRANSPARENCY 100
+    PROJECTION
+        'init=epsg:4326'
+    END
+ END
+
+  OUTPUTFORMAT
+    NAME GEOTIFF
+    DRIVER "GDAL/GTiff"
+    MIMETYPE "image/tiff"
+    IMAGEMODE "BYTE"
+    EXTENSION "tif"
+  END
+END

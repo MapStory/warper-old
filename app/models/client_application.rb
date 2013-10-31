@@ -36,7 +36,7 @@ class ClientApplication < ActiveRecord::Base
   end
   
   def oauth_server
-    server = "http://maps.nypl.org" + ActionController::Base.relative_url_root
+    server = SITE_URL
     @oauth_server ||= OAuth::Server.new(server)
   end
   

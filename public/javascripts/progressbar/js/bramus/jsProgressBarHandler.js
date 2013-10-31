@@ -42,10 +42,10 @@
 		var defaultOptions = {
 			animate		: true,										// Animate the progress? - default: true
 			showText	: true,										// show text with percentage in next to the progressbar? - default : true
-			width		: 240,										// Width of the progressbar - don't forget to adjust your image too!!!
-			boxImage	: '../javascripts/progressbar/images/bramus/orange_rect.png',			// boxImage : image around the progress bar
-			barImage	: '../javascripts/progressbar/images/bramus/orange.png',	// Image to use in the progressbar. Can be an array of images too.
-			height		: 20,										// Height of the progressbar - don't forget to adjust your image too!!!
+			width		: 120,										// Width of the progressbar - don't forget to adjust your image too!!!
+			boxImage	: '../javascripts/progressbar/images/bramus/percentImage.png',			// boxImage : image around the progress bar
+			barImage	: '../javascripts/progressbar/images/bramus/percentImage_back.png',	// Image to use in the progressbar. Can be an array of images too.
+			height		: 12,										// Height of the progressbar - don't forget to adjust your image too!!!
 			onTick		: function(pbObj) { return true }
 		}
 

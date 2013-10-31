@@ -28,12 +28,12 @@
         var layer_baseurl = '<%=url_for :controller => 'layers', :action => 'wms' %>';
         var layers_array = [<%=@other_layers.join(",")-%>];
       </script>
-    
-       
+
+
       <% end %>
- 
+
         <% @onload =  "warpedinit();" -%>
-         
+
   <%= @title %>
 
   <div id="map-container">

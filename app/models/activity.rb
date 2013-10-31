@@ -16,7 +16,7 @@ class Activity < Audit
    def summary
       summ  = ""
       if changes && auditable_type == "Map"
-         if changes["status"]
+         if changes["status"] && changes["status"] != "status"
             map_action  =  Map::STATUS[changes["status"]]
             case map_action
             when :unloaded
@@ -35,7 +35,7 @@ class Activity < Audit
 
          end #status
 
-         if changes["mask_status"]
+         if changes["mask_status"] && changes["status"] != "mask_status"
             mask_action = Map::MASK_STATUS[changes["mask_status"]]
             case mask_action
             when :unmasked
@@ -50,7 +50,7 @@ class Activity < Audit
 
          end # mask_status
 
-      end #mapscan
+      end #Map
 
       summ
    end

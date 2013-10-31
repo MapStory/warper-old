@@ -2,7 +2,7 @@
 
 <% if gcp.error < 5
   errorclass = "blue"
-  elsif gcp.error >= 5 && gcp.error < 10 
+  elsif gcp.error >= 5 && gcp.error < 10
     errorclass = "green"
   elsif gcp.error >=10 && gcp.error < 50
     errorclass = "orange"
@@ -29,6 +29,3 @@
   :success => "delete_markers(#{gcp.id});",
   :failure => "gcp_notice('Sorry, there seems to be an error with this delete request, try again?');" -%></td>
 </tr>
-
-
-

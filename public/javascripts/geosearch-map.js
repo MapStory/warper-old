@@ -3,7 +3,7 @@ function replaceMapTable(smaps){
   for (var a=0;a<smaps.length;a++){
     var smap = smaps[a];
     var tableRow = "<tr id='map-row-"+smap.id+"' class='minimap-tr'>"+
-      "<td class='mini-map-thumb'><img src='"+mapThumbBaseURL+smap.nypl_digital_id+"' height='70' ></td>"+
+      "<td class='mini-map-thumb'><img src='"+mapThumbBaseURL+smap.id+"' height='70' ></td>"+
       "<td>"+smap.title + "<br />"+
       "<a href='"+mapBaseURL+"/"+smap.id+"' target='_blank'>Open map</a> </td></tr>";
 
@@ -47,7 +47,6 @@ function addMapToMapLayer(mapitem){
       new OpenLayers.Bounds.fromString(mapitem.bbox).transform(layer.map.displayProjection, layer.map.projection)).toGeometry());
   feature.mapTitle = mapitem.title; 
   feature.mapId = mapitem.id;
-  feature.mapDigitalId = mapitem.nypl_digital_id;
   layer.addFeatures([feature]);
 }
 
@@ -59,7 +58,7 @@ function onFeatureSelect(feature) {
     "<div class='searchmap-popup'><a href='" + mapBaseURL + "/"+ 
       feature.mapId + "' target='_blank'>"+
       //feature.mapTitle+"</a><br />"+
-      "<a href='#a-map-row-"+feature.mapId+"' ><img title='"+feature.mapTitle+"' src='"+mapThumbBaseURL+feature.mapDigitalId+"' height='80'></a>"+
+      "<a href='#a-map-row-"+feature.mapId+"' ><img title='"+feature.mapTitle+"' src='"+mapThumbBaseURL+feature.mapId+"' height='80'></a>"+
       "<br /> <a href='"+mapBaseURL+"/"+feature.mapId+"' target='_blank'>Open map in new page.</a>"+
       "</div>",
     null, true, onPopupClose);

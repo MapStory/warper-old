@@ -1,4 +1,4 @@
-#require 'activerecord'
+require 'activerecord'
 
 # ActsAsCommentable
 module Juixe

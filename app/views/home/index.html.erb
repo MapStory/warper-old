@@ -1,71 +1,98 @@
 <div id="container">
 
-  <div id="left-col">
-    <h2>How to use this tool</h2>
-    <div id="video-intro">
-      <object width="320" height="259"><param name="movie" value="http://www.youtube.com/v/G8ms_eBU8MQ&hl=en_GB&fs=1&rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/G8ms_eBU8MQ&hl=en_GB&fs=1&rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="320" height="259"></embed></object>
-    </div>
-    <p>The NYPL Map Warper is a tool for digitally aligning ("rectifying") historical maps from the NYPL's collections to match today's precise maps. Visitors can browse already rectified maps or assist the NYPL by aligning a map. Play the video above to tour the site and learn how to rectify a map yourself.</p>
-    <p>Everyone is welcome to participate!</p>
-  </div>
-  <div class="awards">
-    Recipient of the 2012 <br />
-    Cutting Edge Technology in <br />
-    Library Services Award from <br />
-    the Office of Information Policy <br />
-    of the American Library<br />
-    Association <br />
-    <%= image_tag "oitp_logo_2012.jpg" %>
-  </div>
+<div id="left-col">
+  <h2>Welcome!</h2>
 
-  <div id="right-col">
+  <p>
+    This Warper lets you plot scanned maps and aerial images in the 
+    geographic space of a digital map, a process often referred to as ‘warping’ or 
+    ‘georectifying’. Once you've warped several images that depict the same place at different points in 
+    time, you can load them into MapStory.org as a StoryLayer. 
+    To do so, just download the warped images, zip them, and 
+    load the single zipped file into MapStory. The video below explains everything 
+    you need to know.  If you still have questions, post them on
+    <a href="http://help.mapstory.org/" target="_blank">MapStory Help</a>, 
+    <a href="http://mapstory.org/mapstory/manual/#prep-raster" target="_blank">read the manual</a>, 
+    or 
+    <a href="http://wiki.mapstory.org/wiki/How_To#How_to_use_the_Warper" target="_blank">look at these tutorials</a>.
+  </p>
 
-    <div id="search-form">
-      <%= render :partial => 'shared/search' -%>
-    </div>
-
-    <div id="map_list">
-
-      <% if @my_maps -%>
-        <h2>My Maps</h2>
-        <table id="map_table" cellpadding="3">
-          <thead>
-            <tr>
-              <th>Map</th>
-              <th>Title</th>
-              <th>Last modified</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-            <tbody>
-              <%= render :partial => 'maps/map', :collection => @my_maps  unless @my_maps.nil? %>
-            </tbody>
-          </table>
-          <%= link_to "See all of My Maps", my_maps_path(:user_id => current_user) -%> 
-        <% end -%>
-
-        <h2>Most Recently Rectified Maps</h2>
-
-        <table id="map_table" cellpadding="3">
-          <thead>
-            <tr>
-              <th>Map</th>
-              <th>Title</th>
-              <th>Last modified</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <%= render :partial => 'maps/map', :collection => @maps unless @maps.nil? %>
-          </tbody>
-        </table>
-
-      </div>
-
-      <div class="continue_link"><%= link_to "More Rectified Maps...", :controller => 'maps', :show_warped => 1 %></div>
-
-    </div>
-
-    <div class="clear"></div>
+  <div id="video-intro">
+   <iframe width="320" height="280" src="//www.youtube-nocookie.com/embed/ht05Veu7p-c" frameborder="0" allowfullscreen></iframe>
   </div>
 
+  <div id="tag-cloud">
+    <h4 class="smaller">Tags</h4>
+    <% tag_cloud @tags, %w(css1 css2 css3 css4) do |tag, css_class| %>
+      <%= link_to tag.name, { :controller=>:maps, :action => :tag, :id => tag.name }, :class => css_class %>
+    <% end %>
+  </div>
+</div>
+
+<div id="right-col">
+  <div id="search-form">
+    <%= render :partial => 'shared/search' -%>
+</div>
+
+<div id="map_list">
+  <h2><%= link_to 'Browse All Maps', maps_path %>
+  </h2>
+
+  <% if @my_maps -%>
+    <h3>My Maps</h3>
+    <table id="map_table" cellpadding="3">
+    <thead>
+        <tr>
+          <th>Map</th>
+          <th>Title</th>
+          <th>Last modified</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+        <%= render :partial => 'maps/map', :collection => @my_maps  unless @my_maps.nil? %>
+    </table>
+    <%= link_to "See all of My Maps", my_maps_path(:user_id => current_user) -%>
+  <%end -%>
+
+  <br/>
+
+  <h3>Last Rectified Maps</h3>
+
+  <table id="map_table" cellpadding="3">
+      <thead>
+        <tr>
+          <th>Map</th>
+          <th>Title</th>
+          <th>Last modified</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+    <%= render :partial => 'maps/map', :collection => @maps unless @maps.nil? %>
+  </table>
+
+  <%= link_to 'See all Maps', maps_path %>
+
+</div>
+
+<div id="layer_list">
+
+  <h3>Recent Mosaics</h3>
+  <table id="layer_table" cellpadding="3">
+    <thead>
+      <tr>
+        <th>Mosaic</th>
+        <th>Title</th>
+        <th>Year</th>
+        <th>Number of Maps</th>
+        <th>Percentage Complete</th>
+      </tr>
+    </thead>
+    <%= render :partial => 'layers/layer', :collection => @layers unless @layers.nil? %>
+  </table>
+<%= link_to "View all Mosaics", layers_path %><br />
+<%= link_to "Create a new mosaic", new_layer_path %>
+</div>
+
+</div>
+<div class="clear"></div>
+</div>

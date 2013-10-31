@@ -8,7 +8,7 @@
  p ourcolor
  i=0
  150.times do 
- icon = Magick::ImageList.new("/home/tim/geowarper/warper/public/images/plain_#{ourcolor}.png")
+ icon = Magick::ImageList.new("../public/images/plain_#{ourcolor}.png")
  txtlayer = Magick::Draw.new
  pointsize = 14 
  pointsize = 11 if i > 99

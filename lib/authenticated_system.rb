@@ -9,8 +9,12 @@ module AuthenticatedSystem
 
     # Accesses the current user from the session. 
     # Future calls avoid the database because nil is not equal to false.
+    #
+    # Log in if an existing session is created, or if a mapstory cookie
+    # is set.
+    #
     def current_user
-      @current_user ||= (login_from_session || login_from_basic_auth || login_from_cookie || :false )
+      @current_user ||= (login_from_session || login_from_mapstory || :false )
     #  logger.info @current_user.inspect
     #  @current_user
     end
@@ -36,7 +40,28 @@ module AuthenticatedSystem
     def authorized?
       logged_in?
     end
+    # This is ususally what you want; resetting the session willy-nilly wreaks
+    # havoc with forgery protection, and is only strictly necessary on login.
+    # However, **all session state variables should be unset here**.
+    def logout_keeping_session!
+      # Kill server-side auth cookie
+      @current_user.forget_me if @current_user.is_a? User
+      @current_user = false # not logged in, and don't do it for me
+      kill_remember_cookie! # Kill client-side auth cookie
+      session[:user_id] = nil # keeps the session but kill our variable
+      # explicitly kill any other session variables you set
+    end
+   # The session should only be reset at the tail end of a form POST --
+    # otherwise the request forgery protection fails. It's only really necessary
+    # when you cross quarantine (logged-out to logged-in).
+    def logout_killing_session!
+      logout_keeping_session!
+      reset_session
+    end
 
+    def kill_remember_cookie!
+      cookies.delete :auth_token
+    end
     # Filter method to enforce a login requirement.
     #
     # To require logins for all actions, use this in your controllers:
@@ -62,7 +87,10 @@ module AuthenticatedSystem
   def admin_authorized?
     logged_in? && @current_user.has_role?('administrator')
   end
-
+      
+  def editor_authorized?
+    logged_in? && @current_user.has_role?('editor')
+  end
 
   def check_role(role)
     unless logged_in? && @current_user.has_role?(role)
@@ -86,9 +114,9 @@ module AuthenticatedSystem
    def check_developer_role
     check_role("developer")
   end
-
-
     
+    
+
     # Redirect as appropriate when an access request fails.
     #
     # The default action is to redirect to the login screen.
@@ -121,7 +149,7 @@ module AuthenticatedSystem
     def permission_denied
       respond_to do |format|
         format.html do
-          domain_name = "http://maps.nypl.org"
+          domain_name = "http://"+ SITE_URL
           dname_len = domain_name.length
           http_referer = session[:refer_to]
           if http_referer.nil?
@@ -175,7 +203,7 @@ module AuthenticatedSystem
     # Inclusion hook to make #current_user and #logged_in?
     # available as ActionView helper methods.
     def self.included(base)
-      base.send :helper_method, :current_user, :logged_in?, :admin_authorized?
+      base.send :helper_method, :current_user, :logged_in?, :admin_authorized? 
     end
 
     # Called from #current_user.  First attempt to login by the user id stored in the session.
@@ -184,18 +212,42 @@ module AuthenticatedSystem
     end
 
     # Called from #current_user.  Now, attempt to login by basic authentication information.
-    def login_from_basic_auth
-      authenticate_with_http_basic do |username, password|
-        self.current_user = User.authenticate(username, password)
+    # def login_from_basic_auth
+    #   authenticate_with_http_basic do |username, password|
+    #     self.current_user = User.authenticate(username, password)
+    #   end
+    # end
+
+    # Called from #current_user.  Finaly, attempt to login by an expiring token in the cookie.
+    # def login_from_cookie
+    #   user = cookies[:auth_token] && User.find_by_remember_token(cookies[:auth_token])
+    #   if user && user.remember_token?
+    #     cookies[:auth_token] = { :value => user.remember_token, :expires => user.remember_token_expires_at }
+    #     self.current_user = user
+    #   end
+    # end
+
+    # Log in using mapstory credentials
+    def login_from_mapstory
+      if cookies[:msid]
+        mapstory_username = MapstoryCookie.decode(cookies[:msid])
+        if mapstory_username
+          user = User.find_by_login(mapstory_username)
+
+          if user.nil?
+            Rails.logger.info "Creating new warper account for #{mapstory_username} from MapStory Cookie"
+            user = User.new(:login => mapstory_username)
+            user.enabled = true
+            user.activated_at = Time.now.utc
+            user.save
+          else
+            Rails.logger.info "Found existing account for #{mapstory_username} from MapStory Cookie"
+          end
+
+          self.current_user = user
+        end
       end
     end
 
-    # Called from #current_user.  Finaly, attempt to login by an expiring token in the cookie.
-    def login_from_cookie
-      user = cookies[:auth_token] && User.find_by_remember_token(cookies[:auth_token])
-      if user && user.remember_token?
-        cookies[:auth_token] = { :value => user.remember_token, :expires => user.remember_token_expires_at }
-        self.current_user = user
-      end
-    end
+
 end

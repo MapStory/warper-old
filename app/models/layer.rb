@@ -1,36 +1,40 @@
 class Layer < ActiveRecord::Base
-  has_many :map_layers
-  has_many :maps, :through => :map_layers
-  has_many :layer_properties #could be has_one
+  validates_presence_of :name
+  validates_length_of :depicts_year, :maximum => 4,:allow_nil => true, :allow_blank => true
+  validates_numericality_of :depicts_year, :if => Proc.new {|c| not c.depicts_year.blank?}
+  has_many :layers_maps, :dependent => :destroy
+  has_many :maps,:through => :layers_maps
+  #has_many :layer_properties #could be has_one
+  belongs_to :user
   acts_as_commentable  
 
   #replace "has_finder" with "named_scope" if we use a newer rails 2 (uses has_finder gem)
   named_scope :visible, :order=> 'id', :conditions => {:is_visible => true}
-  named_scope :with_year, :order => :mapscans_count, :conditions => "depicts_year is not null"
-  named_scope :with_maps, :order => :rectified_mapscans_count, :conditions => "rectified_mapscans_count >=  1"
+  named_scope :with_year, :order => :maps_count, :conditions => "depicts_year is not null"
+  named_scope :with_maps, :order => :rectified_maps_count, :conditions => "rectified_maps_count >=  1"
+
+  
+  after_create :update_layer
+  after_destroy :delete_tileindex
 
   def tileindex_filename;   self.id.to_s + '.shp' ; end
+  
+  def tileindex_dir
+    defined?(TILEINDEX_DIR) ? TILEINDEX_DIR : File.join(RAILS_ROOT, '/db/maptileindex')
+  end
 
-  def tileindex_path;  File.join('/var/lib/maps/dest/tileindex/', tileindex_filename) ;  end
+  def tileindex_path;  File.join(tileindex_dir, tileindex_filename) ;  end
 
-  #loose couple the updating of layer_year in features
-  #since digitized features with geoserver are in different database
-  #see lib/digitizer_update_year.rb
-  def update_digitizer_features
-    logger.info("updating digitizer features for the layer")
-    command = "ruby #{RAILS_ROOT}/lib/digitizer_update_year.rb #{self.id} -f"
-    stdin, stdout, stderr = Open3::popen3(command)
-    logger.info command
-    wout = stdout.readlines.to_s
-    werr = stderr.readlines.to_s
-    if werr.size > 0
-      logger.error "Error with script to update geoserver features = " + werr
-      logger.error "output = " +wout
+  def thumb
+    if self.maps.first.nil?
+      '/images/missing.png'
+    elsif !self.maps.first.public?
+      '/images/private.png'
     else
-      logger.info "update script worked fine. Output:  "+wout
+      self.maps.first.upload.url(:thumb)
     end
   end
-  
+
   def update_layer
     create_tileindex
     set_bounds
@@ -38,36 +42,29 @@ class Layer < ActiveRecord::Base
   end
 
   def update_counts
-   update_attribute(:mapscans_count, self.maps.real_maps.length)
-   update_attribute(:rectified_mapscans_count, self.maps.warped.count)
+    update_attribute(:maps_count, self.maps.real_maps.length)
+    update_attribute(:rectified_maps_count, self.maps.warped.count)
   end
 
   def rectified_maps_count
     self.maps.warped.count #4 = rectified
   end
 
-  def maps_count
-    mapscans_count
-  end
 
   def rectified_percent
-   percent = ((self.rectified_maps_count.to_f / self.maps_count.to_f) * 100).to_f
-   percent.nan? ? 0 : percent
-  end
-
-  def map_nypl_digital_id
-    self.maps.first ? self.maps.first.nypl_digital_id : 0
+    percent = ((self.rectified_maps_count.to_f / self.maps_count.to_f) * 100).to_f
+    percent.nan? ? 0 : percent
   end
 
   def publish
     #empty method for publish action of layer
   end
-  
+
   def merge(destination_layer_id)
     dest_layer = Layer.find(destination_layer_id)
     logger.info "layer #{self.id} merge to #{dest_layer.id.to_s}"
 
-    self.map_layers.each do | map_layer| 
+    self.map_layers.each do | map_layer|
       map_layer.layer = dest_layer
       map_layer.save
     end
@@ -81,7 +78,7 @@ class Layer < ActiveRecord::Base
   #removes map from a layer
   def remove_map(map_id)
     logger.info "layer #{self.id} will have map #{map_id} removed from it"
-    map_layer = MapLayer.find(:first, :conditions =>["mapscan_id = ? and layer_id = ?", map_id, self.id])
+    map_layer = LayersMap.find(:first, :conditions =>["map_id = ? and layer_id = ?", map_id, self.id])
     logger.info "this relationship to be deleted"
     logger.info map_layer.inspect
     map_layer.destroy
@@ -99,7 +96,7 @@ class Layer < ActiveRecord::Base
       map_list = ""
       #only make a tileindex if the maps are warped. 
       self.maps.warped.each {|map| map_list += (map.warped_filename + " ")}
-      command = "gdaltindex #{tileindex} #{map_list}"
+      command = "gdaltindex -write_absolute_path #{tileindex} #{map_list}"
       logger.info(command)
 
       stdin, stdout, stderr = Open3::popen3(command)
@@ -115,17 +112,17 @@ class Layer < ActiveRecord::Base
     else
       result= false
     end
-
+    
     result
   end
-  
- 
+
+
 
   def get_bounds
     if self.bbox.blank?
       create_tileindex
       set_bounds
-    else 
+    else
       self.bbox
     end
   end
@@ -144,13 +141,13 @@ class Layer < ActiveRecord::Base
         logger.error "Error set bounds with layer get extent "+ err
       else
         extent = sout.scan(/^\w+: \(([0-9\-.]+), ([0-9\-.]+)\) \- \(([0-9\-.]+), ([0-9\-.]+)\)$/).flatten.join(",")
-        
+
         self.bbox = extent.to_s
         extents =  extent.split(",").collect{|f| f.to_f}
-         poly_array = [ 
+         poly_array = [
           [ extents[0], extents[1] ],
           [ extents[2], extents[1] ],
-          [ extents[2], extents[3] ], 
+          [ extents[2], extents[3] ],
           [ extents[0], extents[3] ],
           [ extents[0], extents[1] ]
         ]
@@ -167,16 +164,6 @@ class Layer < ActiveRecord::Base
     extent
   end
 
-  #################
-  #CLASS METHODS
-  #################
-  def self.save_tilecache_config
-    @layers = Layer.visible  
-    cfg = File.open(RAILS_ROOT+"/public/cgi/tilecache.cfg",  File::CREAT|File::TRUNC|File::RDWR, 0666)
-    template = File.open(RAILS_ROOT + "/app/views/layers/tilecache_cfg.text.erb").read 
-    cfg.puts ERB.new(template, nil, "<>").result( binding )
-    cfg.close
-  end
 
 
 
@@ -184,7 +171,7 @@ class Layer < ActiveRecord::Base
   #PRIVATE
   ##################
 
- private
+  private
 
   def delete_tileindex(custom_path=nil)
     tileindex = custom_path || tileindex_path
@@ -204,5 +191,5 @@ class Layer < ActiveRecord::Base
     result
   end
 
-  
+
 end

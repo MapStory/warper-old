@@ -1,19 +1,6 @@
-<div class="padded">
-    <h2>Login with Email and Password:</h2>
-    
-    <% form_tag session_path do %>
+<h2>Log in with MapStory account</h2>
 
-    <p><label for="email">Email</label><br/>
-    <%= text_field_tag "email" %></p>
+<p>Visit <a href="http://mapstory.org">MapStory</a> and log in. <br>Then return to
+    <a href="http://warper.mapstory.org">this page</a> and you will automatically be logged in.</p>
 
-    <p><label for="password">Password</label><br />
-    <%= password_field_tag "password" %></p>
-
-    <p><label for="remember_me">Remember me:</label>
-    <%= check_box_tag "remember_me" %></p>
-
-    <p><%= submit_tag "Log in" %><%= link_to "Sign Up", new_user_path %></p>
-    <p><%= link_to "Forgot Password?", forgot_password_path %>
-    </p>
-  <% end %>
-</div>
+<p>You must have cookies enabled in your browser</p>	

@@ -43,40 +43,32 @@ function searchmapinit(){
   mapnik_s = mapnik.clone();
   searchmap.addLayer(mapnik_s);
 
-  nyc_s = nyc.clone();
-  nyc_s.setIsBaseLayer(true);
-  searchmap.addLayer(nyc_s);
-
-  ortho_s = ortho.clone();
-  ortho_s.setIsBaseLayer(true);
-  searchmap.addLayer(ortho_s);
-
   //set up the map index layer to help find individual maps
-  var mapIndexLayerStyle = OpenLayers.Util.extend({strokeWidth: 3}, OpenLayers.Feature.Vector.style['default']);
-  var mapIndexSelectStyle = OpenLayers.Util.extend({}, OpenLayers.Feature.Vector.style['select']);
+    var mapIndexLayerStyle = OpenLayers.Util.extend({
+        strokeWidth: 3
+    }, OpenLayers.Feature.Vector.style['default']);
+    var mapIndexSelectStyle = OpenLayers.Util.extend({
+        fillColor: "#ee9900",
+        fillOpacity: 0.4
+    }, OpenLayers.Feature.Vector.style['select']);
+
     var no_style = {
-      fill: false,
-      fillOpacity: 0.0,
-      stroke: false
+        fill: false,
+        fillOpacity: 0.0
     };
 
-  var style_red = {
-    fill: false,
-    strokeColor: "#FF0000",
-    fillColor: "#FF0000",
-    strokeWidth: 1,
-    fillOpacity: 0.0
-  };
-  var style_green = {
-    fill: true,
-    strokeColor: "#00FF00",
-    fillColor: "#00FF00",
-    strokeWidth: 3,
-    fillOpacity: 0.1
-  };
-  var styleMap = new OpenLayers.StyleMap({
-      'default': no_style,
-      'select': mapIndexSelectStyle
+    var style_blue = {
+        fill: true,
+        strokeOpacity: 1,
+        strokeColor: "#blue",
+        fillColor: "blue",
+        fillOpacity: 0.4,
+        strokeWidth: 2
+    };
+  
+    var styleMap = new OpenLayers.StyleMap({
+        'default': no_style,
+        'select': style_blue
     });
 
   mapIndexLayer = new OpenLayers.Layer.Vector("Map Outlines", {styleMap: styleMap, visibility: false});

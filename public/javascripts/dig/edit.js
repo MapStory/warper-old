@@ -40,36 +40,16 @@ Ext.onReady(function() {
     refLayer.visibility = true;
 
     var mapnik_d = mapnik.clone(); 
-    var nyc_d = nyc.clone();
-
-    nyc_d.setIsBaseLayer(true);
-    nyc_d.setVisibility(false);
-
-    ortho_d = ortho.clone();
-    ortho_d.setIsBaseLayer(true);
-    ortho_d.setVisibility(false);
-
+   
     map = new OpenLayers.Map(options);
 
     digextent = refLayerBounds.transform(map.displayProjection, map.projection);
     var extent = digextent;
 
     map.addLayer(mapnik_d);
-    map.addLayer(nyc_d);
-    map.addLayer(ortho_d);
+
     map.addLayer(refLayer);
 
-    map.events.register("zoomend", mapnik_d, function(){
-        if (this.map.getZoom() > 18 && this.visibility == true){
-          this.map.setBaseLayer(nyc_d);
-        }
-      });
-
-    map.events.register("zoomend", nyc_d, function() {
-        if (this.map.getZoom() < 15 && this.visibility == true) {
-          this.map.setBaseLayer(mapnik_d);
-        }
-      });
     var setupMap = function(viewport) {
       //called when the viewport / panel is rendered
     };

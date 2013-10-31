@@ -41,11 +41,11 @@
       jQuery('#to_map_notify_close>a').click(function(){
         jQuery('#to_map_notification').hide('slow');
         return false;
-        });
+      });
       });
 
     </script>
-    
+
 <%= javascript_include_tag "mapmerc4" -%>
 
 <script  type="text/javascript">
@@ -66,12 +66,12 @@
 <% end -%>
 
   <% @onload="init();popul();" -%>
-  
+
  <div id ="from_map_block">
    <div id="from_map" class="map-off"></div>
  <span class="tie_button"></span>
  </div>
- <div id="link-map-button" class="link-map-button-off" 
+ <div id="link-map-button" class="link-map-button-off"
    onclick="toggleJoinLinks();" title="Pan/zoom lock" ></div>
 
  <div id = "to_map_block">
@@ -79,24 +79,15 @@
    <div id="to_map" class="map-off"></div>
    <div id="warped-slider"><div class="ui-slider-handle"></div></div>
   </div>
-  <div id="popoverNotice" class="hidden-at-start"><%= image_tag "spinner.gif" %><span id="noticeMessage"></span></div> 
-  <!--
-  <div id = "add_layer_control" onClick="Element.show('add_layer');">Add layer</div>
-<div id = "add_layer" style="display:none;">
-  
-  <form onSubmit="addLayerToDest(this);return false;" action="">
-   Enter in number of warped map to add <input type="text" name="layer_num" id="layer_num" />
-  </form>
-  <a class="fake_link" onClick="Element.hide('add_layer');">hide</a></div>
--->
+  <div id="popoverNotice" class="hidden-at-start"><%= image_tag "spinner.gif" %><span id="noticeMessage"></span></div>
 <div id="gcp">
   <em>Double-click on both maps, then click</em>
-  <div id="addPointDiv" class="addPoint"><input type="button" id="GcpButton" value="Add Control Point" onclick="set_gcp();" class="gcp_button" /></div>. 
+  <div id="addPointDiv" class="addPoint"><input type="button" id="GcpButton" value="Add Control Point" onclick="set_gcp();" class="gcp_button" /></div>.
   <em> Do this for at least three points.</em></div>
 
 <fieldset>
 
-<legend>Control Panel</legend> 
+<legend>Control Panel</legend>
 <div id="rectifyNotice">
 <span id="spinner" style="display:none;"><%= image_tag 'spinner.gif' %></span><span id="gcp_notice"></span>
 </div>
@@ -143,15 +134,15 @@
       :url => {:controller => 'maps', :action=> 'rectify', :id =>@map },
       :before => "bigModalDialog('Rectifying.....');",
       :failure => "gcp_notice('Sorry, there appears to be an error sending the request to the server, try again?...');",
-      :complete => "closeBigModalDialog();", 
+      :complete => "closeBigModalDialog();",
       :html => { :class  => "warp_button", :id=>"warp_button"} %>
       </p>
       <div id ="clipping_mask_buttons">
 
         <% if @map.mask_status.nil? || @map.mask_status == :unmasked -%>
-          This map either is not currently masked. Do you want to <%= link_to "add or edit a mask now", map_path(:id=> @map, :anchor => "Crop_tab")   %>? <br />
+          This map either is not currently masked. Do you want to <%= link_to "add or edit a mask now", map_path(:id =>@map, :anchor=>"Crop_tab") %>? <br />
         <% end %>
-        Apply <%= link_to "clipping mask", map_path(:id=> @map, :anchor => "Crop_tab") %> when rectifying? 
+        Apply <%= link_to "clipping mask", map_path(:id =>@map, :anchor=>"Crop_tab") %> when rectifying?
         <label for="use_mask1">
         <input <% if @map.mask_status == :masked -%>checked<%end-%> id="use_mask1" type="radio" name="use_mask" value="true" />Yes
         </label>

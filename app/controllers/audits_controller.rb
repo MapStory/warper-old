@@ -24,7 +24,7 @@ class AuditsController < ApplicationController
     @audits = Activity.paginate(:page => params[:page],
       :per_page => 20,
       :order => "created_at DESC",
-      :conditions => ['user_id = ?', params[:id] ])
+      :conditions => ['user_id = ?', @user.id ])
     @title = "Recent Activity for User " +@user.login.capitalize
     render :action => 'index'
   end
@@ -37,8 +37,8 @@ class AuditsController < ApplicationController
     @audits = Activity.paginate(:page => params[:page],
       :per_page => 20,
       :order => "created_at DESC",
-      :conditions => ['auditable_type LIKE ? AND auditable_id = ?',
-        'Map%', @map.id])
+      :conditions => ['auditable_type = ? AND auditable_id = ?',
+        'Map', @map.id])
     @title = "Recent Activity for Map "+params[:id].to_s
     respond_to do | format |
       if request.xhr?
@@ -62,7 +62,5 @@ class AuditsController < ApplicationController
     @title = "Recent Activity for All Maps"
     render :action => 'index'
   end
-
-
 
 end

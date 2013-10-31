@@ -60,7 +60,7 @@
 .ui-state-default, .ui-widget-content .ui-state-default { border: 1px solid #cdc3b7; background: #e3e3d4 url(images/ui-bg_glass_70_e3e3d4_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #5e564b; outline: none; }
 .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #5e564b; text-decoration: none; outline: none; }
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus { border: 1px solid #f5ad66; background: #f5f0e5 url(images/ui-bg_glass_100_f5f0e5_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #990000; outline: none; }
-.ui-state-hover a, .ui-state-hover a:hover { color: #990000; text-decoration: none; outline: none; }
+.ui-state-hover a, .ui-state-hover a:hover { color: #001100; text-decoration: none; outline: none; }
 .ui-state-active, .ui-widget-content .ui-state-active { border: 1px solid #e0cfc2; background: #ffffff url(images/ui-bg_glass_100_ffffff_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #000000; outline: none; }
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #000000; outline: none; text-decoration: none; }
 

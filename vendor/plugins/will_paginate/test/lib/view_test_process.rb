@@ -1,4 +1,3 @@
-require 'will_paginate/core_ext'
 require 'action_controller'
 require 'action_controller/test_process'
 
@@ -18,13 +17,6 @@ end
 ActionController::Base.perform_caching = false
 
 class WillPaginate::ViewTestCase < Test::Unit::TestCase
-  if defined?(ActionController::TestCase::Assertions)
-    include ActionController::TestCase::Assertions
-  end
-  if defined?(ActiveSupport::Testing::Deprecation)
-    include ActiveSupport::Testing::Deprecation
-  end
-
   def setup
     super
     @controller  = DummyController.new
@@ -50,21 +42,15 @@ class WillPaginate::ViewTestCase < Test::Unit::TestCase
 
       locals = { :collection => collection, :options => options }
 
-      unless @view.respond_to? :render_template
-        # Rails 2.2
-        @html_result = ActionView::InlineTemplate.new(@template).render(@view, locals)
+      if defined? ActionView::InlineTemplate
+        # Rails 2.1
+        args = [ ActionView::InlineTemplate.new(@view, @template, locals) ]
       else
-        if defined? ActionView::InlineTemplate
-          # Rails 2.1
-          args = [ ActionView::InlineTemplate.new(@view, @template, locals) ]
-        else
-          # older Rails versions
-          args = [nil, @template, nil, locals]
-        end
-
-        @html_result = @view.render_template(*args)
+        # older Rails versions
+        args = [nil, @template, nil, locals]
       end
       
+      @html_result = @view.render_template(*args)
       @html_document = HTML::Document.new(@html_result, true, false)
 
       if block_given?

@@ -26,13 +26,7 @@ function init(){
   layerMap = new OpenLayers.Map("map",options);
   mapnik_lay1 = mapnik.clone();
 
-  nyc_lay1 = nyc.clone();
-  nyc_lay1.setIsBaseLayer(true);
-
-  ortho_lay1 = ortho.clone();
-  ortho_lay1.setIsBaseLayer(true);
-
-  layerMap.addLayers([mapnik_lay1, nyc_lay1, ortho_lay1]);
+  layerMap.addLayers([mapnik_lay1]);
 
   wmslayer =  new OpenLayers.Layer.WMS
   ( "Layer"+layer_id,
@@ -127,7 +121,6 @@ function addMapToMapLayer(mapitem){
       new OpenLayers.Bounds.fromString(mapitem.bbox).transform(layerMap.displayProjection, layerMap.projection)).toGeometry());
   feature.mapTitle = mapitem.title; 
   feature.mapId = mapitem.id;
-  feature.mapDigitalId = mapitem.nypl_digital_id
   mapIndexLayer.addFeatures([feature]);
 }
 
@@ -141,11 +134,11 @@ function onFeatureSelect(feature) {
     null,
     "<div class='layermap-popup'> Map "+
       feature.mapId + "<br /> <a href='" + mapBaseURL + "/"+ feature.mapId + "' target='_blank'>"+feature.mapTitle+"</a><br />"+
-      "<img src='"+mapThumbBaseURL+feature.mapDigitalId+"' height='80'>"+
+      "<img src='"+mapThumbBaseURL+feature.mapId+"' height='80'>"+
       "<br /> <a href='"+mapBaseURL+"/"+feature.mapId+"#Rectify_tab' target='_blank'>Edit this map</a>"+
       "</div>",
     null, true, onPopupClose);
-  popup.maxSize = new OpenLayers.Size(250,350);
+  popup.minSize = new OpenLayers.Size(180,150);
   feature.popup = popup;
   layerMap.addPopup(popup);
 }

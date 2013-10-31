@@ -2,20 +2,21 @@ class MyMapsController < ApplicationController
 before_filter :get_user
 before_filter :login_required, :only => [:list, :show, :create, :destroy]
 
-def list
-  @html_title = "Listing My Maps"
-  @mymaps = @user.maps.paginate(:page => params[:page],:per_page => 8, :order => "updated_at DESC")
- @remove_from = true
- if request.xhr?
-  render :action => 'list.rjs'
- end
-end
+  def list
+    @mymaps = @user.maps.paginate(:page => params[:page],:per_page => 8, :order => "updated_at DESC")
+    @mylayers = @user.layers
+    @remove_from = true
+    @html_title = "#{@user.login.capitalize}'s 'My Maps' on "
+    if request.xhr?
+      render :action => 'list.rjs'
+    end
+  end
 
 #def new  
 #end
 
 def show
-@map = @user.my_maps.find(params[:id])
+  @map = @user.my_maps.find(params[:id])
 end
 
 def create
@@ -39,17 +40,25 @@ redirect_to my_maps_path
 
 end
 
+#we shouldnt be able to remove a map we uploaded
 def destroy
-  if @user == current_user 
-    #note, mapscan_id is the database field name
-    my_map = @user.my_maps.find_by_mapscan_id(params[:map_id])
+  if (@user == current_user and !current_user.own_this_map?(params[:map_id]))
+
+    my_map = @user.my_maps.find_by_map_id(params[:map_id])
+
     if my_map.destroy 
       flash[:notice] = "Map removed from list!"
     else
-      flash[:notice] = "Map coudn't be deleted"
+      flash[:notice] = "Map coudn't be removed from list"
     end
   else
-    flash[:notice]= "You cannot remove other people's maps!"
+    if current_user.own_this_map?(params[:map_id])
+       flash[:notice]= "Sorry, you cannot remove maps you have uploaded, from the list"
+    else
+       flash[:notice]= "Map coudn't be removed from list"
+    end
+
+   
 
   end
 redirect_to my_maps_path
@@ -57,12 +66,14 @@ end
 
 private
 def get_user
-  if User.exists?(params[:user_id])
-    @user = User.find(params[:user_id])
-  else
+  @user = User.find(params[:user_id])
 
-    redirect_to users_path
+  if  @user == current_user or  current_user.has_role?("editor")
+    @user
+  else
+    redirect_to user_path(current_user)
   end
+
 end
 
 end

@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title><%= h(@html_title) || ''-%> MapStory : Map Warper </title>
+
+    <%= yield :head %>
+    <%= render "layouts/includes" %>
+    
+    <script language="javascript" type="text/javascript">
+      OpenLayers.ImgPath = '<%=request.protocol + request.host_with_port + ActionController::Base.relative_url_root.to_s%>/javascripts/openlayers/img/';
+      var addthis_share =  {  templates: {
+          twitter: 'Checking out {{url}} (from @mapwarper)'
+        } };
+      var addthis_config = {
+        ui_click : true
+      };
+    </script>
+  </head>
+   <% if @onload -%>
+        <body onload="<%=@onload%>">
+        <%else-%>
+          <body>
+          <%end%>
+          <div id="headerDiv" class="headerDiv">
+            <h1><%= link_to "Map Warper", root_path %></h1>
+            <%= render :partial => 'shared/header' %>
+            <%= render :partial => 'shared/nav' %>
+          </div>
+<div id="warper-maindiv">
+          
+          <%= flash_messages %>
+
+          <%= yield %>
+</div>
+
+          <div id="footer">
+            <%= render :partial => 'shared/footer' %>
+          </div>
+
+          <%= render :partial => 'shared/analytics' %>
+        </body>
+
+
+
+      </html>
+

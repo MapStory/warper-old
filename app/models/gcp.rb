@@ -1,20 +1,15 @@
 class Gcp < ActiveRecord::Base
-  
-  def self.table_name()
-    "gcps"
-  end
-
-  belongs_to :map, :foreign_key => "mapscan_id"
-
-  acts_as_audited 
-  validates_numericality_of :x, :y, :lat, :lon
-  validates_presence_of :x, :y, :lat, :lon, :mapscan_id
-
-  named_scope  :soft, :conditions => {:soft => true}
-  named_scope  :hard, :conditions => ["gcps.soft IS NULL OR gcps.soft = 'F'"]
+  belongs_to :map
 
   after_save :update_map_timestamp
   after_destroy :update_map_timestamp
+
+  acts_as_audited
+  validates_numericality_of :x, :y, :lat, :lon
+  validates_presence_of :x, :y, :lat, :lon, :map_id
+
+  named_scope  :soft, :conditions => {:soft => true}
+  named_scope  :hard, :conditions => ["gcps.soft IS NULL OR gcps.soft = 'F'"]
 
   attr_accessor :error
 

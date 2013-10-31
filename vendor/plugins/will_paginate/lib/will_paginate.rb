@@ -1,5 +1,4 @@
 require 'active_support'
-require 'will_paginate/core_ext'
 
 # = You *will* paginate!
 #
@@ -10,29 +9,29 @@ require 'will_paginate/core_ext'
 # Happy paginating!
 module WillPaginate
   class << self
-    # shortcut for <tt>enable_actionpack</tt> and <tt>enable_activerecord</tt> combined
+    # shortcut for <tt>enable_actionpack; enable_activerecord</tt>
     def enable
       enable_actionpack
       enable_activerecord
     end
     
-    # hooks WillPaginate::ViewHelpers into ActionView::Base
+    # mixes in WillPaginate::ViewHelpers in ActionView::Base
     def enable_actionpack
-      return if ActionView::Base.instance_methods.include_method? :will_paginate
+      return if ActionView::Base.instance_methods.include? 'will_paginate'
       require 'will_paginate/view_helpers'
-      ActionView::Base.send :include, ViewHelpers
+      ActionView::Base.class_eval { include ViewHelpers }
 
       if defined?(ActionController::Base) and ActionController::Base.respond_to? :rescue_responses
         ActionController::Base.rescue_responses['WillPaginate::InvalidPage'] = :not_found
       end
     end
     
-    # hooks WillPaginate::Finder into ActiveRecord::Base and classes that deal
+    # mixes in WillPaginate::Finder in ActiveRecord::Base and classes that deal
     # with associations
     def enable_activerecord
       return if ActiveRecord::Base.respond_to? :paginate
       require 'will_paginate/finder'
-      ActiveRecord::Base.send :include, Finder
+      ActiveRecord::Base.class_eval { include Finder }
 
       # support pagination on associations
       a = ActiveRecord::Associations
@@ -42,17 +41,9 @@ module WillPaginate
           classes << a::HasManyThroughAssociation
         end
       }.each do |klass|
-        klass.send :include, Finder::ClassMethods
-        klass.class_eval { alias_method_chain :method_missing, :paginate }
-      end
-      
-      # monkeypatch Rails ticket #2189: "count breaks has_many :through"
-      ActiveRecord::Base.class_eval do
-        protected
-        def self.construct_count_options_from_args(*args)
-          result = super
-          result[0] = '*' if result[0].is_a?(String) and result[0] =~ /\.\*$/
-          result
+        klass.class_eval do
+          include Finder::ClassMethods
+          alias_method_chain :method_missing, :paginate
         end
       end
     end
@@ -70,21 +61,26 @@ module WillPaginate
       require 'will_paginate/named_scope'
       require 'will_paginate/named_scope_patch' if patch
 
-      ActiveRecord::Base.send :include, WillPaginate::NamedScope
+      ActiveRecord::Base.class_eval do
+        include WillPaginate::NamedScope
+      end
     end
   end
 
-  module Deprecation # :nodoc:
+  module Deprecation #:nodoc:
     extend ActiveSupport::Deprecation
 
     def self.warn(message, callstack = caller)
       message = 'WillPaginate: ' + message.strip.gsub(/\s+/, ' ')
-      ActiveSupport::Deprecation.warn(message, callstack)
+      behavior.call(message, callstack) if behavior && !silenced?
+    end
+
+    def self.silenced?
+      ActiveSupport::Deprecation.silenced?
     end
   end
 end
 
-if defined? Rails
-  WillPaginate.enable_activerecord if defined? ActiveRecord
-  WillPaginate.enable_actionpack if defined? ActionController
+if defined?(Rails) and defined?(ActiveRecord) and defined?(ActionController)
+  WillPaginate.enable
 end

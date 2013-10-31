@@ -1,4 +1,6 @@
-
+#
+# Example controller for use with digitizer to give subtypes depending on a the param parent type
+#
 class DigitizeController < ApplicationController
  #TODO add in other json files instead of static?
   def subtype

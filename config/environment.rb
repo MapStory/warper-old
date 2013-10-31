@@ -1,16 +1,17 @@
+
+
 # Be sure to restart your server when you modify this file
 
 # Uncomment below to force Rails into production mode when
 # you don't control web/app server and can't set it the proper way
- ENV['RAILS_ENV'] ||= 'production'
-
+#ENV['RAILS_ENV'] ||= 'production'
+#GDAL_PATH = ENV['GDAL_PATH'] || ""
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.15' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
+require 'thread'
 require File.join(File.dirname(__FILE__), 'boot')
-
-require 'active_support/secure_random'
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
@@ -32,27 +33,8 @@ Rails::Initializer.run do |config|
 
   # Force all environments to use the same logger level
   # (by default production uses :info, the others :debug)
-  # config.log_level = :debug
+  config.log_level = :debug
 
-  # Your secret key for verifying cookie session data integrity.
-  # If you change this key, all old sessions will become invalid!
-  # Make sure the secret is at least 30 characters and all random, 
-  # no regular words or you'll be exposed to dictionary attacks.
-  secret_file = File.join(RAILS_ROOT, "secret")
-  if File.exist?(secret_file)
-    secret = File.read(secret_file)
-  else
-    secret = ActiveSupport::SecureRandom.hex(64)
-    File.open(secret_file, 'w') { |f| f.write(secret) }
-  end
-  config.action_controller.session = {
-    :session_key => '_geowarp_session',
-    :secret      => secret
-  }
-  # Use the database for sessions instead of the cookie-based default,
-  # which shouldn't be used to store highly confidential information
-  # (create the session table with 'rake db:sessions:create')
-  # config.action_controller.session_store = :active_record_store
 
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper,
@@ -64,7 +46,5 @@ Rails::Initializer.run do |config|
 
   # Make Active Record use UTC-base instead of local time
   # config.active_record.default_timezone = :utc
-  config.active_record.timestamped_migrations = false
-config.active_record.observers = :user_observer
+
 end
-File.umask(0002) #set files to be created to be -rw-rw-r--

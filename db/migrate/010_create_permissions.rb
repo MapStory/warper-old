@@ -4,7 +4,8 @@ class CreatePermissions < ActiveRecord::Migration
       t.integer :role_id, :user_id, :null => false
       t.timestamps
     end
- 
+
+=begin 
 #make sure the role migration was generated first
   #
   Role.create(:name => 'super user')
@@ -27,11 +28,15 @@ class CreatePermissions < ActiveRecord::Migration
   permission.user = user
   permission.save(false)
 
+=end
+
+
   end
 
   def self.down
-    drop_table :permissions
+
     Role.find_by_name('super user').destroy
     User.find_by_login('super').destroy
+    drop_table :permissions
   end
 end
