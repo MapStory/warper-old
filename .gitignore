@@ -18,6 +18,3 @@ public/uploads/*
 !public/uploads/thumb
 rbeautify.rb
 tmp/*
-
-
-
