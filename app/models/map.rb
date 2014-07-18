@@ -1,5 +1,5 @@
 require "open3"
-require "ftools"
+require "fileutils"
 require "matrix"
 require 'erb'
 require 'rexml/document'

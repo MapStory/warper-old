@@ -1,10 +1,7 @@
-log/*.log
+log/*
 tmp/**/*
 doc/api
 doc/app
-.svn
-config/*deploy.rb
-!config/example_deploy.rb
 config/database.yml
 config/initializers/session_store.rb
 config/initializers/mapstory_cookie_secret.rb
@@ -12,8 +9,6 @@ config/environments/production.rb
 db/*.sqlite3
 db/mapfiles/*
 db/maptileindex/*
-db/schema.rb
-nbproject
 public/mapimages/dst/*
 public/mapimages/src/*
 public/mapimages/*.g*
@@ -22,7 +17,6 @@ public/uploads/*
 !public/uploads/original
 !public/uploads/thumb
 rbeautify.rb
-*.*~
 tmp/*
 
 
