@@ -229,6 +229,7 @@ module AuthenticatedSystem
 
     # Log in using mapstory credentials
     def login_from_mapstory
+
       if cookies[:msid]
         mapstory_username = MapstoryCookie.decode(cookies[:msid])
         if mapstory_username

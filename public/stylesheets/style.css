@@ -1,0 +1,26 @@
+/* custom styles to tweak default MapStory styles */
+
+.navbar-fixed-top .btn {
+	background-color:white;
+	border:transparent;
+}
+
+.navbar-fixed-top a {
+	text-decoration:none;
+	/*font-size:1.3em; */
+	color:black;
+}
+
+.navbar-fixed-top .btn a {
+	font-size: 1.3em;
+}
+
+#dashboard {
+	margin-top: 30px;
+}
+
+#sitefooter {
+	padding:20px 10px;
+	width:100%;
+	margin-top: 1em;
+}

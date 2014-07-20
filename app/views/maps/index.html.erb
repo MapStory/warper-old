@@ -1,6 +1,5 @@
 
 <div id="search-form"><%= render :partial => 'shared/search' -%></div>
-New: <%= link_to 'Find Rectified Maps by Location',  url_for(:controller => 'maps', :action=>'geosearch')%>
 <div class="browse">
 
   <h2>Browse Maps
@@ -11,11 +10,6 @@ New: <%= link_to 'Find Rectified Maps by Location',  url_for(:controller => 'map
   <div id="search-sort">
     <%= render :partial => 'shared/sort' -%>
   </div>
-<!--
-  <div id="search-pagination-top">
-    <%= will_paginate @maps %>
-  </div>
-  -->
   <table id="map_table" cellpadding="3">
     <thead>
       <tr>
