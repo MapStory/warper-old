@@ -29,6 +29,12 @@
 	color: #fff;
 }
 
+#sitefooter .btn {
+  background-color: #9E4C15;
+}
+
+
+
 /* Open Layer Style */
 #map, #unmap, #clipmap, #warpedmap {
 	margin-left: 2px;

@@ -7,7 +7,6 @@
     <%= yield :head %>
     <%= render "layouts/includes" %>
     <%= render "layouts/scripts" %>
-    <%# Might need jquery ui here... %>        
   </head>
 <% if @onload -%>
   <body data-spy="scroll" data-target="#scrollTarget" data-offset="150" onload="<%=@onload%>">
@@ -26,7 +25,6 @@
       </section>
     <%= render "shared/footer" %>
     </div>
-
     <%= render "shared/analytics" %>    
   </body>
 </html>
