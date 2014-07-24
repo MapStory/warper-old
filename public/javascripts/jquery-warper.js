@@ -40,8 +40,13 @@ function closeBigModalDialog(){
 
 //duplicated functions because of ajax tabs and variable scope, below used by crop tool
 function bigModalDialog2(message){
+  
+  console.debug("Hi there");
+
   jQuery("#noticeMessage2").html(message);
   
+  console.debug("Testing");
+
   jQuery("#popoverNotice2").dialog({
           bgiframe: true,
           height: 140,
@@ -53,6 +58,8 @@ function bigModalDialog2(message){
         //  close: function(){document.getElementById("warp_button").disabled = false; },
           zIndex: 1008
           });
+
+  console.debug("testing 2");
   jQuery("#popoverNotice2").dialog('open');
 
 }

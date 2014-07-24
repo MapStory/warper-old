@@ -5,7 +5,9 @@
     <title><%= h(@html_title) || ''-%> MapStory : Map Warper </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <%= yield :head %>
-    <%= render "layouts/includes" %>    
+    <%= render "layouts/includes" %>
+    <%= render "layouts/scripts" %>
+    <%# Might need jquery ui here... %>        
   </head>
 <% if @onload -%>
   <body data-spy="scroll" data-target="#scrollTarget" data-offset="150" onload="<%=@onload%>">
@@ -16,19 +18,15 @@
       <%= render 'shared/header' %>
       <section class="slice" id="dashboard">
         <div class="container">
-          <%# TODO:  Probably need to re-think where sub rows / columns go - we'll probably want to touch everything. %>
-
           <div class="row">
-            <div class="col-sm-12">
-              <%= flash_messages %>
-              <%= yield %>
-            </div>
+            <%= flash_messages %>
+            <%= yield %>
           </div>
         </div>
       </section>
     <%= render "shared/footer" %>
     </div>
-    <%= render "layouts/scripts" %>
+
     <%= render "shared/analytics" %>    
   </body>
 </html>

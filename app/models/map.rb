@@ -524,7 +524,7 @@ class Map < ActiveRecord::Base
          File.delete(masked_src_filename)
       end
       #copy over orig to a new unmasked file
-      File.copy(unwarped_filename, masked_src_filename)
+      FileUtils.cp(unwarped_filename, masked_src_filename)
       #TODO ADD -i switch when we have newer gdal
       require 'open3'
       r_stdin, r_stdout, r_stderr = Open3::popen3(
@@ -585,22 +585,18 @@ class Map < ActiveRecord::Base
       File.delete(dest_filename)
     end
 
-    logger.info "gdal translate"
-
-    t_stdin, t_stdout, t_stderr = Open3::popen3(
-      "#{GDAL_PATH}gdal_translate -a_srs '+init=epsg:4326' -of VRT #{src_filename} #{temp_filename}.vrt #{gcp_string}"
-    )
-
-    logger.info "#{GDAL_PATH}gdal_translate -a_srs '+init=epsg:4326' -of VRT #{src_filename} #{temp_filename}.vrt #{gcp_string}"
-    t_out  = t_stdout.readlines.to_s
-    t_err = t_stderr.readlines.to_s
+    command = "#{GDAL_PATH}gdal_translate -a_srs '+init=epsg:4326' -of VRT #{src_filename} #{temp_filename}.vrt #{gcp_string}"
+    t_stdin, t_stdout, t_stderr = Open3::popen3(command)
+    logger.info "Running: " + command
+    t_out  = t_stdout.readlines
+    t_err = t_stderr.readlines
 
     if t_err.size > 0
-      logger.error "ERROR gdal translate script: "+ t_err
-      logger.error "Output = " +t_out
-      t_out = "ERROR with gdal translate script: " + t_err + "<br /> You may want to try it again? <br />" + t_out
+      logger.error "ERROR gdal translate script: "+ t_err.to_s
+      logger.error "Output = " + t_out.to_s
+      t_out = "ERROR with gdal translate script: #{t_err.to_s}<br /> You may want to try it again? <br />#{t_out.to_s}"
     else
-      t_out = "Okay, translate command ran fine! <div id = 'scriptout'>" + t_out + "</div>"
+      t_out = "Okay, translate command ran fine! <div id = 'scriptout'>#{t_out.to_s}</div>"
     end
     trans_output = t_out
 
@@ -610,16 +606,16 @@ class Map < ActiveRecord::Base
     #command = "#{GDAL_PATH}gdalwarp #{memory_limit}  #{transform_option}  #{resample_option} -dstalpha #{mask_options} -s_srs 'EPSG:4326' #{temp_filename}.vrt #{dest_filename} -co TILED=YES"
     command = "#{GDAL_PATH}gdalwarp #{memory_limit}  #{transform_option}  #{resample_option} -dstalpha #{mask_options} -s_srs 'EPSG:4326' #{temp_filename}.vrt #{dest_filename} -co TILED=YES -co COMPRESS=DEFLATE"
     w_stdin, w_stdout, w_stderr = Open3::popen3(command)
-    logger.info command
+    logger.info "Running: " + command
 
-    w_out = w_stdout.readlines.to_s
-    w_err = w_stderr.readlines.to_s
+    w_out = w_stdout.readlines
+    w_err = w_stderr.readlines
     if w_err.size > 0
-      logger.error "Error gdal warp script" + w_err
-      logger.error "output = "+w_out
-      w_out = "error with gdal warp: "+ w_err +"<br /> try it again?<br />"+ w_out
+      logger.error "Error gdal warp script" + w_err.to_s
+      logger.error "output = " + w_out.to_s
+      w_out = "error with gdal warp: #{w_err.to_s}<br /> try it again?<br />#{w_out.to_s}"
     else
-      w_out = "Okay, warp command ran fine! <div id='scriptout'>" + w_out +"</div>"
+      w_out = "Okay, warp command ran fine! <div id='scriptout'>#{w_out.to_s}</div>"
     end
       warp_output = w_out
 
@@ -630,14 +626,14 @@ class Map < ActiveRecord::Base
       o_stdin, o_stdout, o_stderr = Open3::popen3(command)
       logger.info command
 
-      o_out = o_stdout.readlines.to_s
-      o_err = o_stderr.readlines.to_s
+      o_out = o_stdout.readlines
+      o_err = o_stderr.readlines
       if o_err.size > 0
-         logger.error "Error gdal overview script" + o_err
-         logger.error "output = "+o_out
-         o_out = "error with gdal overview: "+ o_err +"<br /> try it again?<br />"+ o_out
+         logger.error "Error gdal overview script" + o_err.to_s
+         logger.error "output = " + o_out.to_s
+         o_out = "error with gdal overview:#{o_err.to_s}<br /> try it again?<br />#{o_out.to_s}"
       else
-         o_out = "Okay, overview command ran fine! <div id='scriptout'>" + o_out +"</div>"
+         o_out = "Okay, overview command ran fine! <div id='scriptout'>#{o_out.to_s}</div>"
       end
       overview_output = o_out
 
@@ -646,7 +642,7 @@ class Map < ActiveRecord::Base
       File.delete(temp_filename + '.vrt')
     end
 
-      # don't care too much if overviews threw a random warning
+    # don't care too much if overviews threw a random warning
     if w_err.size <= 0 and t_err.size <= 0
       self.status = :warped
          spawn do
@@ -657,9 +653,9 @@ class Map < ActiveRecord::Base
       self.status = :available
     end
     save!
-      update_layers
-      update_bbox
-      output = "Step 1: Translate: "+ trans_output + "<br />Step 2: Warp: " + warp_output + \
+    update_layers
+    update_bbox
+    output = "Step 1: Translate: "+ trans_output + "<br />Step 2: Warp: " + warp_output + \
                "Step 3: Add overviews:" + overview_output
   end
 
@@ -810,8 +806,9 @@ class Map < ActiveRecord::Base
     'documentType' => documentType
      }
      begin
-       resp, data = Net::HTTP.post_form(url, post_args)
-       
+       resp = Net::HTTP.post_form(url, post_args)       
+       data = resp.body
+
        @newresults = Nokogiri::XML.parse(data)
        xmlroot = @newresults.root
        if xmlroot.at('document') && xmlroot.at('document').children.size > 1

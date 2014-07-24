@@ -22,5 +22,201 @@
 #sitefooter {
 	padding:20px 10px;
 	width:100%;
-	margin-top: 1em;
+	margin-top: 2em;
 }
+
+#tag-cloud a {
+	color: #fff;
+}
+
+/* Open Layer Style */
+#map, #unmap, #clipmap, #warpedmap {
+	margin-left: 2px;
+  position: relative;
+  z-index: 22;
+	height: 600px;
+	border:1px solid #999999;
+}
+#to_map_block
+{
+  position: relative;
+  z-index: 20;
+	float:right;
+  border:1px solid gray;
+	width:49.5%;
+}
+
+#from_map_block
+{
+  position: relative;
+  z-index: 20;
+	float:left;
+	border:1px solid gray;
+	width:49.5%;
+}
+#from_map,#to_map
+{
+        position: relative;
+        z-index: 2;
+	height:420px;
+        cursor: crosshair;
+
+}
+
+
+
+/* Deal with notices */
+
+#gcp_notice {
+	background-color: red;
+}
+
+/* Sortable */
+#sortable {list-style-type: none; margin:0; padding: 0;}
+#sortable li {margin: 3px 3px 3px 0; padding: 1px; float: left; 
+	width: 150px; height: 150px; font-size: 2em; text-align: center;line-height:150px; 
+	border: 1px solid #333;
+}
+#sortable li img {vertical-align: middle;display: inline; }
+#mapgrid {width:350px; margin:auto;}
+#align_form_div {	
+clear: both;
+}
+
+
+/* Deal with user interface popup / modals.  Currently using jquery-ui... */
+.ui-dialog {
+	border: 1px solid black;
+	background-color: #fff;
+}
+
+
+/* OPENLAYERS spechul stilz */
+div.olControlMousePosition
+{
+	bottom:0;
+	display:block;
+	font-family:Arial;
+	font-size:smaller;
+	position:absolute;
+	right:3px;
+	color:red;
+}
+
+.olControlAttribution
+{
+	bottom:2px!important;
+}
+
+.olControlLayerSwitcher
+{
+	font-size:7pt!important;
+}
+
+ .olControlEditingToolbar  {
+    float:right;
+    right: 0px;
+    height: 32px;
+    width: 110px !important;
+    background: #FFFFFF;
+    border:1px solid gray;
+}
+
+.olControlEditingToolbar div { 
+  float:right;
+  width:  24px;
+  height: 24px;
+  margin: 5px;
+}
+ .olControlEditingToolbar2  {
+    float:right;
+    right: 0px;
+    height: 32px;
+    width: 155px !important;
+    background: #FFFFFF;
+    border:1px solid gray;
+}
+
+.olControlEditingToolbar2 div { 
+  float:right;
+  width:  24px;
+  height: 24px;
+  margin: 5px;
+}
+
+.olControlEditingToolbar .olControlDrawFeaturePointItemActive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -128px -23px; 
+}
+.olControlEditingToolbar .olControlDrawFeaturePointItemInactive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -128px -0px; 
+}
+
+.olControlEditingToolbar2 .olControlDrawFeatureItemActive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -26px -23px; 
+}
+.olControlEditingToolbar2 .olControlDrawFeatureItemInactive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -26px -0px; 
+}
+.olControlEditingToolbar2 .olControlModifyFeatureItemActive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -153px -23px; 
+}
+.olControlEditingToolbar2 .olControlModifyFeatureItemInactive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -153px -0px; 
+}
+
+.olControlEditingToolbar .olControlNavigationItemActive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -103px -23px; 
+}
+.olControlEditingToolbar .olControlNavigationItemInactive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -103px -0px; 
+}
+.olControlEditingToolbar2 .olControlNavigationItemActive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -103px -23px; 
+}
+.olControlEditingToolbar2 .olControlNavigationItemInactive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -103px -0px; 
+}
+
+.olControlEditingToolbar .olControlDragFeatureItemInactive {
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -1px 0px;
+}
+.olControlEditingToolbar .olControlDragFeatureItemActive {
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -1px -23px;
+
+}
+.olControlEditingToolbar2 .olControlDeleteFeatureItemInactive {
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -178px 0px;
+}
+.olControlEditingToolbar2 .olControlDeleteFeatureItemActive {
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -178px -23px;
+}
+
+

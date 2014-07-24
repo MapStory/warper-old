@@ -198,22 +198,30 @@ class MapsController < ApplicationController
   end
 
   def export
+    Rails.logger.debug "In export, exporting your maps"
     @current_tab = "export"
     @selected_tab = 6
     @html_title = "Export Map" + @map.id.to_s
 
-    @gaia_url = "gaiagps://addmapsource/" + CGI::escape(@map.title.to_s + "^^" + url_for(:controller => "maps", :action => "tile", :x => "XPARAM", :y => "YPARAM", :z => "ZPARAM", :only_path => false) + "^^" + @map.gaia_url())
-    @otm_url = "otm://addmapsource/" + CGI::escape(@map.title.to_s + "^^" + url_for(:controller => "maps", :action => "tile", :x => "XPARAM", :y => "YPARAM", :z => "ZPARAM", :only_path => false) + "^^" + @map.gaia_url())
+
+    Rails.logger.debug "My map status is " + @map.status.inspect
+    Rails.logger.debug "My map type is " + @map.map_type.inspect
 
     unless @map.status == :warped && @map.map_type == :is_map
       flash.now[:notice] = "Map needs to be rectified before being able to be exported"
-    end
-    choose_layout_if_ajax
-    respond_to do | format |
-      format.html {}
-      format.tif {  send_file @map.warped_filename, :x_sendfile => (RAILS_ENV != "development") }
-      format.png  { send_file @map.warped_png, :x_sendfile => (RAILS_ENV != "development") }
-      format.aux_xml { send_file @map.warped_png_aux_xml,:x_sendfile => (RAILS_ENV != "development") }
+    else
+
+      @gaia_url = "gaiagps://addmapsource/" + CGI::escape(@map.title.to_s + "^^" + url_for(:controller => "maps", :action => "tile", :x => "XPARAM", :y => "YPARAM", :z => "ZPARAM", :only_path => false) + "^^" + @map.gaia_url())
+      @otm_url = "otm://addmapsource/" + CGI::escape(@map.title.to_s + "^^" + url_for(:controller => "maps", :action => "tile", :x => "XPARAM", :y => "YPARAM", :z => "ZPARAM", :only_path => false) + "^^" + @map.gaia_url())
+
+
+      choose_layout_if_ajax
+      respond_to do | format |
+        format.html {}
+        format.tif {  send_file @map.warped_filename, :x_sendfile => (RAILS_ENV != "development") }
+        format.png  { send_file @map.warped_png, :x_sendfile => (RAILS_ENV != "development") }
+        format.aux_xml { send_file @map.warped_png_aux_xml,:x_sendfile => (RAILS_ENV != "development") }
+      end
     end
   end
 

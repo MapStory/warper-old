@@ -69,52 +69,6 @@ $(document).ready(function() {
         });
 
     }			
-    /*
-    |--------------------------------------------------------------------------
-    | MAGNIFIC POPUP
-    |--------------------------------------------------------------------------
-    */
-
-
-
-    if( $("a.image-link").length){
-
-         $("a.image-link").click(function (e) {
-
-            var items = [];
-            
-            items.push( { src: $(this).attr('href')  } );
-
-            if($(this).data('gallery')){
-
-                var $arraySrc = $(this).data('gallery').split(',');
-
-                $.each( $arraySrc, function( i, v ){
-                    items.push( {
-                        src: v 
-                    });
-                });     
-            }
-     
-            $.magnificPopup.open({
-                type:'image',
-                mainClass: 'mfp-fade',
-                items:items,
-                gallery: {
-                  enabled: true 
-                }
-            });
-
-            e.preventDefault();
-        });
-  
-    }
-
-
-
-    if( $("a.image-iframe").length){
-         $('a.image-iframe').magnificPopup({type:'iframe',mainClass: 'mfp-fade'});
-    }
 
     
     /*
@@ -188,82 +142,6 @@ $(document).ready(function() {
 
 
 
-    
-    
-    /* MAP */
-    $('#mapTrigger').click(function(e){
-
-
-        $('#mapSlideWrapper').css('display', 'block');
-        initialize('mapWrapper');
-        
-        $('#contactinfoWrapper, #contactinfoWrapperPage').animate({
-            marginLeft:'-2000px' 
-        }, 400, function() {}); 
-        
-        
-        $('#mapSlideWrapper').animate({
-            marginLeft:'25px' 
-        }, 400, function() {});  
-        
-        appendBootstrap();
-
-        e.preventDefault();
-    });
-
-    appendBootstrap();
-    
-    
-    $('#mapTriggerLoader').click(function(e){
-
-
-        $('#mapSlide').css('display', 'block');
-
-        $('#contactSlide').animate({
-            marginLeft:'-2000px' 
-        }, 400, function() {}); 
-        
-        
-        $('#mapSlide').animate({
-            marginLeft:'0' 
-        }, 400, function() {
-            $('#contactSlide').css('display', 'none');
-        });  
-
-        
-        appendBootstrap();
-        
-        e.preventDefault();
-    });
-    
-    
-    $('#mapReturn').click(function(e){
-        //$('#mapWrapper').css('margin-bottom', '3em');
-        
-        $('#contactSlide').css('display', 'block');
-        $('#mapSlide').animate({
-            marginLeft:'3000px' 
-        }, 400, function() {});       
-        
-
-        $('#contactSlide').animate({
-            marginLeft:'0' 
-        }, 400, function() {
-            $('#mapSlide').css('display', 'none');
-        }); 
-
-        e.preventDefault();
-    }); 
-
-    /*
-    |--------------------------------------------------------------------------
-    | OWL CAROUSEL
-    |--------------------------------------------------------------------------
-    */
-     if($('#portfolio-carousel').length){ 
-     alert('toto');    
-        $("#portfolio-carousel").owlCarousel();
-    }
     /*
     |--------------------------------------------------------------------------
     | FLEXSLIDER
@@ -636,20 +514,6 @@ if($('.previewTrigger').length){
 
 /*
 |--------------------------------------------------------------------------
-| PORTFOLIO SHEET SYSTEM
-|--------------------------------------------------------------------------
-*/
-// PAGE SLIDE
-$(".portfolioSheet").pageslide({
-    direction: "left",
-    modal: true,
-    iframe: false,
-    speed: "250"
-});
-
-
-/*
-|--------------------------------------------------------------------------
 | AUTOCLOSE BOOSTRAP MENU
 |--------------------------------------------------------------------------
 */
@@ -672,70 +536,6 @@ $('.nav a').on('click', function(){
 */
 $(window).load(function() {
 
-    "use strict";
-    /*
-    |--------------------------------------------------------------------------
-    | PRELOADER
-    |--------------------------------------------------------------------------
-    */ 
-    $('#status').fadeOut(); // will first fade out the loading animation
-    $('#preloader').delay(350).fadeOut('slow'); // will fade out the white DIV that covers the website.
-    $('body').delay(350).css({'overflow':'visible'});
-
-    /*
-    |--------------------------------------------------------------------------
-    | ISOTOPE USAGE FILTERING
-    |--------------------------------------------------------------------------
-    */ 
-    if($('.isotopeWrapper').length){
-
-        var $container = $('.isotopeWrapper');
-        var $resize = $('.isotopeWrapper').attr('id');
-        // initialize isotope
-        
-        $container.isotope({
-            itemSelector: '.isotopeItem',
-            resizable: false, // disable normal resizing
-            masonry: {
-                columnWidth: $container.width() / $resize
-            }
-
-
-            
-        });
-        var rightHeight = $('#works').height();
-        $('#filter a').click(function(){
-
-
-            $('#works').height(rightHeight);
-            $('#filter a').removeClass('current');
-
-
-            $(this).addClass('current');
-            var selector = $(this).attr('data-filter');
-            $container.isotope({
-                filter: selector,
-                animationOptions: {
-                    duration: 1000,
-                    easing: 'easeOutQuart',
-                    queue: false
-                }
-            });
-            return false;
-        });
-        
-        
-        $(window).smartresize(function(){
-            $container.isotope({
-                // update columnWidth to a percentage of container width
-                masonry: {
-                    columnWidth: $container.width() / $resize
-                }
-            });
-        });
-        
-
-}  
 
 
 /**PROCESS ICONS**/

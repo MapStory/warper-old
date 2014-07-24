@@ -71,6 +71,16 @@ function warpedinit(){
         }
 
     });
+
+    // Disable mousewheel zoom to prevent overloading server with too
+    // many requests. This version of open street map supports
+    // cumulative scroll, but not interval scrolling. Must upgrade
+    // OSM to get proper functionality.
+    // http://openlayers.org/dev/examples/mousewheel-interval.html
+    var i, l, c = warpedmap.getControlsBy( "zoomWheelEnabled", true );
+    for ( i = 0, l = c.length; i < l; i++ ) {
+        c[i].disableZoomWheel();
+    }
 }
 
 function get_map_layer(layerid){

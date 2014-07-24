@@ -23,7 +23,6 @@ function init() {
         maxResolution: 'auto',
         numZoomLevels: 20
     });
-  //  from_map.addControl(new OpenLayers.Control.MousePosition());
 
     var image = new OpenLayers.Layer.WMS( title,
         wms_url, {
@@ -187,8 +186,20 @@ function init() {
           }
     });
 
-
-    }
+  // Disable mousewheel zoom to prevent overloading server with too
+  // many requests. This version of open street map supports
+  // cumulative scroll, but not interval scrolling. Must upgrade
+  // OSM to get proper functionality.
+  // http://openlayers.org/dev/examples/mousewheel-interval.html
+  var i, l, c = from_map.getControlsBy( "zoomWheelEnabled", true );
+  for ( i = 0, l = c.length; i < l; i++ ) {
+      c[i].disableZoomWheel();
+  }
+  var i, l, c = to_map.getControlsBy( "zoomWheelEnabled", true );
+  for ( i = 0, l = c.length; i < l; i++ ) {
+      c[i].disableZoomWheel();
+  }
+}
 
 function joinControls(first, second){
   first.events.register("activate", first, function(){second.activate();});

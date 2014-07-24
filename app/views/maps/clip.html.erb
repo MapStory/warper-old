@@ -15,14 +15,18 @@
 
   </script>
   <%= javascript_include_tag "clip" %>
+  
 <% end -%>
 <% @onload =  "clipinit();" -%>
 <%= @title %>
 
 <div id="clipmap">
 </div>
+
+
 <div id="popoverNotice2" class="hidden-at-start"><%= image_tag "spinner.gif" %><span id="noticeMessage2"> </span></div>
 <div id="maskresult"><span id="spinner" style="display:none;"> <%= image_tag 'spinner.gif' %></span>   </div>
+
 
 <div id="cliphelp">
   <p>1. Draw around the area you wish to keep.  </p>
@@ -35,11 +39,11 @@
     :complete => "closeBigModalDialog2();jqHighlight('maskresult');updateOtherMaps();",
     :html => {:id => 'clip_form2'} ,
     :url => {:controller => 'maps', :action=> 'save_mask_and_warp', :id => @map.id }) do  -%>
-    <%=  hidden_field_tag "output" %>
-    <%= submit_tag "Mask Map!" %>
-  
-    <br />
 
+    <%= hidden_field_tag "output" %>
+    <%= submit_tag "Mask Map!" %>
+  <% end -%>
+  
     <%= link_to_remote  'Delete mask',
       :url => {:controller => 'maps', :action => 'delete_mask', :id => @map },
       :update => "maskresult",
@@ -49,6 +53,5 @@
       :complete => "jqHighlight('maskresult');updateOtherMaps();"
   %>
 
-  <% end -%>
 
 </div>

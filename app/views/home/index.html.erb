@@ -1,6 +1,5 @@
-<div id="container">
 
-<div id="left-col">
+<div class="col-lg-3">
   <h2>Welcome!</h2>
 
   <p>
@@ -18,28 +17,25 @@
   </p>
 
   <div id="video-intro">
-   <iframe width="320" height="280" src="//www.youtube-nocookie.com/embed/ht05Veu7p-c" frameborder="0" allowfullscreen></iframe>
+   <iframe width="260" height="227" src="//www.youtube-nocookie.com/embed/ht05Veu7p-c" frameborder="0" allowfullscreen></iframe>
   </div>
 
   <div id="tag-cloud">
-    <h4 class="smaller">Tags</h4>
+    <h2>Tags</h2>    
     <% tag_cloud @tags, %w(css1 css2 css3 css4) do |tag, css_class| %>
-      <%= link_to tag.name, { :controller=>:maps, :action => :tag, :id => tag.name }, :class => css_class %>
+      <span class="label label-default"><%= link_to tag.name, { :controller=>:maps, :action => :tag, :id => tag.name }, :class => css_class %></span>
     <% end %>
   </div>
 </div>
 
-<div id="right-col">
-  <div id="search-form">
-    <%= render :partial => 'shared/search' -%>
-</div>
+<div class="col-lg-9">
 
-<div id="map_list">
-  <h2><%= link_to 'Browse All Maps', maps_path %>
-  </h2>
+
+<%= render :partial => 'shared/search' -%>
+
 
   <% if @my_maps -%>
-    <h3>My Maps</h3>
+    <h2>My Maps</h2>
     <table id="map_table" cellpadding="3">
     <thead>
         <tr>
@@ -54,9 +50,8 @@
     <%= link_to "See all of My Maps", my_maps_path(:user_id => current_user) -%>
   <%end -%>
 
-  <br/>
 
-  <h3>Last Rectified Maps</h3>
+  <h2>Last Rectified Maps</h2>
 
   <table id="map_table" cellpadding="3">
       <thead>
@@ -72,11 +67,7 @@
 
   <%= link_to 'See all Maps', maps_path %>
 
-</div>
-
-<div id="layer_list">
-
-  <h3>Recent Mosaics</h3>
+  <h2>Recent Mosaics</h2>
   <table id="layer_table" cellpadding="3">
     <thead>
       <tr>
@@ -91,8 +82,5 @@
   </table>
 <%= link_to "View all Mosaics", layers_path %><br />
 <%= link_to "Create a new mosaic", new_layer_path %>
-</div>
 
-</div>
-<div class="clear"></div>
 </div>
