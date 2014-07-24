@@ -126,11 +126,11 @@ class Map < ActiveRecord::Base
       o_stdin, o_stdout, o_stderr = Open3::popen3(command)
       logger.info command
 
-      o_out = o_stdout.readlines.to_s
-      o_err = o_stderr.readlines.to_s
+      o_out = o_stdout.readlines
+      o_err = o_stderr.readlines
       if o_err.size > 0
-        logger.error "Error gdal overview script" + o_err
-        logger.error "output = "+o_out
+        logger.error "Error gdal overview script" + o_err.to_s
+        logger.error "output = " + o_out.to_s
       end
 
       self.filename = tiffed_filename
@@ -500,7 +500,7 @@ class Map < ActiveRecord::Base
     gcps
   end
 
-     def mask!
+  def mask!
 
       self.mask_status = :masking
       save!
@@ -531,25 +531,23 @@ class Map < ActiveRecord::Base
       "#{GDAL_PATH}gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
       )
       logger.info "#{GDAL_PATH}gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
-      r_out  = r_stdout.readlines.to_s
-      r_err = r_stderr.readlines.to_s
+      r_out  = r_stdout.readlines
+      r_err = r_stderr.readlines
 
        #if there is an error, and it's not a warning about SRS
       if r_err.size > 0 && r_err.split[0] != "Warning"
          #error, need to fail nicely
-         logger.error "ERROR gdal rasterize script: "+ r_err
-         logger.error "Output = " +r_out
-         r_out = "ERROR with gdal rasterise script: " + r_err + "<br /> You may want to try it again? <br />" + r_out
-
+         logger.error "ERROR gdal rasterize script: #{r_err.to_s}"
+         logger.error "Output = #{r_out.to_s}"
+         r_out = "ERROR with gdal rasterise script: #{r_err.to_s}<br /> You may want to try it again? <br />#{r_out.to_s}"
       else
-
         r_out = "Success! Map was cropped!"
       end
 
       self.mask_status = :masked
       save!
-      r_out
-   end
+      r_out.to_s
+  end
 
    # gdal_rasterize -i -burn 17 -b 1 -b 2 -b 3 SSS.json -l OGRGeoJson orig.tif
    # gdal_rasterize -burn 17 -b 1 -b 2 -b 3 SSS.gml -l features orig.tif
@@ -771,7 +769,7 @@ class Map < ActiveRecord::Base
      ext_command = "#{GDAL_PATH}gdal_translate -of png #{warped_filename} #{warped_png_filename}"
      stdin, stdout, stderr = Open3::popen3(ext_command)
      logger.debug ext_command
-     if stderr.readlines.to_s.size > 0
+     if stderr.readlines.size > 0
        logger.error "ERROR convert png #{warped_filename} -> #{warped_png_filename}"
        logger.error stderr.readlines.to_s
        logger.error stdout.readlines.to_s

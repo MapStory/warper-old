@@ -316,7 +316,7 @@ class MapsController < ApplicationController
         @maps = Map.public.paginate(paginate_params)
       end
 
-      @html_title = "Browse Maps"
+      @html_title = "Browse All Maps"
       if request.xhr?
         render :action => 'index.rjs'
       else

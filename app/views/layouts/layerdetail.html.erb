@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title><%= h(@html_title) || ''-%> MapStory : Map Warper </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <%= render "layouts/includes" %>
+    <%= render "layouts/scripts" %>
+
+    <%= javascript_include_tag "jquery-ui-1.9.2.custom.min.js" %>
+    <%= javascript_include_tag "prototype" %>    
+    <%= javascript_include_tag "jquery-warper" %>
+    <%= javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>    
+    <%= javascript_include_tag "layers" %>
+
+    <script type="text/javascript">
+      OpenLayers.ImgPath = '<%=request.protocol + request.host_with_port%>/javascripts/openlayers/img/';
+      var jsPath = '/javascripts/';
+      var cssPath = '/stylesheets/';
+      var gMfLocation = jsPath + 'dig/mfbase/mapfish/';
+    </script>
+
+    <script type="text/javascript">
+      jQuery(function() {
+        jQuery("#year-dialog").dialog({
+          bgiframe: true,
+          autoOpen: false,
+          title: "Depicts Year (admin only)",
+          height: 200,
+          hide: 'slow',
+          width: 250,
+          modal: true,
+          buttons: {
+            Cancel: function() {
+              jQuery(this).dialog('close');
+            }
+          },
+          close: function() {  }
+        });
+        jQuery("#edit-year-link-top").click(function(e){
+          jQuery("#year-dialog").dialog('open');
+        });
+
+        jQuery("#wooTabs").bind("tabsshow", function(event, ui) {
+          jQuery(".hidden-at-start").hide();
+        });
+
+        jQuery("#wooTabs").bind("tabsshow", function(event, ui){
+
+          if (ui.panel.id == "Show"){
+            if (typeof layerMap != 'undefined'){
+              layerMap.updateSize();
+            }
+          } else if (ui.panel.id == "Digitize"){
+            if (typeof digitizerPanel != 'undefined'){
+              digitizerPanel.doLayout();
+              mapPanel.map.zoomToExtent(digextent);
+            }
+          }
+        });
+      });
+    </script>
+    <%= yield :head %>    
+  </head>
+<% if @onload -%>
+  <body data-spy="scroll" data-target="#scrollTarget" data-offset="150" onload="<%=@onload%>">
+<%else-%>
+  <body data-spy="scroll" data-target="#scrollTarget" data-offset="150">
+<%end%>
+    <div id="globalWrapper">
+      <%= render 'shared/header' %>
+      <section class="slice" id="dashboard">
+        <div class="container">
+          <div class="row">
+            <div class="row-lg-12">
+              <table id="map_table">
+                <%= render :partial => 'layers/layer_detail', :object => @layer, :locals => {:variety => "detail"} %>
+              </table>
+  
+              <% @tabs = [{:name=>"show",:divname=>"Show", :label=>"Show", :path=>layer_path(:id => @layer)},
+                {:name=>"edit",:divname=>"Edit", :label=>"Edit", :path=>edit_layer_path(:id => @layer)},
+                {:name=>"digitize",:divname=>"Digitize", :label=>"Digitize", :path=>digitize_layer_path(:id => @layer)},
+                {:name=>"export",:divname=>"Export", :label=>"Export", :path=>export_layer_path(:id => @layer)},
+                {:name=>"metadata", :divname=>"Metadata", :label=>"Metadata", :path => metadata_layer_path(:id => @layer)},
+                {:name=>"comments",:divname=>"Comments", :label=>"Comments", :count=>@layer.comments.size.to_s, :path=>comments_layer_path(:id => @layer)}
+               ]  %>
+              <div id="wooTabs">
+                <ul class="nav nav-tabs">
+                  <% @tabs.each do |tab| -%>
+                    <% if @current_tab == tab[:name] -%>
+                      <% tab[:path] = "#"+tab[:divname]  -%>
+                      <% @current_tab_divname = tab[:divname] -%>
+                      <li class="active">
+                    <% else %>
+                      <li>
+                    <% end -%>
+                    <% unless @disabled_tabs && @disabled_tabs.include?(tab[:name]) -%>
+                       <a rel="history" href="<%=tab[:path]%>" title="<%=tab[:label]%>"><span><%=tab[:label]%><% if tab[:count] -%> (<%=tab[:count]-%>)<%end-%> </span></a></li>
+                    <% end -%>
+                  <% end -%>
+                </ul>
+                <div id="<%=@current_tab_divname %>" >
+                  <%= flash_messages %>
+                  <%= yield %>
+                </div>
+              </div>
+              <div id="panel-under-tabs"></div>
+
+              <% if admin_authorized? %>
+                <div id="year-dialog" class="hidden">
+                  Add / edit year that this mosaic depicts: <br />
+                  <% remote_form_for :layer, @layer, :html => {:id =>"year-form" },
+                    :url => url_for(:controller => 'layers', :action => 'update_year', :id => @layer.id),
+                    :complete => "jQuery('#year-dialog').dialog('close');jQuery('#depicts-year-span-top').effect('highlight', {}, 3000); ",
+                    :update => "depicts-year-span-top",
+                    :failure => "alert('Sorry, something went wrong trying to save this');"  do |f| %>
+                    <%= f.text_field :depicts_year, :size =>10 %>
+                    <%= submit_tag "Save" %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </section>
+    <%= render "shared/footer" %>
+    </div>
+    <%= render "shared/analytics" %>    
+  </body>
+</html>

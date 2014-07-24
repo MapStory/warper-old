@@ -135,12 +135,12 @@ class Layer < ActiveRecord::Base
       command = "ogrinfo #{tileindex} -al -so -ro"
       logger.info command
       stdin, stdout, stderr = Open3::popen3(command)
-      sout = stdout.readlines.to_s
-      serr = stderr.readlines.to_s
+      sout = stdout.readlines
+      serr = stderr.readlines
       if serr.size > 0
-        logger.error "Error set bounds with layer get extent "+ err
+        logger.error "Error set bounds with layer get extent "+ serr.to_s
       else
-        extent = sout.scan(/^\w+: \(([0-9\-.]+), ([0-9\-.]+)\) \- \(([0-9\-.]+), ([0-9\-.]+)\)$/).flatten.join(",")
+        extent = sout.to_s.scan(/^\w+: \(([0-9\-.]+), ([0-9\-.]+)\) \- \(([0-9\-.]+), ([0-9\-.]+)\)$/).flatten.join(",")
 
         self.bbox = extent.to_s
         extents =  extent.split(",").collect{|f| f.to_f}

@@ -155,7 +155,7 @@ end
       @page = "for_map"
     else
       @layers = Layer.paginate(paginate_params)
-      @html_title = "Browse Mosaic List"
+      @html_title = "Browse All Mosaics"
     end
     
     if request.xhr?
@@ -332,9 +332,9 @@ end
     end
 
     if @layer.destroy
-      flash[:notice] = "Layer deleted!"
+      flash[:notice] = "Mosaic deleted!"
     else
-      flash[:notice] = "Layer wasnt deleted"
+      flash[:notice] = "Mosaic wasn't deleted"
     end
     respond_to do |format|
       format.html { redirect_to(layers_url) }
@@ -346,7 +346,7 @@ end
     @current_tab = "export"
     @selected_tab = 3
 
-    @html_title = "Export Layer "+ @layer.id.to_s
+    @html_title = "Export Mosaic "+ @layer.id.to_s
     if request.xhr?
       @xhr_flag = "xhr"
       render :layout => "layer_tab_container"

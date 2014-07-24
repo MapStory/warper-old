@@ -14,7 +14,7 @@
     <%#= javascript_tag "jQuery.noConflict();" -%>
 
     <%= javascript_include_tag "prototype" %>    
-    <%= javascript_include_tag "jquery.history.js" %>
+    <%#= javascript_include_tag "jquery.history.js" %>
     <%= javascript_include_tag "jquery-warper" %>
     <%= javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
     <%= javascript_include_tag "layers" %>
@@ -55,20 +55,6 @@
 
         }); //end tabshow
       });//end jquery function
-    </script>
-
-    <script type="text/javascript">
-      jQuery(document).ready(function(){
-
-        // set onlick event for buttons
-        jQuery("a[rel='history']").click(function(){
-          //
-          var hash = this.href;
-          hash = hash.replace(/^.*#/, '') + tabSuffix;
-
-          jQuery.historyLoad(hash);
-        });
-      });
     </script>
 
     <%= yield :head %>    
