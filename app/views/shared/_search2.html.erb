@@ -1,0 +1,41 @@
+<% form_tag url_for(:controller => "maps"), :id=>"searchform", :class=> "navbar-form",:name=> "searchform", :method => :get do -%>
+<div class="row">
+  <div class="col-lg-3">
+      Search  
+     <select id="field" name="field">
+        <%= options_for_select([ ["Title", "title"], 
+                               ["Description", "description"], 
+                               ["Publisher", "publisher"],
+                               ["Author", "authors"],
+                                ["Tags", "tags"]], @field)-%>
+        </select>
+      for 
+
+
+  </div>
+  <div class="col-lg-6">
+    <div class="input-group mapsearch">
+      <%= text_field_tag 'query', @query, :class => "form-control" -%>
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="submit">Go</button>
+      </span>
+    </div>
+  </div>
+  <div class="col-lg-3">
+
+    <% if @show_warped == "1" -%>
+      <% check_all = false -%>
+      <% check_rectified = true -%>
+    <% else -%>
+      <% check_all = true -%>
+      <% check_rectified = false -%>
+    <% end %>
+
+    <label for="all_maps">All maps</label>
+    <%= radio_button_tag('show_warped', 0, check_all, :id => 'all_maps') %>
+    <label for="rectified_maps">Rectified maps only</label>
+    <%= radio_button_tag('show_warped', 1, check_rectified, :id => 'rectified_maps') %>
+
+  </div>
+</div>
+<% end -%>

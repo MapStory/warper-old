@@ -1,4 +1,4 @@
-<tr>
+<tr class="hltrow">
   <td>
     <a name="a-map-row-<%=map.id%>"></a>
     <%= link_to image_tag(map.upload.url(:thumb)), map %>
@@ -16,15 +16,13 @@
       </span>
 
       <span class="map_year">
-        <% if map.depicts_year -%>
+        <% unless map.depicts_year.blank? -%>
           Depicts: <%= map.depicts_year -%>
         <% end -%>
       </span>
       <% if !map.public? %><span class="publicprivate">(Not listed)</span><% end-%>
     </div>
     <div class="map_links_bigger">
-      <%= link_to("View Map",map) -%>
-      |
       <%= link_to("Rectify Map", map_path(:id=> map,:anchor=>"Rectify_tab")) -%>
 
       <% if logged_in? -%>
@@ -49,11 +47,6 @@
       <%if map.status == :warped -%> |
         <%= link_to("Download KML", map_url(:id => map, :format=>:kml)) -%>
       <% end -%>
-    </div>
-    <div class="map_links">
-      <% if map.source_uri %>
-      Links: <%= link_to 'Source / Biblio Ref', map.source_uri  %>
-       <% end %>
     </div>
 
   </td>

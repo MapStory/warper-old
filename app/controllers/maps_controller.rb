@@ -397,7 +397,7 @@ class MapsController < ApplicationController
 
 
   def edit
-    @current_tab = :edit
+    @current_tab = "edit"
     @selected_tab = 1
     @html_title = "Editing Map #{@map.title} on"
     choose_layout_if_ajax

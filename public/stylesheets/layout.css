@@ -397,6 +397,7 @@ hr {
 .slice {padding:33px 0;}
 
 /*** buttons ***/
+/*
 .btn {
 	padding:15px 20px;
 	font-size:18px;
@@ -430,7 +431,9 @@ hr {
 	margin-right:0em;
 }
 
-/*** call to actioon ***/
+*/
+
+/*** call to action ***/
 
 .ctaBox{padding:33px 11px;}
 .ctaBoxFullwidth{padding:0;}

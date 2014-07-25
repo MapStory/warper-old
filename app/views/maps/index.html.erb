@@ -1,34 +1,35 @@
-<div id="search-form"><%= render :partial => 'shared/search' -%></div>
-
-<div class="browse">
-
-  <h2>Browse Maps
-    <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
-    <%end-%>
-  </h2>
-
-  <div id="search-sort">
-    <%= render :partial => 'shared/sort' -%>
+<div class="col-lg-12">
+  <div id="search-form">
+    <%= render :partial => 'shared/search' -%>
   </div>
-  <table id="map_table" cellpadding="3">
-    <thead>
-      <tr>
-      <th>Map</th>
-      <th>Title</th>
-      <th>Last modified</th>
-      <th>Status</th>
-      </tr>
-    </thead>
+  <div class="browse">
+    <h2>Browse Maps
+      <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
+      <%end-%>
+    </h2>
 
-    <tbody id="results">
-      <%= render :partial => 'map', :collection => @maps unless @maps.nil? %>
-    </tbody>
-  </table>
+    <div id="search-sort">
+      <%= render :partial => 'shared/sort' -%>
+    </div>
+    <table id="map_table" cellpadding="3">
+      <thead>
+        <tr>
+        <th>Map</th>
+        <th>Title</th>
+        <th>Last modified</th>
+        <th>Status</th>
+        </tr>
+      </thead>
 
-  <div id="search-pagination-bottom">
-    <%= will_paginate @maps, :renderer => FlowPagination::LinkRenderer %>
+      <tbody id="results">
+        <%= render :partial => 'map', :collection => @maps unless @maps.nil? %>
+      </tbody>
+    </table>
+
+    <div id="search-pagination-bottom">
+      <%= will_paginate @maps, :renderer => FlowPagination::LinkRenderer %>
+    </div>
+
   </div>
-
 </div>
-
 

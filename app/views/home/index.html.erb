@@ -35,8 +35,9 @@
 
 
   <% if @my_maps -%>
+  <div class="mapblock">
     <h2>My Maps</h2>
-    <table id="map_table" cellpadding="3">
+    <table id="my_map_table" cellpadding="3">
     <thead>
         <tr>
           <th>Map</th>
@@ -48,11 +49,11 @@
         <%= render :partial => 'maps/map', :collection => @my_maps  unless @my_maps.nil? %>
     </table>
     <%= link_to "See all of My Maps", my_maps_path(:user_id => current_user) -%>
+  </div>
   <%end -%>
 
-
+  <div class="mapblock">
   <h2>Last Rectified Maps</h2>
-
   <table id="map_table" cellpadding="3">
       <thead>
         <tr>
@@ -64,9 +65,10 @@
       </thead>
     <%= render :partial => 'maps/map', :collection => @maps unless @maps.nil? %>
   </table>
-
   <%= link_to 'See all Maps', maps_path %>
+  </div>
 
+  <div class="mapblock">
   <h2>Recent Mosaics</h2>
   <table id="layer_table" cellpadding="3">
     <thead>
@@ -80,7 +82,8 @@
     </thead>
     <%= render :partial => 'layers/layer', :collection => @layers unless @layers.nil? %>
   </table>
-<%= link_to "View all Mosaics", layers_path %><br />
-<%= link_to "Create a new mosaic", new_layer_path %>
+  <%= link_to "View all Mosaics", layers_path %><br />
+  <%= link_to "Create a new mosaic", new_layer_path %>
+  </div>
 
 </div>

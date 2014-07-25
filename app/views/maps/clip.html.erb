@@ -44,14 +44,16 @@
     <%= submit_tag "Mask Map!" %>
   <% end -%>
   
-    <%= link_to_remote  'Delete mask',
+  <div class="mapbtn">
+    <%= link_to_remote  'Delete mask',{
       :url => {:controller => 'maps', :action => 'delete_mask', :id => @map },
       :update => "maskresult",
       :confirm => "Really delete mask and start over?",
       :success => "destroyMask();",
       :failure => "alert('that didnt work as expected, sorry');",
-      :complete => "jqHighlight('maskresult');updateOtherMaps();"
-  %>
-
+      :complete => "jqHighlight('maskresult');updateOtherMaps();"},
+      :class => "btn btn-danger"
+    %>
+  </div>
 
 </div>

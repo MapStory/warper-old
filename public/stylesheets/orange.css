@@ -112,11 +112,13 @@ ul.iconsList li a:hover, ul.iconsList i {
 }
 
 /*** buttons ***/
+/*
 .btn {
 	background: white;
 	color:black;
 	border:1px solid gainsboro;
 }
+*/
 
 .btn-filter {
 	background: whitesmoke;
@@ -146,18 +148,6 @@ ul.iconsList li a:hover, ul.iconsList i {
 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
 	background: #46443B;
-}
-.btn-info {
-	background: #ffffff;
-}
-.btn-success {
-	background: #ffffff;
-}
-.btn-warning {
-	background: #ffffff;
-}
-.btn-danger {
-	background: #ffffff;
 }
 .btn-link, .btn-link:active, .btn-link[disabled], .btn-link:hover {
 	background:none;
@@ -351,8 +341,8 @@ section#projectDescription {
 }
 
 /*** Form ***/
+
 .form-control:focus{
-	border: none;
 	background-color:#ddd;
 	box-shadow:none;
 	-webkit-box-shadow:none;
@@ -361,8 +351,8 @@ section#projectDescription {
 .form-control {
 	color: #444;
 	background-color:#ededed;
-    border:none;
 }
+
 .error {color: #B94A48;
 background-color: #F2DEDE;
 border-color: #EED3D7;}
