@@ -27,13 +27,8 @@
   //set up jquery for the hidden tables
   jQuery(document).ready(function(){
       jQuery('#popoverNotice').hide();
-      jQuery('#gcp_table_div').hide();
       jQuery('#advanced_form_options').hide();
 
-      jQuery('#controlPointLink').click(function() {
-        jQuery('#gcp_table_div').toggle('slow');
-        return false;
-        });
       jQuery('#advancedLink').click(function(){
         jQuery('#advanced_form_options').toggle('slow');
         return false;
@@ -95,8 +90,8 @@
 <div id="rectifyNotice">
 <span id="spinner" style="display:none;"><%= image_tag 'spinner.gif' %></span><span id="gcp_notice"></span>
 </div>
-<a href="#" id="controlPointLink">Control Points</a>
-<div id = "div_gcp_form">
+<h2>Control Points</h2>
+<div id="div_gcp_form">
   <% form_for(:gcp, :html => {:id => 'gcp_form'} , :url => {:controller => 'map', :action=> 'rectify', :id => @map }) do |f| %>
     <div id="gcp_table_div" >
       <table id="gcp_table" class="gcpTabClass">
