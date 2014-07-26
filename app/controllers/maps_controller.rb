@@ -694,6 +694,7 @@ class MapsController < ApplicationController
 
 
   def metadata
+    @current_tab = "metadata"
     choose_layout_if_ajax
   end
 #################################################

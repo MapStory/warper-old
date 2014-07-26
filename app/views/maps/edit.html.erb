@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-lg-12">
+	<div class="col-sm-12">
 		<h1>Editing Map Attributes</h1>
 		<%= error_messages_for :map %>
 	</div>
@@ -9,7 +9,7 @@
 
 <%- if (current_user = @map.owner || admin_authorized?) -%>
 <div class="row">
-	<div class="col-lg-12">
+	<div class="col-sm-12">
   	<div class="mapbtn"><%= link_to 'Delete this map.', {:controller=>"maps", :action=>"delete", :id => @map}, :class => "btn btn-danger" %></div>
   </div>
 </div>

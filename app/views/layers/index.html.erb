@@ -1,10 +1,7 @@
 <% if @page == "for_map" %>
-  <table>
-    <%= render :partial => 'maps/map_detail', :object => @map %>
-  </table>
+  <%= render :partial => 'maps/map', :object => @map %>
   <div id="search-title"><%= @html_title -%></div>
   <div class="browse">
-
 <% else %>
 
   <%= render :partial => 'search' -%>

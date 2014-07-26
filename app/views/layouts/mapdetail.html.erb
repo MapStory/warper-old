@@ -65,11 +65,7 @@
         <div class="container">
           <div class="row">
             <div class="row-sm-12">
-
-              <%# TODO: swap this out... %>
-              <table id="map_table">
-                <%= render :partial => 'maps/map_detail', :object => @map, :locals => {:variety => "detail"} %>
-              </table>
+              <%= render :partial => 'maps/map_detail', :object => @map %>
 
               <% @tabs = [{:name=>"show",:divname=>"Show", :label=>"Show", :path=>map_path},
                  {:name=>"edit",:divname=>"Edit", :label=>"Edit", :path=>edit_map_path(:id => @map)},

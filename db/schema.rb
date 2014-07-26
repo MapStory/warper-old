@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130314181308) do
+ActiveRecord::Schema.define(:version => 20140726191206) do
 
 # Could not dump table "audits" because of following ArgumentError
 #   wrong number of arguments (2 for 4)

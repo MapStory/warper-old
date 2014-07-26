@@ -1,40 +1,42 @@
-<h2>Map</h2>
+<div class="row">
+  <div class="col-lg-6">
+    <h1>Export</h1>
+    <h2>Exporting to MapStory</h2>
+    <p>MapStory accepts temporally sequenced sets of raster images. 
+      To add the images you warp here, simply download them to your 
+      desktop and upload them as a single zipped file to MapStory. 
+      There’s more 
+      directions <a href="http://mapstory.org/mapstory/manual/#prep-raster" target="_blank">here</a>.
+    </p>
+  </div>
 
-
-<h3>Exporting to MapStory</h3>
-
-<p>MapStory accepts temporally sequenced sets of raster images. 
-  To add the images you warp here, simply download them to your 
-  desktop and upload them as a single zipped file to MapStory. 
-  There’s more 
-  directions <a href="http://mapstory.org/mapstory/manual/#prep-raster" target="_blank">here</a>.
-
-
-<p>Use the links below to download your files in a range of file types:</p>
-
-<ul>
-  <li>
-    GeoTiff: <%= link_to  "Download rectified GeoTiff", export_map_url(:id => @map, :format => :tif) %>
-  </li>
-  <li>
-    PNG: <%= link_to  "Download rectified PNG", export_map_url(:id => @map, :format => :png) %>
-    (and associated <%= link_to ".aux.xml", export_map_url(:id => @map, :format => :aux_xml) %> file)
-  </li>
-  <li>KML: <%= link_to("Download KML file",  map_url(:id => @map, :format => :kml)) %>
-  (<%= link_to("View KML in Google Maps", "http://maps.google.com?q="+map_url(:id => @map, :format => :kml), :target => "_blank") %> )</li>
-  <li>
-    <% josm_url = url_for(wms_map_url(:id => @map)) + "?request=GetMap&version=1.1.1&styles=&format=image/png&srs=epsg:4326&exceptions=application/vnd.ogc.session.inimage&" %>
-    WMS: <%= link_to("WMS base URL",wms_map_url(:id=>@map) )%>
-    (<%= link_to "for JOSM OpenStreetMap Editor", josm_url %>    )
-  </li>
-  <li>
-  <% tile_url = url_for(:controller => "maps", :action => "tile", :x => "x", :y => "y", :z => "z", :only_path => false) %>
-    Tiles (Google/OSM scheme): <%=link_to "Tiles base URL", tile_url %>
-  </li>
-  <li>
-    Gaia GPS: <%=link_to "Import map source", @gaia_url %>
-  </li>
-  <li>
-    Offline Topo Maps: <%=link_to "Import map source", @otm_url %>
-  </li>
-</ul>
+  <div class="col-lg-6">
+    <h2>Downloads</h2>
+    <ul>
+      <li>
+        GeoTiff: <%= link_to  "Download rectified GeoTiff", export_map_url(:id => @map, :format => :tif) %>
+      </li>
+      <li>
+        PNG: <%= link_to  "Download rectified PNG", export_map_url(:id => @map, :format => :png) %>
+        (and associated <%= link_to ".aux.xml", export_map_url(:id => @map, :format => :aux_xml) %> file)
+      </li>
+      <li>KML: <%= link_to("Download KML file",  map_url(:id => @map, :format => :kml)) %>
+      (<%= link_to("View KML in Google Maps", "http://maps.google.com?q="+map_url(:id => @map, :format => :kml), :target => "_blank") %> )</li>
+      <li>
+        <% josm_url = url_for(wms_map_url(:id => @map)) + "?request=GetMap&version=1.1.1&styles=&format=image/png&srs=epsg:4326&exceptions=application/vnd.ogc.session.inimage&" %>
+        WMS: <%= link_to("WMS base URL",wms_map_url(:id=>@map) )%>
+        (<%= link_to "for JOSM OpenStreetMap Editor", josm_url %>    )
+      </li>
+      <li>
+      <% tile_url = url_for(:controller => "maps", :action => "tile", :x => "x", :y => "y", :z => "z", :only_path => false) %>
+        Tiles (Google/OSM scheme): <%=link_to "Tiles base URL", tile_url %>
+      </li>
+      <li>
+        Gaia GPS: <%=link_to "Import map source", @gaia_url %>
+      </li>
+      <li>
+        Offline Topo Maps: <%=link_to "Import map source", @otm_url %>
+      </li>
+    </ul>
+  </div>
+</div>

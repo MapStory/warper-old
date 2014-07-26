@@ -62,40 +62,38 @@
 
   <% @onload="init();popul();" -%>
 
- <div id ="from_map_block">
-   <div id="from_map" class="map-off"></div>
- <span class="tie_button"></span>
- </div>
- <div id="link-map-button" class="link-map-button-off"
-   onclick="toggleJoinLinks();" title="Pan/zoom lock" ></div>
-
- <div id = "to_map_block">
-   <div id="to_map_notification" class="hidden"><div id="to_map_notify_close"><a href="#" title="Close popup">X</a></div><div id="to_map_notification_inner"></div> </div>
-   <div id="to_map" class="map-off"></div>
-   <div id="warped-slider"><div class="ui-slider-handle"></div></div>
+  <div id ="from_map_block">
+    <div id="from_map" class="map-off"></div>
+    <span class="tie_button"></span>
   </div>
+  <div id="link-map-button" class="link-map-button-off" onclick="toggleJoinLinks();" title="Pan/zoom lock" ></div>
+
+  <div id = "to_map_block">
+    <div id="to_map_notification" class="hidden"><div id="to_map_notify_close"><a href="#" title="Close popup">X</a></div><div id="to_map_notification_inner"></div> </div>
+    <div id="to_map" class="map-off"></div>
+    <div id="warped-slider"><div class="ui-slider-handle"></div></div>
+  </div>
+  
   <div id="popoverNotice" class="hidden-at-start"><%= image_tag "spinner_white.gif" %><span id="noticeMessage"></span></div>
+
   <div id="gcp"></div>
   
   <div id="addPointDiv" class="addPoint">
-    <em>Add control point on both maps, then click</em><br>
-    <input type="button" id="GcpButton" value="Add Control Point" onclick="set_gcp();" class="gcp_button" /><br>
+    <em>Add control point on both maps, then click</em>
+    <input type="button" id="GcpButton" value="Add Control Point" onclick="set_gcp();" class="gcp_button" />
     <em> Do this for at least three points.</em>
   </div>
 
 
-<fieldset>
-
-<legend>Control Panel</legend>
 <div id="rectifyNotice">
-<span id="spinner" style="display:none;"><%= image_tag 'spinner_white.gif' %></span><span id="gcp_notice"></span>
+  <span id="spinner" style="display:none;"><%= image_tag 'spinner_white.gif' %></span>
+  <span id="gcp_notice"></span>
 </div>
 <h2>Control Points</h2>
 <div id="div_gcp_form">
   <% form_for(:gcp, :html => {:id => 'gcp_form'} , :url => {:controller => 'map', :action=> 'rectify', :id => @map }) do |f| %>
     <div id="gcp_table_div" >
       <table id="gcp_table" class="gcpTabClass">
-
         <thead>
           <tr><th>Point</th><th>Image X</th><th>Image Y</th><th>Lon</th><th>Lat</th><th id="errortitle">Error(<%=sprintf("%.2f",@map.error) %>)</th><th></th>
           </tr>
@@ -128,16 +126,16 @@
         <!-- <option value="lanczos">Lanczos</option> this is very very slow -->
       </select>
     </div>
-    <p>
+    <div class="warpsubmit">
     <%= submit_to_remote 'submit', 'Warp Image! &rarr;',
       :url => {:controller => 'maps', :action=> 'rectify', :id =>@map },
       :before => "bigModalDialog('Rectifying.....');",
       :failure => "gcp_notice('Sorry, there appears to be an error sending the request to the server, try again?...');",
       :complete => "closeBigModalDialog();",
       :html => { :class  => "warp_button", :id=>"warp_button"} %>
-      </p>
+    </div>
       <div id ="clipping_mask_buttons">
-        Apply <%= link_to "clipping mask", map_path(:id =>@map, :anchor=>"Crop_tab") %> when rectifying?
+        Apply clipping mask when rectifying?
         <label for="use_mask1">
         <input <% if @map.mask_status == :masked -%>checked<%end-%> id="use_mask1" type="radio" name="use_mask" value="true" />Yes
         </label>
@@ -148,4 +146,3 @@
 
     <% end %>
   </div>
-</fieldset>

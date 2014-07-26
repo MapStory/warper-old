@@ -98,12 +98,51 @@ th {
   font-weight: normal;
 }
 
+.tiny-text {
+  font-size: 80%;
+  color: #777;
+}
 .browse h1 {
   margin-top: .4em;
 }
 
 #wooTabs {
   margin-top: 15px;
+}
+
+#advancedLink{
+  margin-top: 1em;
+}
+#advanced_form_options {
+  margin-bottom: 1em;
+}
+
+#gcp_table_div {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+#gcp_table {
+  margin-bottom: 15px;
+}
+
+#gcp_table td {
+  color: #46443b;
+}
+
+/* add control point button */
+#addPointDiv {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.warpsubmit {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+#rectifyNotice {
+  margin-bottom: 15px;
 }
 
 
@@ -113,41 +152,60 @@ th {
   position: relative;
   z-index: 22;
 	height: 600px;
-	border:1px solid #999999;
+	border:1px solid gainsboro;
 }
-#to_map_block
-{
+#to_map_block {
   position: relative;
   z-index: 20;
 	float:right;
-  border:1px solid gray;
+  border:1px solid gainsboro;
 	width:49.5%;
 }
 
-#from_map_block
-{
+#from_map_block {
   position: relative;
   z-index: 20;
 	float:left;
-	border:1px solid gray;
+	border:1px solid gainsboro;
 	width:49.5%;
 }
-#from_map,#to_map
-{
-        position: relative;
-        z-index: 2;
+#from_map,#to_map {
+  position: relative;
+  z-index: 2;
 	height:420px;
-        cursor: crosshair;
-
+  cursor: crosshair;
 }
 
-
-
-/* Deal with notices */
-
-#gcp_notice {
-	background-color: red;
+#gcp {
+  clear:both;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:center;
 }
+
+#gcp input.gcp_button {
+  font-size:84%;
+  font-weight:bold;
+  margin-top:5px;
+  padding:2px;
+        /* cursor: pointer; */
+        
+}
+
+#gcp input.gcp_button_highlighted {
+  font-size:84%;
+  font-weight:bold;
+  margin-top:5px;
+  padding:2px;
+        cursor: pointer;
+        border: 2px solid #00F2AB;
+        
+}
+
+.map {
+  cursor: crosshair;
+}
+
 
 /* Sortable */
 #sortable {list-style-type: none; margin:0; padding: 0;}
@@ -169,7 +227,7 @@ clear: both;
 }
 
 
-/* OPENLAYERS spechul stilz */
+/* OPENLAYERS */
 div.olControlMousePosition
 {
 	bottom:0;

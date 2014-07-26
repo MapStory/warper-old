@@ -1,9 +1,11 @@
-    <h2>Edit Your Account</h2>
+<div class="col-sm-12">
+	<h1>Edit Your Account</h1>
 
-    <p><%= link_to "Show Profile", user_path(@user) %></p>
-    <%= error_messages_for :user %>
+	<p><%= link_to "Show Profile", user_path(@user) %></p>
+	<%= error_messages_for :user %>
 
-    <% form_for :user, :url => user_url(@user), :html => { :method => :put } do |f| %>
-    <p>Profile Description:<br /><%= f.text_area :description, :rows => '4' %></p>
-    <%= submit_tag "Save" %>
-    <% end %>
+	<% form_for :user, :url => user_url(@user), :html => { :method => :put } do |f| %>
+	<p>Profile Description:<br /><%= f.text_area :description, :rows => '4' %></p>
+	<%= submit_tag "Save" %>
+	<% end %>
+</div>

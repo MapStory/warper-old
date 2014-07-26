@@ -1,5 +1,4 @@
 <div class="row">
-
   <div class="col-sm-8">
     <div class="maplist_img">
       <a name="a-map-row-<%=map.id%>"></a>
@@ -12,7 +11,7 @@
 
     <div class="map_description"><span><%=strip_brackets(h(map.description)) -%>
         <% if map.layers.count > 0 %>
-          (In <%=link_to(pluralize(map.layers.count, 'layer'), map_layers_path(map.id)) -%>)
+          (In <%=link_to(pluralize(map.layers.count, 'mosaic'), map_layers_path(map.id)) -%>)
         <%end %>
       </span>
 
@@ -24,7 +23,7 @@
       <% if !map.public? %><span class="publicprivate">(Not listed)</span><% end-%>
     </div>
     <div class="map_links_bigger">
-      <%= link_to("Rectify Map", map_path(:id=> map,:anchor=>"Rectify_tab")) -%>
+      <%= link_to("Rectify Map", warp_map_path(:id=> map)) -%>
 
       <% if logged_in? -%>
         <% current_user_maps = current_user.maps %>
@@ -51,11 +50,8 @@
     </div>
   </div>
 
-  <div class="col-sm-2">
-    Modified <%=h time_ago_in_words(map.updated_at) -%> ago
-  </div>
-
-  <div class="col-sm-2">
+  <div class="col-sm-4">
+    Modified <%=h time_ago_in_words(map.updated_at) -%> ago<br>
     <%if map.gcps.hard.size > 0 %>
       <%=pluralize(map.gcps.hard.size, "control point") -%>
     <%else-%>

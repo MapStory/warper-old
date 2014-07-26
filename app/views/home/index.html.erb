@@ -1,5 +1,5 @@
 <div class="col-lg-3">
-  <h2>Welcome!</h2>
+  <h1>Welcome!</h1>
 
   <p>
     This Warper lets you plot scanned maps and aerial images in the 
@@ -26,10 +26,8 @@
     <% end %>
   </div>
 </div>
-
 <div class="col-lg-9">
-<%= render :partial => 'shared/search' -%>
-
+  <%= render :partial => 'shared/search' -%>
 
   <% if @my_maps -%>
   <div class="mapblock">
@@ -44,12 +42,9 @@
     <%= render :partial => 'maps/map', :collection => @maps unless @maps.nil? %>
     <p><%= link_to 'See all Maps', maps_path %></p>
   </div>
-
   <div class="mapblock">
-  <h2>Recent Mosaics</h2>
-  <%= render :partial => 'layers/layer', :collection => @layers unless @layers.nil? %>
-  <p><%= link_to "View all Mosaics", layers_path %><br />
-  <%= link_to "Create a new mosaic", new_layer_path %></p>
+    <h2>Recent Mosaics</h2>
+    <%= render :partial => 'layers/layer', :collection => @layers unless @layers.nil? %>
+    <p><%= link_to "View all Mosaics", layers_path %></p>
   </div>
-
 </div>
