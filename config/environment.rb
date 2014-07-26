@@ -35,6 +35,9 @@ Rails::Initializer.run do |config|
   # (by default production uses :info, the others :debug)
   config.log_level = :debug
 
+  # Fixup encoding issues for linux
+  Encoding.default_external = Encoding::UTF_8
+  Encoding.default_internal = Encoding::UTF_8
 
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper,
