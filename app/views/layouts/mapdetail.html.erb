@@ -8,20 +8,15 @@
     <%= render "layouts/includes" %>
     <%= render "layouts/scripts" %>
 
-
-    <%# and some legacy jquery ui, with all the features. cross section between warper and new theme. %>
     <%= javascript_include_tag "jquery-ui-1.9.2.custom.min.js" %>
-    <%#= javascript_tag "jQuery.noConflict();" -%>
 
     <%= javascript_include_tag "prototype" %>    
-    <%#= javascript_include_tag "jquery.history.js" %>
     <%= javascript_include_tag "jquery-warper" %>
     <%= javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
     <%= javascript_include_tag "layers" %>
 
 <script type="text/javascript">
       OpenLayers.ImgPath = '<%=request.protocol + request.host_with_port + ActionController::Base.relative_url_root.to_s%>/javascripts/openlayers/img/';
-
 
       jQuery(function() {
         jQuery("#wooTabs").bind("tabsshow", function(event, ui){
@@ -69,8 +64,9 @@
       <section class="slice" id="dashboard">
         <div class="container">
           <div class="row">
-            <div class="row-lg-12">
+            <div class="row-sm-12">
 
+              <%# TODO: swap this out... %>
               <table id="map_table">
                 <%= render :partial => 'maps/map_detail', :object => @map, :locals => {:variety => "detail"} %>
               </table>

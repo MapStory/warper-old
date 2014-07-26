@@ -1,4 +1,3 @@
-
 <div class="col-lg-3">
   <h2>Welcome!</h2>
 
@@ -29,61 +28,28 @@
 </div>
 
 <div class="col-lg-9">
-
-
 <%= render :partial => 'shared/search' -%>
 
 
   <% if @my_maps -%>
   <div class="mapblock">
     <h2>My Maps</h2>
-    <table id="my_map_table" cellpadding="3">
-    <thead>
-        <tr>
-          <th>Map</th>
-          <th>Title</th>
-          <th>Last modified</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-        <%= render :partial => 'maps/map', :collection => @my_maps  unless @my_maps.nil? %>
-    </table>
-    <%= link_to "See all of My Maps", my_maps_path(:user_id => current_user) -%>
+    <%= render :partial => 'maps/map', :collection => @my_maps  unless @my_maps.nil? %>
+    <p><%= link_to "See all of My Maps", my_maps_path(:user_id => current_user) -%></p>
   </div>
   <%end -%>
 
   <div class="mapblock">
-  <h2>Last Rectified Maps</h2>
-  <table id="map_table" cellpadding="3">
-      <thead>
-        <tr>
-          <th>Map</th>
-          <th>Title</th>
-          <th>Last modified</th>
-          <th>Status</th>
-        </tr>
-      </thead>
+    <h2>Last Rectified Maps</h2>
     <%= render :partial => 'maps/map', :collection => @maps unless @maps.nil? %>
-  </table>
-  <%= link_to 'See all Maps', maps_path %>
+    <p><%= link_to 'See all Maps', maps_path %></p>
   </div>
 
   <div class="mapblock">
   <h2>Recent Mosaics</h2>
-  <table id="layer_table" cellpadding="3">
-    <thead>
-      <tr>
-        <th>Mosaic</th>
-        <th>Title</th>
-        <th>Year</th>
-        <th>Number of Maps</th>
-        <th>Percentage Complete</th>
-      </tr>
-    </thead>
-    <%= render :partial => 'layers/layer', :collection => @layers unless @layers.nil? %>
-  </table>
-  <%= link_to "View all Mosaics", layers_path %><br />
-  <%= link_to "Create a new mosaic", new_layer_path %>
+  <%= render :partial => 'layers/layer', :collection => @layers unless @layers.nil? %>
+  <p><%= link_to "View all Mosaics", layers_path %><br />
+  <%= link_to "Create a new mosaic", new_layer_path %></p>
   </div>
 
 </div>

@@ -3,56 +3,32 @@
     <%= render :partial => 'maps/map_detail', :object => @map %>
   </table>
   <div id="search-title"><%= @html_title -%></div>
+  <div class="browse">
+
 <% else %>
+
+  <%= render :partial => 'search' -%>
+
+  <div class="browse">
 
   <h1><%= @html_title -%>
     <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
     <%end-%>
   </h1>
-  <div id="search-form">
-    <% form_tag url_for(:controller => "layers"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
-      Search
-      <select id="field" name="field">
-        <%= options_for_select([ ["Title", "name"],
-            ["Description", "description"]], @field)-%>
-      </select>
-      for
-      <%= text_field_tag 'query', @query -%>
-      <input type="submit" value=" Go ">
-    <% end %>
-  </div>
-
-
-
-
 <%end%>
+
 <div id="search-sort">
   Sort:&nbsp;
   <%= sort_header_tag('name', :title => "Title") %> |
   <%= sort_header_tag('depicts_year', :title => "Year") %> |
   <%= sort_header_tag('updated_at', :title => "Last Updated") %> |
-  <%= sort_header_tag('maps_count', :title=> "Number of Maps") %> |
-  <%= sort_header_tag('percent', :title => "Percent Complete") %> |
+  <%= sort_header_tag('maps_count', :title=> "Number of Maps") %>
 </div>
-<div id="layers-div">
-  <table id="layer_table" cellpadding="3">
-    <thead>
-      <tr>
-        <th>Mosaic</th>
-        <th>Title</th>
-        <th>Year</th>
-        <th>Number of Maps</th>
-        <th>Percentage Complete</th>
-      </tr>
-    </thead>
-    <tbody id="results">
-      <%= render :partial => 'layer', :collection => @layers unless @layers.nil? %>
-    </tbody>
 
-  </table>
-</div>
+<%= render :partial => 'layer', :collection => @layers unless @layers.nil? %>
 
 <div id="search-pagination-bottom">
   <%= will_paginate @layers, :renderer => FlowPagination::LinkRenderer  %>
 </div>
 
+</div>

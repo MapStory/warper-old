@@ -1,12 +1,13 @@
-<tr class="hltrow">
-  <td>
-    <a name="a-map-row-<%=map.id%>"></a>
-    <%= link_to image_tag(map.upload.url(:thumb)), map %>
-  </td>
-  <td>
+<div class="row">
+
+  <div class="col-sm-8">
+    <div class="maplist_img">
+      <a name="a-map-row-<%=map.id%>"></a>
+      <%= link_to image_tag(map.upload.url(:thumb)), map %>
+    </div>
+
     <div class="maplist_title">
       <%=link_to(strip_brackets(h(map.title)), map) %>
-
     </div>
 
     <div class="map_description"><span><%=strip_brackets(h(map.description)) -%>
@@ -48,18 +49,17 @@
         <%= link_to("Download KML", map_url(:id => map, :format=>:kml)) -%>
       <% end -%>
     </div>
+  </div>
 
-  </td>
-  <td>
-    <%=h time_ago_in_words(map.updated_at) -%> ago.
-  </td>
-  <td>
+  <div class="col-sm-2">
+    Modified <%=h time_ago_in_words(map.updated_at) -%> ago
+  </div>
+
+  <div class="col-sm-2">
     <%if map.gcps.hard.size > 0 %>
-      <%=pluralize(map.gcps.hard.size, "control point") -%>.
+      <%=pluralize(map.gcps.hard.size, "control point") -%>
     <%else-%>
-      Unrectified.
+      Unrectified
     <%end-%>
-  </td>
-
-
-</tr>
+  </div>
+</div>

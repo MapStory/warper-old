@@ -1143,30 +1143,23 @@ width: 60px;
 }
 
 @media(min-width:768px){
-
     .navbar-brand>img{
-    width: 103px;
+    	width: auto;
     }
 
     #mainHeader .pull-right {
         float: right !important;
     }
 
-    #paralaxSlice1, #paralaxSlice2, #paralaxSlice3, #paralaxSlice4 {
-        background-size: 120%;
-    }
 }
-@media(min-width:992px){
-    .navbar-brand>img{
-        width:auto;
-    }
 
-    #paralaxSlice1, #paralaxSlice2, #paralaxSlice3, #paralaxSlice4 {
-    background-attachment: fixed;
-    }
+@media(max-width:1200px){
+	.navbar-brand {
+		width: 250px;
+	}
 }
+
 @media(min-width:1200px){
-
 
 
 }

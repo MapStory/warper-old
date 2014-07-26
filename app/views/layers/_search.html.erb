@@ -1,8 +1,8 @@
 <div class="row">
-<% form_tag url_for(:controller => "maps"), :id=>"searchform", :class=> "navbar-form",:name=> "searchform", :method => :get do -%>
+<% form_tag url_for(:controller => "layers"), :id=>"searchform", :class=> "navbar-form",:name=> "searchform", :method => :get do -%>
 <div class="form-group col-sm-6">
     <div class="input-group mapsearch">
-      <%= text_field_tag 'query', @query, :class => "form-control", :placeholder => "Search Maps" -%>
+      <%= text_field_tag 'query', @query, :class => "form-control", :placeholder => "Search Mosaics" -%>
       <span class="input-group-btn">
         <button class="btn btn-default" type="submit">Go</button>
       </span>
@@ -10,15 +10,10 @@
 </div>
 <div class="form-group col-sm-3">
   <select id="field" name="field" class="form-control mapsearch">
-    <%= options_for_select([ ["Title", "title"], 
-                           ["Description", "description"], 
-                           ["Publisher", "publisher"],
-                           ["Author", "authors"],
-                            ["Tags", "tags"]], @field)-%>
+    <%= options_for_select([ ["Title", "name"],
+        ["Description", "description"]], @field)-%>
   </select>
 </div>
-
-
 <div class="form-group col-sm-3">
     <% if @show_warped == "1" -%>
       <% check_all = false -%>
