@@ -38,6 +38,12 @@ button[type=submit] {
   padding-bottom: 8px;
 }
 
+/* bump down search bar elements */
+.form-group .mapsearch {
+  margin-top: 7px;
+}
+
+
 
 /* Overall site styles */
 

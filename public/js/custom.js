@@ -197,19 +197,6 @@ $(document).ready(function() {
     }
 
 
-    if($('.flexPortfolio').length){
-
-        $('.flexPortfolio').flexslider({
-            animation: "slide",
-            controlNav:false,
-            touch: true,
-            slideshow: true,
-            prevText: '<i class="icon-left-open"></i>',           
-            nextText: '<i class="icon-right-open"></i>'  
-        });    
-    }
-
-
     if($('.flexProject').length){
 
         $('.flexProject').flexslider({

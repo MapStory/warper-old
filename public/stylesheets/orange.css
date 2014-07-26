@@ -15,7 +15,6 @@
 #MAIN MENU 
 #FOOTER 
 #SLIDERS
-#PORTFOLIO
 #MISCELANIOUS
 #NEKO CSS FRAMEWORK
 
@@ -60,35 +59,6 @@ h2.subTitle:after, h1.noSubtitle:after{
 	background-color:#EB7F37;
 }
 
-/*** parallax sections ***/
-
-.paralaxText blockquote:before, .paralaxText blockquote:after {
-	color:#fff;
-}
-#home, #paralaxSlice1, #paralaxSlice2, #paralaxSlice3, #paralaxSlice4, #paralaxSlice5 {
-	background-color:#EB7F37;
-}
-#home {
-	background-image:url('../images/theme-pics/usa.jpg');
-}
-#paralaxSlice1 {	
-	background-image: url('../images/africa.gif');
-}
-#paralaxSlice2 {
-	background-image: url('../images/theme-pics/teach1.jpg');
-}
-#paralaxSlice3 {
-	background-image: url('../images/theme-pics/geog1.png');
-}
-#paralaxSlice4 {
-	background-image: url('../images/theme-pics/teach2.jpg');
-}
-#paralaxSlice5 {
-	background-image: url('../images/theme-pics/usa.jpg');
-}
-.paralaxText blockquote, .paralaxText h1, .paralaxText h2, .paralaxText h3, .paralaxText p, .paralaxText i{
-	color:#fff;
-}
 
 /* END TYPOGRAPHY
 ================================================== */
@@ -273,26 +243,6 @@ p.credits a {
 /* END SLIDERS
 ================================================== */
 
-/* PORTFOLIO
-================================================== */
-
-nav#filter a {
-	background-color: #EEE;
-	color:#555;
-}
-nav#filter a:hover, nav#filter a.current {
-	background-color:#46443B;
-	color:#fff;
-}
-li.filterTitle {
-	color:#4F6266;
-}
-section#projectDescription {
-	background-color:#F8F8F8
-}
-.mask{background-color: #EB7F37;}
-/* END PORTFOLIO
-================================================== */
 
 /* MISCELANIOUS
 ================================================== */

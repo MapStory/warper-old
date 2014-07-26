@@ -1,7 +1,7 @@
 jQuery.preloadImages = function(){ for(var i = 0; i<arguments.length; i++)
         { jQuery("<img>").attr("src", arguments[i]);  }
       }
-jQuery.preloadImages("/images/spinner.gif");
+jQuery.preloadImages("/images/spinner_white.gif");
 
 function jqHighlight(element){
   jQuery("#"+element).effect('highlight',{}, 1000);

@@ -20,7 +20,6 @@ Description: layout styles
 #BLOG
 #NEWS
 #PAGES
-#PORTFOLIO
 #FORMS
 #MISCELANIOUS
 
@@ -762,43 +761,6 @@ margin-bottom:-44px;
 }
 
 /*** END MEDIA QUERIES ***/
-
-/* PORTFOLIO
-================================================== */
-nav#filter {margin-bottom:22px;}
-nav#filter li{ display:inline-block;list-style:none;}
-.isotopeItem {margin-bottom: 22px;}
-.isotopeItem .boxContent{margin-top:22px; padding:0;}
-
-header#project{padding:22px 0;}
-#project h1 {text-align:left;}
-#pageslide {
-	display: none;
-	position: fixed;
-	top: 0;
-	height: 100%;
-	z-index: 9999;
-	width: 100%;
-	background-color: #fff;
-	color: #000;
-	box-shadow:none;
-	padding:0;
-}
-
-#portfolioSheetWrapper .stage {
-	width: 100%;
-	height:auto;
-	overflow: auto;
-	-webkit-overflow-scrolling: touch;
-	position: relative;
-}
-
-#portfolioSheetWrapper .content{
-
-    width:100%;
-}
-/* END PORTFOLIO
-================================================== */
 
 /* FORM
 ================================================== */
