@@ -15,3 +15,14 @@ A cookie set by mapstory.org is required to log on.
 
 ### User name Restrictions
 User names must not contain colons or double quotes.
+
+## Initial Setup
+
+Create folder /db/maptileindex
+
+Create symlink of public/mapimages to /data/mapimages
+
+in /data/mapimages create:
+	dst/
+	dst/png
+	src/
