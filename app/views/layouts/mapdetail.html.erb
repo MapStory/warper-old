@@ -66,7 +66,6 @@
           <div class="row">
             <div class="row-sm-12">
               <%= render :partial => 'maps/map_detail', :object => @map %>
-
               <% @tabs = [{:name=>"show",:divname=>"Show", :label=>"Show", :path=>map_path},
                  {:name=>"edit",:divname=>"Edit", :label=>"Edit", :path=>edit_map_path(:id => @map)},
                 {:name=>"warp",:divname=>"Rectify", :label=>"Rectify", :path=>warp_map_path(:id => @map)},
@@ -76,8 +75,7 @@
                 {:name=>"export",:divname=>"Export", :label=>"Export", :path=>export_map_path(:id => @map)},
                 {:name=>"metadata",:divname=>"Metadata", :label=>"Metadata", :path=>metadata_map_path(:id => @map)},
                 {:name=>"activity",:divname=>"Activity_History", :label=>"Activity",:path=> map_activity_path(:id => @map)},
-                {:name=>"comments",:divname=>"Comments", :label=>"Comments", :count=>@map.comments.size.to_s, :path=>comments_map_path(:id => @map)}  ] %>
-
+                {:name=>"comments",:divname=>"Comments", :label=>"Comments", :count=>@map.comments.size.to_s, :path=>comments_map_path(:id => @map)}  ] -%>
                 <div id="wooTabs">
                   <ul class="nav nav-tabs">
                     <% @tabs.each do |tab| %>
@@ -85,14 +83,11 @@
                         <% tab[:path] = "#"+tab[:divname]  %>
                         <% @current_tab_divname = tab[:divname] %>
                         <li class="active">
-                      <% else %>
+                      <% else -%>
                         <li>
-                      <% end %>
-                    
+                      <% end -%>                    
                       <% unless @disabled_tabs && @disabled_tabs.include?(tab[:name]) -%>
-                       <a id="aa<%=tab[:label]%>" rel="history" href="<%=tab[:path]%>" title="<%=tab[:label]%>">
-                       <span><%=tab[:label]%><% if tab[:count] -%> (<%=tab[:count]-%>)<%end-%></span>
-                       </a></li>
+                       <a id="aa<%=tab[:label]%>" rel="history" href="<%=tab[:path]%>" title="<%=tab[:label]%>"><span><%=tab[:label]%><% if tab[:count] -%> (<%=tab[:count]-%>)<%end-%></span></a></li>
                       <% end -%>
                     <% end -%>
                   </ul>
