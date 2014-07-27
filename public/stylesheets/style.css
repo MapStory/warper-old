@@ -43,6 +43,9 @@ button[type=submit] {
   margin-top: 7px;
 }
 
+.mapblock .row {
+  margin-bottom: 10px;
+}
 
 
 /* Overall site styles */
