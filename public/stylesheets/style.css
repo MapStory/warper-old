@@ -25,6 +25,11 @@
 	margin-top: 2em;
 }
 
+#tag-cloud {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 #tag-cloud a {
 	color: #fff;
 }
@@ -73,6 +78,7 @@ button[type=submit] {
 
 .maplist_img {
   float: left;
+  text-align: center;
   min-width: 100px;
   margin-right: .5em;
 }
