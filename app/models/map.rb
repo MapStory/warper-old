@@ -782,6 +782,8 @@ class Map < ActiveRecord::Base
    #it will also get a sibling map, if that has been rectified, to help determine appropriate zoom scale
    #TODO - weight the results to bias the text in the title, and experiment with the focusWoeid
    def find_bestguess_places
+    Rails.logger.info "Attempting to find bestguess place via Yahoo"
+    
      url = URI.parse('http://wherein.yahooapis.com/v1/document')
      appid = Yahoo_app_id
      builder = Nokogiri::XML::Builder.new do |xml|

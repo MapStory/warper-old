@@ -1,5 +1,5 @@
 class MapsController < ApplicationController
-   layout 'mapdetail', :only => [:show, :edit, :preview, :warp, :clip, :align, :activity, :warped, :export, :metadata, :comments, :gaia_url, :otm_url]
+  layout 'mapdetail', :only => [:show, :edit, :warp, :clip, :align, :activity, :warped, :export, :metadata, :comments, :gaia_url, :otm_url]
   #before_filter :login_required, :only => [:destroy, :delete]
   before_filter :login_or_oauth_required, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align,
  :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid ]
@@ -650,48 +650,41 @@ class MapsController < ApplicationController
     choose_layout_if_ajax
   end
 
-   def warp
-     @current_tab = "warp"
-     @selected_tab = 2
-     @html_title = "Rectifying Map "+ @map.id.to_s
-     @bestguess_places = @map.find_bestguess_places  if @map.gcps.hard.empty?
-     @other_layers = Array.new
-     @map.layers.visible.each do |layer| 
-       @other_layers.push(layer.id)
+  def warp
+    @current_tab = "warp"
+    @selected_tab = 2
+    @html_title = "Rectifying Map "+ @map.id.to_s
+    @bestguess_places = @map.find_bestguess_places  if @map.gcps.hard.empty?
+    @other_layers = Array.new
+    @map.layers.visible.each do |layer| 
+     @other_layers.push(layer.id)
+    end
+
+    @gcps = @map.gcps_with_error 
+
+    width = @map.width
+    height = @map.height
+    width_ratio = width / 180
+    height_ratio = height / 90
+
+    choose_layout_if_ajax 
+  end
+
+  def rectify
+   rectify_main
+
+   respond_to do |format|
+     unless @too_few || @fail
+       format.js if request.xhr?
+       format.html { render :text => @notice_text }
+       format.json { render :json=> {:stat => "ok", :message => @notice_text}.to_json, :callback => params[:callback] }
+     else
+       format.js if request.xhr?
+       format.html { render :text => @notice_text }
+       format.json { render :json=> {:stat => "fail", :message => @notice_text}.to_json , :callback => params[:callback]}
      end
-
-     @gcps = @map.gcps_with_error 
-
-     width = @map.width
-     height = @map.height
-     width_ratio = width / 180
-     height_ratio = height / 90
-
-     choose_layout_if_ajax 
    end
-
-
-
-
-   def rectify
-     rectify_main
-
-     respond_to do |format|
-       unless @too_few || @fail
-         format.js if request.xhr?
-         format.html { render :text => @notice_text }
-         format.json { render :json=> {:stat => "ok", :message => @notice_text}.to_json, :callback => params[:callback] }
-       else
-         format.js if request.xhr?
-         format.html { render :text => @notice_text }
-         format.json { render :json=> {:stat => "fail", :message => @notice_text}.to_json , :callback => params[:callback]}
-       end
-     end
-     
-   end
-
-
-
+  end
 
   def metadata
     @current_tab = "metadata"

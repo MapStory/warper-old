@@ -73,7 +73,7 @@
     <%- if defined?(page)  && (page =~ /edit/ && logged_in? && (current_user == @map.owner || current_user.has_role?("editor")) || page =~ /new/ ) -%>
     <div class="mapradio">
     <h2>Map visibility</h2>
-    <%= f.radio_button :public, "true" %><label for="map_public_true">Public(default)</label> <br/>
+    <%= f.radio_button :public, "true" %><label for="map_public_true">Public (default)</label> <br/>
     <%= f.radio_button :public, "false" %><label for="map_public_false">Don't list the map (only you can see it)</label>
     </div>
     <%- end -%>
