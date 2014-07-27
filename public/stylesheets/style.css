@@ -43,13 +43,15 @@ button[type=submit] {
   margin-top: 7px;
 }
 
+/* Add spacing between maps and layers */
 .mapblock .row {
   margin-bottom: 10px;
 }
-
+.browse .row {
+  margin-bottom: 10px;
+}
 
 /* Overall site styles */
-
 .mapblock {
   margin-bottom: 30px;
 }
@@ -71,7 +73,8 @@ button[type=submit] {
 
 .maplist_img {
   float: left;
-  margin-right: 1em;
+  min-width: 100px;
+  margin-right: .5em;
 }
 
 #search-sort {
