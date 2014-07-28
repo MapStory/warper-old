@@ -636,7 +636,6 @@ function addLayerToDest(frm){
     new_warped_layer.setVisibility(true);
     new_warped_layer.setIsBaseLayer(false);
     to_map.addLayer(new_warped_layer);
-
     to_layer_switcher.maximizeControl();
 
   Element.hide('add_layer');
@@ -647,7 +646,9 @@ function show_warped_map(){
   warped_layer.setVisibility(true);
   warped_layer.mergeNewParams({'random':Math.random()});
   warped_layer.redraw(true);
-  to_layer_switcher.maximizeControl();
+  
+  // Don't show layer details afer warping
+  //to_layer_switcher.maximizeControl();
 
   //cross tab issue - reloads the rectified map in the preview tab if its there
   if (typeof warpedmap != 'undefined' && typeof warped_wmslayer != 'undefined'){

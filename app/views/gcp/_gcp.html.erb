@@ -23,7 +23,7 @@
  <td><%= button_to_remote "delete",
   :url => {:controller => "gcp", :action => "destroy", :id=> gcp.id },
   :method => "delete",
-  :confirm => "Really delete this points?",
+  :confirm => "Really delete this point?",
   :before => "Element.show('spinner');gcp_notice('Deleting...');",
   :complete => "Element.hide('spinner');",
   :success => "delete_markers(#{gcp.id});",

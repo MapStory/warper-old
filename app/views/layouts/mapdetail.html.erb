@@ -52,6 +52,16 @@
       });//end jquery function
     </script>
 
+    <script>
+      // Select the pan (hand) tool on both maps.
+      function activate_pan() {
+        // Fetch the control panel
+        foo = from_map.controls[1];
+        foo.activateControl(foo.controls[0]);
+      }
+    </script>
+
+
     <%= yield :head %>    
   </head>
 <% if @onload -%>
