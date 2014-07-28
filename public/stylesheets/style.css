@@ -214,10 +214,21 @@ th {
         
 }
 
-.map {
-  cursor: crosshair;
+/* Most styles for openlayers must be !important due to how it includes the stylesheet via javascript */
+/* in draw point mode, hide cursor when mouse down (no openlayer css, we have to use active) */
+.olControlDrawFeaturePointActive:active {
+  cursor: none !important;
 }
 
+/* In Move point mode, hide cursor when dragging a marker */
+.olControlDragFeatureActive.olDragDown.olControlDragFeatureOver {
+  cursor: none !important;
+}
+
+/* move map mode */
+.olControlDragPanActive {
+  cursor: move;
+}
 
 /* Sortable */
 #sortable {list-style-type: none; margin:0; padding: 0;}
