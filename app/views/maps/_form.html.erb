@@ -2,15 +2,21 @@
 <% form_for(@map, :html => {:multipart => true}) do |f| %>
   <div class="col-lg-6">
     <p>
-      <%= f.label :title %><br />
+      <%= f.label :title %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="The name of the map"></span>
+      <br>
       <%= f.text_field :title %>
     </p>
     <p>
-      <%= f.label :description %> <span class="tiny-text">(max 256 chars)</span><br />
+      <%= f.label :description %> <span class="tiny-text">(max 256 chars)</span>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Textual outline of the content"></span>
+      <br>
       <%= f.text_area(:description, :rows => 12) %>
     </p>
     <p>
-      <%= f.label :tag_list, "Tags" %> <span class="tiny-text">(comma separated)</span> <br />
+      <%= f.label :tag_list, "Tags" %> <span class="tiny-text">(comma separated)</span>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Keywords that correspond to the content"></span>
+      <br>
       <%= f.text_field :tag_list %>
     </p>
     <p>
@@ -19,42 +25,54 @@
   </div>
 
   <div class="col-lg-6">
+    <p>Please complete the following fields to the best of your ability. As with any reference, the quality of content is greatly increased with completed metadata.</p>
+    
     <p>
-      <%= f.label :unique_id, "Metadata Unique ID" %> <span class="tiny-text">(optional)</span> 
+      <%= f.label :unique_id, "Metadata Unique ID" %> 
       <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Create your own unique identifier for this map"></span>
       <br>
       <%= f.text_field :unique_id %>
     </p>
     
      <p>
-      <%= f.label :source_uri, "Source / Bibliographic Ref URL" %> <span class="tiny-text">(optional)</span>
+      <%= f.label :source_uri, "Source / Bibliographic Ref URL" %>
       <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Link to where this map is from"></span>
       <br>
       <%= f.text_field :source_uri %>
     </p>
     
     <p>
-      <%= f.label :publisher, "Publisher / Author / Printer" %> <span class="tiny-text">(optional)</span><br />
+      <%= f.label :publisher, "Publisher / Author / Printer" %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Name of entity"></span>
+      <br>
       <%= f.text_field :publisher %>
     </p>
     
      <p>
-      <%= f.label :date_depicted %> <span class="tiny-text">(year, optional)</span><br />
+      <%= f.label :date_depicted %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Enter yyyy-mm-dd. If this information is unavailable please enter the best information you have."></span>
+      <br>
       <%= f.text_field :date_depicted %>
      </p>
 
     <p>
-      <%= f.label :published_date %> <span class="tiny-text">(optional)</span><br />
-      <%= f.date_select(:published_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
+      <%= f.label :published_date %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Enter yyyy-mm-dd. If this information is unavailable please enter the best information you have."></span>
+      <br>
+      <%= f.text_field :published_date %>
     </p>
     
     <p>
-      <%= f.label :scale %> <span class="tiny-text">(optional)</span><br />
+      <%= f.label :scale %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="The ratio of a distance on the map to the corresponding distance on the ground."></span>
+      <br>
       <%= f.text_field :scale %>
     </p>
 
     <p>
-      <%= f.label :language %> <span class="tiny-text">(optional)</span><br />
+      <%= f.label :language %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="The language used on the map."></span>
+      <br>
       <%= f.text_field :language %>
     </p>
   </div>
