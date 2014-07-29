@@ -9,15 +9,15 @@
     </span>
     <br />
     <span class="layer_description">
-      <%= layer.description %>
+      <%= layer.description %><br>
       <%- if layer.user -%>Compiled by <%= link_to(layer.user.login, user_path(layer.user)) -%>.<%-end-%>
-      Last modified <%=h time_ago_in_words(layer.updated_at) -%> ago.
+      
     </span>
     <span class="layer_year">
-      <%if layer.depicts_year%>Depicts : <%= layer.depicts_year %> <%end%>
+      <% unless layer.depicts_year.blank? %>Depicts : <%= layer.depicts_year %> <%end%>
     </span>
     <span class="map_links">
-      <%- if layer.source_uri -%>
+      <%- unless layer.source_uri.blank? -%>
       Links: <%= link_to 'Source / Biblio Ref',layer.source_uri  %>
       <%- end -%>
     </span>
@@ -37,24 +37,25 @@
       </span>
     <% end  %>
       
-    <% if logged_in? && (admin_authorized? or current_user.own_this_layer?(layer.id)) -%>
-      <%= link_to "Edit Mosaic", layer_path(:id=>layer, :anchor=>"Edit_tab") -%> |
-    <% end -%>
+    <div class="map_links_bigger">
+      <% if logged_in? && (admin_authorized? or current_user.own_this_layer?(layer.id)) -%>
+        <%= link_to "Edit Mosaic", layer_path(:id=>layer, :anchor=>"Edit_tab") -%> |
+      <% end -%>
 
-    <% if admin_authorized? -%>
-      <%= link_to("Merge", :controller => "layers", :action=> "merge", :id => layer) %> |
-      <%= link_to("Publish", :controller => "layers", :action=> "publish", :id=>layer)%> |
-    <%end -%>
+      <% if admin_authorized? -%>
+        <%= link_to("Merge", :controller => "layers", :action=> "merge", :id => layer) %> |
+        <%= link_to("Publish", :controller => "layers", :action=> "publish", :id=>layer)%> |
+      <%end -%>
 
-    <% if layer.is_visible && layer.rectified_maps_count > 0 %>
-      <%= link_to("Download KML", layer_url(:id => layer, :format=>:kml)) %>
-    <% end %>
+      <% if layer.is_visible && layer.rectified_maps_count > 0 %>
+        <%= link_to("Download KML", layer_url(:id => layer, :format=>:kml)) %>
+      <% end %>
+    </div>
   </div>
-  <div class="col-sm-2">
-    <%= pluralize layer.maps_count,'map' -%>
-  </div>
-  <div class="col-sm-2">
-    <%=number_to_percentage(layer.rectified_percent, :precision=>0) %> complete<br />
-    (<%= pluralize layer.rectified_maps_count, 'map'-%> rectified)
+  <div class="col-sm-4">
+    modified <%=h time_ago_in_words(layer.updated_at) -%> ago<br>
+    <%= pluralize layer.maps_count,'map' -%>    
+    (<%= layer.rectified_maps_count -%> rectified)<br>
+    <%=number_to_percentage(layer.rectified_percent, :precision=>0) %> complete
   </div>
 </div>

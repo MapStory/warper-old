@@ -110,6 +110,11 @@ th {
   font-weight: normal;
 }
 
+
+.map_links_bigger {
+  color: gainsboro;
+}
+
 .tiny-text {
   font-size: 80%;
   color: #777;
