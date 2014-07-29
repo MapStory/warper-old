@@ -181,6 +181,11 @@ th {
   margin-bottom: 15px;
 }
 
+#Export ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
 
 /* Open Layer Style */
 #map, #unmap, #clipmap, #warpedmap {
