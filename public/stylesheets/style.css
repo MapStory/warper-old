@@ -186,6 +186,20 @@ th {
   padding-left: 0;
 }
 
+/* Call out MapStory link */
+.footerWidget .highlight {
+
+  font-size: 180%;
+
+}
+.footerWidget .highlight a {
+  font-weight: 600;
+}
+.footerWidget .highlight a:hover {
+  text-decoration: underline;
+}
+
+
 
 /* Open Layer Style */
 #map, #unmap, #clipmap, #warpedmap {
