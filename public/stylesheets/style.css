@@ -172,10 +172,13 @@ th {
   margin-right: .3em;
 }
 
-/* add control point button */
-#addPointDiv {
+.warpctl {
   margin-top: 15px;
   margin-bottom: 15px;
+}
+
+#gcsearchmsg {
+  margin-top: 10px;
 }
 
 .warpsubmit {

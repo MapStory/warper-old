@@ -117,11 +117,10 @@ ActionController::Routing::Routes.draw do |map|
   map.destroy_group_user '/groups/:group_id/users/destroy/:id', :controller => 'memberships', :action => 'destroy', :conditions => { :method => :delete}
  
   map.group_users '/groups/:group_id/users', :controller => 'users', :action => 'index_for_group'
-  map.group_maps '/groups/:group_id/maps', :controller => 'mapss', :action => 'index_for_map'
+  map.group_maps '/groups/:group_id/maps', :controller => 'maps', :action => 'index_for_map'
 
   map.resources :imports, :member => {:maps => :get, :start => :get, :status => :get }
  
-  
   # The priority is based upon order of creation: first created -> highest priority.
 
 

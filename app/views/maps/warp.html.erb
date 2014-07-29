@@ -78,10 +78,19 @@
 
   <div id="gcp"></div>
   
-  <div id="addPointDiv" class="addPoint">
-    <em>Add control point on both maps, then click</em>
-    <input type="button" id="GcpButton" value="Add Control Point" onclick="set_gcp(); activate_pan();" class="gcp_button" />
-    <em> Do this for at least three points.</em>
+  <div class="row warpctl">
+    <div class="col-lg-6">
+      <div id="addPointDiv" class="addPoint">
+        Add control point on both maps, then click
+        <input type="button" id="GcpButton" value="Add Control Point" onclick="set_gcp(); activate_pan();" class="gcp_button" ><br>
+        Do this for at least three points.
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div id="gcsearchbox">
+        <%= render "geocode" %>
+      </div>
+    </div>
   </div>
 
 
