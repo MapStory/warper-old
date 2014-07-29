@@ -20,12 +20,16 @@
 
   <div class="col-lg-6">
     <p>
-      <%= f.label :unique_id, "Metadata Unique ID" %> <span class="tiny-text">(optional)</span><br />
+      <%= f.label :unique_id, "Metadata Unique ID" %> <span class="tiny-text">(optional)</span> 
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Create your own unique identifier for this map"></span>
+      <br>
       <%= f.text_field :unique_id %>
     </p>
     
      <p>
-      <%= f.label :source_uri, "Source / Bibliographic Ref URL" %> <span class="tiny-text">(optional)</span><br />
+      <%= f.label :source_uri, "Source / Bibliographic Ref URL" %> <span class="tiny-text">(optional)</span>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Link to where this map is from"></span>
+      <br>
       <%= f.text_field :source_uri %>
     </p>
     
