@@ -5,17 +5,20 @@ namespace :admin do
 		puts "Provide a MapStory username that will"
 		puts "have full admin privileges granted"
 		puts "case sensitive"
-		name = STDIN.gets
+		name = STDIN.gets.strip
 
-		# The following roles must already exist in the system:
-		# Role.create(:name => "super user")
-		# Role.create(:name => "administrator")
-		# Role.create(:name => "editor")
+		# The following roles must already exist in the system.
+		# if running for the first time, uncomment these lines.
+		#Role.create(:name => "super user")
+		#Role.create(:name => "administrator")
+		#Role.create(:name => "editor")
 
 		user = User.find_by_login(name)
 
 		if user.nil?
 			puts "Unable to find user. Perhaps they haven't logged in yet?"
+			puts "Existing users: "
+			puts User.all.map { |x| x.login }.to_sentence
 			break
 		end
 
