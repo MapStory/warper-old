@@ -92,11 +92,11 @@
 <h2>Control Points</h2>
 <div id="div_gcp_form">
   <% form_for(:gcp, :html => {:id => 'gcp_form'} , :url => {:controller => 'map', :action=> 'rectify', :id => @map }) do |f| %>
+
     <div id="gcp_table_div" >
       <table id="gcp_table" class="gcpTabClass">
         <thead>
-          <tr><th>Point</th><th>Image X</th><th>Image Y</th><th>Lon</th><th>Lat</th><th id="errortitle">Error(<%=sprintf("%.2f",@map.error) %>)</th><th></th>
-          </tr>
+          <tr><th>Point</th><th>Image X</th><th>Image Y</th><th>Lon</th><th>Lat</th><th>Error(<%=sprintf("%.2f",@map.error) %>)</th><th></th></tr>
         </thead>
         <tbody id="gcp_list">
           <%= render(:partial => "gcp/gcp", :collection => @gcps) %>

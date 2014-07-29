@@ -1134,13 +1134,18 @@ width: 60px;
 /* MEDIA QUERIES
 ================================================== */
 
-
-@media(max-width:767px){
-
-
-
-
+@media(max-width:991px) {
+	/* accommodate double high navigation */
+	#dashboard {
+		padding-top: 55px;
+	}
 }
+@media(max-width:768px){
+	#dashboard {
+		padding-top: 20px;
+	}
+}
+
 
 @media(min-width:768px){
     .navbar-brand>img{
@@ -1150,7 +1155,6 @@ width: 60px;
     #mainHeader .pull-right {
         float: right !important;
     }
-
 }
 
 @media(max-width:1200px){

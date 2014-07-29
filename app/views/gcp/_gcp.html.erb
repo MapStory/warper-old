@@ -19,7 +19,7 @@
     <td><input type="text" name="gcp[]" id="y<%=gcp.id%>"  value="<%= gcp.y -%>" onchange="update_gcp_field(<%= gcp.id %>,this);"/></td>
     <td><input type="text" name="gcp[]" id="lon<%=gcp.id%>"  value="<%= gcp.lon -%>" onchange="update_gcp_field(<%= gcp.id %>,this);" /></td>
     <td><input type="text" name="gcp[]" id="lat<%=gcp.id%>"  value="<%= gcp.lat -%>"  onchange="update_gcp_field(<%= gcp.id %>,this);" /></td>
-    <td><input type="text" disabled="disabled" class="<%=errorclass%>" name="error<%=gcp.id%>" value="<%= sprintf("%.2f",gcp.error) %>" /></td>
+    <td><input type="text" disabled="disabled" class="<%=errorclass%> gcperror" name="error<%=gcp.id%>" value="<%= sprintf("%.2f",gcp.error) %>" /></td>
  <td><%= button_to_remote "delete",
   :url => {:controller => "gcp", :action => "destroy", :id=> gcp.id },
   :method => "delete",

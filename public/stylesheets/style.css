@@ -144,10 +144,26 @@ th {
 
 #gcp_table {
   margin-bottom: 15px;
+  font-size: 85%;
+}
+
+#gcp_table input[type="text"] {
+  width: 12em;
+}
+
+#gcp_table input[type="text"].gcperror {
+  width: 6em;  
 }
 
 #gcp_table td {
   color: #46443b;
+}
+
+#clipping_mask_buttons label {
+  margin-left: .6em;
+}
+#clipping_mask_buttons input {
+  margin-right: .3em;
 }
 
 /* add control point button */

@@ -91,6 +91,9 @@ class MapsController < ApplicationController
     @selected_tab = 9
     @current_tab = "comments"
     @comments = @map.comments
+
+    
+
     choose_layout_if_ajax
     respond_to do | format |
       format.html {}

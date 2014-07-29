@@ -74,7 +74,7 @@
       <section class="slice" id="dashboard">
         <div class="container">
           <div class="row">
-            <div class="row-sm-12">
+            <div class="col-sm-12">
               <%= render :partial => 'maps/map_detail', :object => @map %>
               <% @tabs = [{:name=>"show",:divname=>"Show", :label=>"Show", :path=>map_path},
                  {:name=>"edit",:divname=>"Edit", :label=>"Edit", :path=>edit_map_path(:id => @map)},
