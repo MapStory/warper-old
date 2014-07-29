@@ -251,6 +251,4 @@ module AuthenticatedSystem
         end
       end
     end
-
-
 end

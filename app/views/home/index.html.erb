@@ -29,13 +29,16 @@
 <div class="col-lg-9">
   <%= render :partial => 'shared/search' -%>
 
-  <% if @my_maps -%>
+  
   <div class="mapblock">
     <h2>My Maps</h2>
-    <%= render :partial => 'maps/map', :collection => @my_maps  unless @my_maps.nil? %>
-    <p><%= link_to "See all of My Maps", my_maps_path(:user_id => current_user) -%></p>
+    <% if @my_maps.any? -%>  
+      <%= render :partial => 'maps/map', :collection => @my_maps  unless @my_maps.nil? %>
+      <p><%= link_to "See all of My Maps", my_maps_path(:user_id => current_user) -%></p>
+    <% else %>
+      You don't have any maps yet. <%= link_to "Upload one", new_map_path %>, or <%= link_to "browse all maps", maps_path %>.
+    <% end %>
   </div>
-  <%end -%>
 
   <div class="mapblock">
     <h2>Last Rectified Maps</h2>

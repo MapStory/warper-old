@@ -110,6 +110,9 @@ th {
   font-weight: normal;
 }
 
+.sitemsg {
+  text-align: center;
+}
 
 .map_links_bigger {
   color: gainsboro;

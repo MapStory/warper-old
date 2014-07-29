@@ -18,7 +18,11 @@
       <section class="slice" id="dashboard">
         <div class="container">
           <div class="row">
-            <%= flash_messages %>
+            <div class="col-sm-12 sitemsg">
+              <%= flash_messages %>
+            </div>
+          </div>
+          <div class="row">
             <%= yield %>
           </div>
         </div>
