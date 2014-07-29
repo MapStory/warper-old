@@ -1,3 +1,4 @@
+<%# Usually shown as a list of maps %>
 <div class="row">
   <div class="col-sm-8">
     <div class="maplist_img">
@@ -32,16 +33,6 @@
         <% else -%>
           | <%= link_to('Save to My Maps', add_my_map_path(:user_id => current_user, :map_id => map), :method => :post) -%>
         <% end -%>
-      <% end -%>
-
-
-      <% if admin_authorized? and @layer -%>
-        | <%= link_to "remove map from this mosaic", {:controller => "layers", :action=>"remove_map", :id => @layer, :map_id => map} %>
-      <%end -%>
-
-      <% if admin_authorized? -%>
-        <% @map = map-%>
-        | <%= render :partial  => 'maps/map_type', :object => @map -%>
       <% end -%>
 
       <%if map.status == :warped -%> |

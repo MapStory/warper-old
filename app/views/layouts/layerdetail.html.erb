@@ -75,7 +75,7 @@
           <div class="row">
             <div class="row-lg-12">
               <table id="map_table">
-                <%= render :partial => 'layers/layer_detail', :object => @layer, :locals => {:variety => "detail"} %>
+                <%= render :partial => 'layers/layer', :object => @layer %>
               </table>
   
               <% @tabs = [{:name=>"show",:divname=>"Show", :label=>"Show", :path=>layer_path(:id => @layer)},
