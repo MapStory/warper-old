@@ -89,10 +89,11 @@ class MapsController < ApplicationController
   def comments
     @html_title = "comments"
     @selected_tab = 9
+    @disabled_tabs = []
     @current_tab = "comments"
     @comments = @map.comments
 
-    
+    @disabled_tabs = ["warp", "edit", "clip", "align", "activity"] if !logged_in?    
 
     choose_layout_if_ajax
     respond_to do | format |
@@ -205,8 +206,9 @@ class MapsController < ApplicationController
     @current_tab = "export"
     @selected_tab = 6
     @html_title = "Export Map" + @map.id.to_s
-
-
+    @disabled_tabs = []
+    @disabled_tabs = ["warp", "edit", "clip", "align", "activity"] if !logged_in?
+    
     Rails.logger.debug "My map status is " + @map.status.inspect
     Rails.logger.debug "My map type is " + @map.map_type.inspect
 
@@ -490,7 +492,7 @@ class MapsController < ApplicationController
       if @map.status.nil? or @map.status == :unloaded or @map.status == :loading
         @disabled_tabs += ["warped"]
       end
-        flash.now[:notice] = "You may need to %s to start editing the map"
+        flash.now[:notice] = "You'll need to %s to start editing the map"
         flash.now[:notice_item] = ["log in", new_session_path]
       if request.xhr?
         @xhr_flag = "xhr"
@@ -602,8 +604,12 @@ class MapsController < ApplicationController
   def warped
     @current_tab = "warped"
     @selected_tab = 5
+    @disabled_tabs = []
     @html_title = "Viewing Rectfied Map "+ @map.id.to_s
     if @map.status == :warped and @map.gcps.hard.size > 2
+      
+      @disabled_tabs = ["warp", "edit", "clip", "align", "activity"] if !logged_in?
+
       @title = "Viewing warped map"
       width = @map.width
       height = @map.height
@@ -691,6 +697,8 @@ class MapsController < ApplicationController
 
   def metadata
     @current_tab = "metadata"
+    @disabled_tabs = []
+    @disabled_tabs = ["warp", "edit", "clip", "align", "activity"] if !logged_in?
     choose_layout_if_ajax
   end
 #################################################

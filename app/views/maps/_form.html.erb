@@ -6,21 +6,18 @@
       <br>
       <%= f.text_field :title %>
       <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="The name of the map"></span>
-
     </p>
     <p>
       <%= f.label :description %> <span class="tiny-text">(max 256 chars)</span>
       <br>
       <%= f.text_area(:description, :rows => 12) %>
       <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Textual outline of the content"></span>
-
     </p>
     <p>
       <%= f.label :tag_list, "Tags" %> <span class="tiny-text">(comma separated)</span>
       <br>
       <%= f.text_field :tag_list %>
       <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Keywords that correspond to the content"></span>
-
     </p>
     <p>
       <%= f.select(:map_type, Map.map_type_hash, :selected=>:is_map) -%>
@@ -28,22 +25,18 @@
   </div>
 
   <div class="col-lg-6">
-    <p>Please complete the following fields to the best of your ability. As with any reference, the quality of content is greatly increased with completed metadata.</p>
-    
+    <p>Please complete the following fields to the best of your ability. As with any reference, the quality of content is greatly increased with completed metadata.</p>    
     <p>
       <%= f.label :unique_id, "Metadata Unique ID" %> 
       <br>
       <%= f.text_field :unique_id %>
       <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Create your own unique identifier for this map"></span>
-
     </p>
-    
-     <p>
+    <p>
       <%= f.label :source_uri, "Source / Bibliographic Ref URL" %>
       <br>
       <%= f.text_field :source_uri %>
       <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Link to where this map is from"></span>
-
     </p>
     
     <p>
@@ -51,7 +44,6 @@
       <br>
       <%= f.text_field :publisher %>
       <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Name of entity"></span>
-
     </p>
     
      <p>
@@ -59,7 +51,6 @@
       <br>
       <%= f.text_field :date_depicted %>
       <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Enter yyyy-mm-dd. If this information is unavailable please enter the best information you have."></span>
-
      </p>
 
     <p>
@@ -67,7 +58,6 @@
       <br>
       <%= f.text_field :published_date %>
       <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Enter yyyy-mm-dd. If this information is unavailable please enter the best information you have."></span>
-
     </p>
     
     <p>
@@ -75,7 +65,6 @@
       <br>
       <%= f.text_field :scale %>
       <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="The ratio of a distance on the map to the corresponding distance on the ground."></span>
-
     </p>
 
     <p>
