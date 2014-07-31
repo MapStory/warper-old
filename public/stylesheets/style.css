@@ -15,6 +15,10 @@
 	font-size: 1.3em;
 }
 
+.nav-tabs > li > a {
+  color: #888;
+}
+
 #dashboard {
 	margin-top: 15px;
 }
@@ -118,9 +122,10 @@ th {
   color: gainsboro;
 }
 
-
 .moreinfo {
   color: #999;
+  /* fix for weird bootstrap/jquery/prototype tooltip conflict */
+  display: inline-block !important;
 }
 .tiny-text {
   font-size: 80%;
