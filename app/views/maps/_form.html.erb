@@ -27,31 +27,45 @@
   <div class="col-lg-6">
     <p>Please complete the following fields to the best of your ability. As with any reference, the quality of content is greatly increased with completed metadata.</p>    
     <p>
-      <%= f.label :unique_id, "Metadata Unique ID" %> 
+      <%= f.label :unique_id, "Metadata unique ID" %> 
       <br>
       <%= f.text_field :unique_id %>
       <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Create your own unique identifier for this map"></span>
     </p>
     <p>
-      <%= f.label :source_uri, "Source / Bibliographic Ref URL" %>
+      <%= f.label :source_uri, "Source / Reference URL" %>
       <br>
       <%= f.text_field :source_uri %>
       <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Link to where this map is from"></span>
     </p>
     
     <p>
-      <%= f.label :publisher, "Publisher / Author / Printer" %>
+      <%= f.label :publisher, "Publisher" %>
       <br>
       <%= f.text_field :publisher %>
-      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Name of entity"></span>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="An entity responsible for making the content available"></span>
+    </p>
+
+    <p>
+      <%= f.label :authors, "Author" %>
+      <br>
+      <%= f.text_field :authors %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="The person responsible for the content"></span>
     </p>
     
-     <p>
+    <p>
+      <%= f.label :publication_place, "Collector / Owner" %>
+      <br>
+      <%= f.text_field :publication_place %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Library or collection where the map is kept"></span>
+    </p>
+    
+    <p>
       <%= f.label :date_depicted %>
       <br>
       <%= f.text_field :date_depicted %>
       <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Enter yyyy-mm-dd. If this information is unavailable please enter the best information you have."></span>
-     </p>
+    </p>
 
     <p>
       <%= f.label :published_date %>
