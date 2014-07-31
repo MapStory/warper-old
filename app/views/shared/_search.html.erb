@@ -12,9 +12,17 @@
   <select id="field" name="field" class="form-control mapsearch">
     <%= options_for_select([ ["Title", "title"], 
                            ["Description", "description"], 
+                           ["Tags", "tags"],
+                           ["Metadata unique ID", "unique_id"],
+                           ["Source / Reference URL", "source_uri"],
                            ["Publisher", "publisher"],
                            ["Author", "authors"],
-                            ["Tags", "tags"]], @field)-%>
+                           ["Collector / Owner", "publication_place"],
+                           ["Date depicted", "date_depicted"],
+                           ["Published date", "published_date"],
+                           ["Scale", "scale"],
+                           ["Language", "language"]
+                            ], @field)-%>
   </select>
 </div>
 

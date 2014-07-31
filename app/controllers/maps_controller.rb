@@ -284,7 +284,7 @@ class MapsController < ApplicationController
 
     @query = params[:query]
 
-    @field = %w(tags title description status publisher authors).detect{|f| f == (params[:field])}
+    @field = %w(tags title description status publisher authors unique_id source_uri publication_place date_depicted published_date scale language).detect{|f| f == (params[:field])}
     
    unless @field == "tags"
      
