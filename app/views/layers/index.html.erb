@@ -1,31 +1,33 @@
-<% if @page == "for_map" %>
-  <%= render :partial => 'maps/map', :object => @map %>
-  <div id="search-title"><%= @html_title -%></div>
-  <div class="browse">
-<% else %>
+<div class="col-sm-12">
+  <% if @page == "for_map" %>
+    <%= render :partial => 'maps/map', :object => @map %>
+    <div id="search-title"><%= @html_title -%></div>
+    <div class="browse">
+  <% else %>
 
-  <%= render :partial => 'search' -%>
+    <%= render :partial => 'search' -%>
 
-  <div class="browse">
+    <div class="browse">
 
-  <h1><%= @html_title -%>
-    <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
-    <%end-%>
-  </h1>
-<%end%>
+    <h1><%= @html_title -%>
+      <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
+      <%end-%>
+    </h1>
+  <%end%>
 
-<div id="search-sort">
-  Sort:&nbsp;
-  <%= sort_header_tag('name', :title => "Title") %> /
-  <%= sort_header_tag('depicts_year', :title => "Year") %> /
-  <%= sort_header_tag('updated_at', :title => "Last Updated") %> /
-  <%= sort_header_tag('maps_count', :title=> "Number of Maps") %>
-</div>
+  <div id="search-sort">
+    Sort:&nbsp;
+    <%= sort_header_tag('name', :title => "Title") %> /
+    <%= sort_header_tag('depicts_year', :title => "Year") %> /
+    <%= sort_header_tag('updated_at', :title => "Last Updated") %> /
+    <%= sort_header_tag('maps_count', :title=> "Number of Maps") %>
+  </div>
 
-<%= render :partial => 'layer', :collection => @layers unless @layers.nil? %>
+  <%= render :partial => 'layer', :collection => @layers unless @layers.nil? %>
 
-<div id="search-pagination-bottom">
-  <%= will_paginate @layers, :renderer => FlowPagination::LinkRenderer  %>
-</div>
+  <div id="search-pagination-bottom">
+    <%= will_paginate @layers, :renderer => FlowPagination::LinkRenderer  %>
+  </div>
 
+  </div>
 </div>
