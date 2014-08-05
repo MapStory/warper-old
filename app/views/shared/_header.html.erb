@@ -11,35 +11,35 @@
           <ul class="nav navbar-nav pull-right">
             <li class="btn-toolbar">
               <div class="btn-group">
-                <button class="btn btn-sm">
+                <div class="btn btn-sm">
                   <%= link_to("Browse All Maps", maps_path) %>
-                </button>
+                </div>
               </div>
 
               <div class="btn-group">
-                <button class="btn btn-sm">
+                <div class="btn btn-sm">
                   <%= link_to("Upload Map", new_map_path) %>
-                </button>
+                </div>
               </div>
 
               <div class="btn-group">
-                <button class="btn btn-sm">
+                <div class="btn btn-sm">
                   <%= link_to("Browse All Mosaics",  layers_path) %>
-                </button>
+                </div>
               </div>
 
               <div class="btn-group">
-                <button class="btn btn-sm">
+                <div class="btn btn-sm">
                   <%= link_to("Add Mosaic", new_layer_path) %>
-                </button>
+                </div>
               </div>
 
               <%= render "shared/userlinks" %>
 
               <div class="btn-group">
-                <button class="btn btn-sm">
+                <div class="btn btn-sm">
                   <%= link_to("Help", :controller => 'home', :action => 'help') %>
-                </button>
+                </div>
               </div>
 
             </li>
