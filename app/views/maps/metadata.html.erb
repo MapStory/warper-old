@@ -33,20 +33,30 @@
       <%= @map.unique_id %>
     </p>
     
-     <p>
-      <b>Source / Bibliographic Ref URL</b><br>
+    <p>
+      <b>Source / Reference URL</b><br>
       <%= @map.source_uri %>
     </p>
     
     <p>
-      <b>Publisher / Author / Printer</b><br>
+      <b>Publisher</b><br>
       <%= @map.publisher %>
     </p>
-    
-     <p>
+
+    <p>
+      <b>Author</b><br>
+      <%= @map.authors %>
+    </p>
+
+    <p>
+      <b>Collector / Owner</b><br>
+      <%= @map.publication_place %>
+    </p>
+
+    <p>
       <b>Date depicted</b><br>
       <%= @map.date_depicted %>
-     </p>
+    </p>
 
     <p>
       <b>Published date</b><br>
