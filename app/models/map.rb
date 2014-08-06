@@ -41,6 +41,9 @@ class Map < ActiveRecord::Base
   attr_accessor :error
 
   validates_presence_of :title
+  validates_presence_of :description
+  validates_presence_of :tag_list
+
   validates_numericality_of :rough_lat, :rough_lon, :rough_zoom, :allow_nil => true
   validates_numericality_of :metadata_lat, :metadata_lon, :allow_nil => true
 

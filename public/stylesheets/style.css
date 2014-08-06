@@ -19,6 +19,24 @@
   color: #888;
 }
 
+.errorExplanation {
+  border: 1px solid red;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border-radius: 5px;
+  padding: .5em;
+}
+
+.fieldWithErrors {
+  display: inline;
+}
+
+.fieldWithErrors label {
+  color: red;
+  text-decoration: underline;
+}
+
+
 #dashboard {
 	margin-top: 15px;
 }
