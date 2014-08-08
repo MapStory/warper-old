@@ -51,8 +51,10 @@
     update_row_numbers();
 
   <% if @bestguess_places -%>
-   var bestGuessResult = <%= @bestguess_places.to_json -%>;
-   bestGuess(bestGuessResult);
+    //var bestGuessResult = <%= @bestguess_places.to_json -%>;
+    //bestGuess(bestGuessResult);
+    // Instead of best guess, we center on Washington DC
+    centerToMap(-77.0263223,38.8878436, 3);
   <% end -%>
 
   }
@@ -105,7 +107,7 @@
     <div id="gcp_table_div" >
       <table id="gcp_table" class="gcpTabClass">
         <thead>
-          <tr><th>Point</th><th>Image X</th><th>Image Y</th><th>Lon</th><th>Lat</th><th>Error(<%=sprintf("%.2f",@map.error) %>)</th><th></th></tr>
+          <tr><th>Point</th><th>Image X</th><th>Image Y</th><th>Lon</th><th>Lat</th><th id="errortitle">Error(<%=sprintf("%.2f",@map.error) %>)</th><th></th></tr>
         </thead>
         <tbody id="gcp_list">
           <%= render(:partial => "gcp/gcp", :collection => @gcps) %>
