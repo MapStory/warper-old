@@ -504,7 +504,6 @@ class Map < ActiveRecord::Base
   end
 
   def mask!
-
       self.mask_status = :masking
       save!
       format = self.mask_file_format
@@ -523,17 +522,18 @@ class Map < ActiveRecord::Base
 
       masked_src_filename = self.masked_src_filename
       if File.exists?(masked_src_filename)
-         #deleting old masked image
-         File.delete(masked_src_filename)
+        Rails.logger.info "DELETING old mask file #{masked_src_filename}"
+        #deleting old masked image
+        File.delete(masked_src_filename)
       end
+
       #copy over orig to a new unmasked file
       FileUtils.cp(unwarped_filename, masked_src_filename)
       #TODO ADD -i switch when we have newer gdal
       require 'open3'
-      r_stdin, r_stdout, r_stderr = Open3::popen3(
-      "#{GDAL_PATH}gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
-      )
-      logger.info "#{GDAL_PATH}gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
+      raster_command = "#{GDAL_PATH}gdal_rasterize -i -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
+      r_stdin, r_stdout, r_stderr = Open3::popen3(raster_command)
+      logger.info raster_command
       r_out  = r_stdout.readlines
       r_err = r_stderr.readlines
 
@@ -557,6 +557,8 @@ class Map < ActiveRecord::Base
 
   #Main warp method
   def warp!(resample_option, transform_option, use_mask="false")
+    Rails.logger.debug "STARTING WARPING!!!!!!!"
+    Rails.logger.debug "Use mask is set to #{use_mask.inspect}"
 
     self.status = :warping
     save!
@@ -571,6 +573,9 @@ class Map < ActiveRecord::Base
 
     mask_options = ""
     if use_mask == "true" && self.mask_status == :masked
+      Rails.logger.debug "I'm supposed to be using a masked source filename!"
+      Rails.logger.debug "And it's #{self.masked_src_filename}"
+
       src_filename = self.masked_src_filename
       mask_options = " -srcnodata '17 17 17' "
     else
