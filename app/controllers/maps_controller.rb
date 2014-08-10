@@ -670,7 +670,7 @@ class MapsController < ApplicationController
     @html_title = "Rectifying Map "+ @map.id.to_s
     #@bestguess_places = @map.find_bestguess_places  if @map.gcps.hard.empty?
     # disabling this feature, as it requires yahoo api to be setup
-    @bestguess_places = true
+    @bestguess_places = true if @map.gcps.hard.empty?
     @other_layers = Array.new
     @map.layers.visible.each do |layer| 
      @other_layers.push(layer.id)
