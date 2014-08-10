@@ -116,6 +116,13 @@ class Map < ActiveRecord::Base
       # -expand rgb   for tifs with LZW compression. sigh
       #command  = "#{GDAL_PATH}gdal_translate #{self.upload.path} #{outsize} -co PHOTOMETRIC=RGB -co PROFILE=BASELINE #{tiffed_file_path}"
       # Setting photometric to RGB breaks gif support, it should autodetect this...
+      #
+      # Gif files end up getting converted into an incorrect format if you want to crop them.
+      # as they have only one band. In actuality they should have three bands, one each for red, green, and blue.
+      #
+      # jpegs appear to be properly converted, perhaps we should just convert everything to a jpeg first? Certain uploaded
+      # tif files may even cause a problem...
+      #
       # turning on compression...
       command  = "#{GDAL_PATH}gdal_translate #{self.upload.path} #{outsize} -co COMPRESS=DEFLATE -co PROFILE=BASELINE #{tiffed_file_path}"
       logger.info command
@@ -773,7 +780,7 @@ class Map < ActiveRecord::Base
   ############
 
    def convert_to_png
-     logger.info "start convert to png ->  #{warped_png_filename}"
+     logger.info "start convert to png"
      ext_command = "#{GDAL_PATH}gdal_translate -of png #{warped_filename} #{warped_png_filename}"
      stdin, stdout, stderr = Open3::popen3(ext_command)
      logger.debug ext_command
@@ -781,8 +788,6 @@ class Map < ActiveRecord::Base
        logger.error "ERROR convert png #{warped_filename} -> #{warped_png_filename}"
        logger.error stderr.readlines.to_s
        logger.error stdout.readlines.to_s
-     else
-       logger.info "end, converted to png -> #{warped_png_filename}"
      end
    end
 
