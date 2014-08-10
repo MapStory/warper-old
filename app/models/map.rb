@@ -651,9 +651,9 @@ class Map < ActiveRecord::Base
     # don't care too much if overviews threw a random warning
     if w_err.size <= 0 and t_err.size <= 0
       self.status = :warped
-         spawn do
+         #spawn do
            convert_to_png
-         end
+         #end
       self.touch(:rectified_at)
     else
       self.status = :available
