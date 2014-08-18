@@ -1,5 +1,5 @@
 require "open3"
-require "ftools"
+require "fileutils"
 require "matrix"
 require 'erb'
 require 'rexml/document'
@@ -41,6 +41,9 @@ class Map < ActiveRecord::Base
   attr_accessor :error
 
   validates_presence_of :title
+  validates_presence_of :description
+  validates_presence_of :tag_list
+
   validates_numericality_of :rough_lat, :rough_lon, :rough_zoom, :allow_nil => true
   validates_numericality_of :metadata_lat, :metadata_lon, :allow_nil => true
 
@@ -113,6 +116,13 @@ class Map < ActiveRecord::Base
       # -expand rgb   for tifs with LZW compression. sigh
       #command  = "#{GDAL_PATH}gdal_translate #{self.upload.path} #{outsize} -co PHOTOMETRIC=RGB -co PROFILE=BASELINE #{tiffed_file_path}"
       # Setting photometric to RGB breaks gif support, it should autodetect this...
+      #
+      # Gif files end up getting converted into an incorrect format if you want to crop them.
+      # as they have only one band. In actuality they should have three bands, one each for red, green, and blue.
+      #
+      # jpegs appear to be properly converted, perhaps we should just convert everything to a jpeg first? Certain uploaded
+      # tif files may even cause a problem...
+      #
       # turning on compression...
       command  = "#{GDAL_PATH}gdal_translate #{self.upload.path} #{outsize} -co COMPRESS=DEFLATE -co PROFILE=BASELINE #{tiffed_file_path}"
       logger.info command
@@ -126,11 +136,11 @@ class Map < ActiveRecord::Base
       o_stdin, o_stdout, o_stderr = Open3::popen3(command)
       logger.info command
 
-      o_out = o_stdout.readlines.to_s
-      o_err = o_stderr.readlines.to_s
+      o_out = o_stdout.readlines
+      o_err = o_stderr.readlines
       if o_err.size > 0
-        logger.error "Error gdal overview script" + o_err
-        logger.error "output = "+o_out
+        logger.error "Error gdal overview script" + o_err.to_s
+        logger.error "output = " + o_out.to_s
       end
 
       self.filename = tiffed_filename
@@ -500,8 +510,7 @@ class Map < ActiveRecord::Base
     gcps
   end
 
-     def mask!
-
+  def mask!
       self.mask_status = :masking
       save!
       format = self.mask_file_format
@@ -520,42 +529,43 @@ class Map < ActiveRecord::Base
 
       masked_src_filename = self.masked_src_filename
       if File.exists?(masked_src_filename)
-         #deleting old masked image
-         File.delete(masked_src_filename)
+        Rails.logger.info "DELETING old mask file #{masked_src_filename}"
+        #deleting old masked image
+        File.delete(masked_src_filename)
       end
+
       #copy over orig to a new unmasked file
-      File.copy(unwarped_filename, masked_src_filename)
+      FileUtils.cp(unwarped_filename, masked_src_filename)
       #TODO ADD -i switch when we have newer gdal
       require 'open3'
-      r_stdin, r_stdout, r_stderr = Open3::popen3(
-      "#{GDAL_PATH}gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
-      )
-      logger.info "#{GDAL_PATH}gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
-      r_out  = r_stdout.readlines.to_s
-      r_err = r_stderr.readlines.to_s
+      raster_command = "#{GDAL_PATH}gdal_rasterize -i -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
+      r_stdin, r_stdout, r_stderr = Open3::popen3(raster_command)
+      logger.info raster_command
+      r_out  = r_stdout.readlines
+      r_err = r_stderr.readlines
 
        #if there is an error, and it's not a warning about SRS
       if r_err.size > 0 && r_err.split[0] != "Warning"
          #error, need to fail nicely
-         logger.error "ERROR gdal rasterize script: "+ r_err
-         logger.error "Output = " +r_out
-         r_out = "ERROR with gdal rasterise script: " + r_err + "<br /> You may want to try it again? <br />" + r_out
-
+         logger.error "ERROR gdal rasterize script: #{r_err.to_s}"
+         logger.error "Output = #{r_out.to_s}"
+         r_out = "ERROR with gdal rasterise script: #{r_err.to_s}<br /> You may want to try it again? <br />#{r_out.to_s}"
       else
-
         r_out = "Success! Map was cropped!"
       end
 
       self.mask_status = :masked
       save!
-      r_out
-   end
+      r_out.to_s
+  end
 
    # gdal_rasterize -i -burn 17 -b 1 -b 2 -b 3 SSS.json -l OGRGeoJson orig.tif
    # gdal_rasterize -burn 17 -b 1 -b 2 -b 3 SSS.gml -l features orig.tif
 
   #Main warp method
   def warp!(resample_option, transform_option, use_mask="false")
+    Rails.logger.debug "STARTING WARPING!!!!!!!"
+    Rails.logger.debug "Use mask is set to #{use_mask.inspect}"
 
     self.status = :warping
     save!
@@ -570,6 +580,9 @@ class Map < ActiveRecord::Base
 
     mask_options = ""
     if use_mask == "true" && self.mask_status == :masked
+      Rails.logger.debug "I'm supposed to be using a masked source filename!"
+      Rails.logger.debug "And it's #{self.masked_src_filename}"
+
       src_filename = self.masked_src_filename
       mask_options = " -srcnodata '17 17 17' "
     else
@@ -585,22 +598,18 @@ class Map < ActiveRecord::Base
       File.delete(dest_filename)
     end
 
-    logger.info "gdal translate"
-
-    t_stdin, t_stdout, t_stderr = Open3::popen3(
-      "#{GDAL_PATH}gdal_translate -a_srs '+init=epsg:4326' -of VRT #{src_filename} #{temp_filename}.vrt #{gcp_string}"
-    )
-
-    logger.info "#{GDAL_PATH}gdal_translate -a_srs '+init=epsg:4326' -of VRT #{src_filename} #{temp_filename}.vrt #{gcp_string}"
-    t_out  = t_stdout.readlines.to_s
-    t_err = t_stderr.readlines.to_s
+    command = "#{GDAL_PATH}gdal_translate -a_srs '+init=epsg:4326' -of VRT #{src_filename} #{temp_filename}.vrt #{gcp_string}"
+    t_stdin, t_stdout, t_stderr = Open3::popen3(command)
+    logger.info "Running: " + command
+    t_out  = t_stdout.readlines
+    t_err = t_stderr.readlines
 
     if t_err.size > 0
-      logger.error "ERROR gdal translate script: "+ t_err
-      logger.error "Output = " +t_out
-      t_out = "ERROR with gdal translate script: " + t_err + "<br /> You may want to try it again? <br />" + t_out
+      logger.error "ERROR gdal translate script: "+ t_err.to_s
+      logger.error "Output = " + t_out.to_s
+      t_out = "ERROR with gdal translate script: #{t_err.to_s}<br /> You may want to try it again? <br />#{t_out.to_s}"
     else
-      t_out = "Okay, translate command ran fine! <div id = 'scriptout'>" + t_out + "</div>"
+      t_out = "Okay, translate command ran fine! <div id = 'scriptout'>#{t_out.to_s}</div>"
     end
     trans_output = t_out
 
@@ -610,16 +619,16 @@ class Map < ActiveRecord::Base
     #command = "#{GDAL_PATH}gdalwarp #{memory_limit}  #{transform_option}  #{resample_option} -dstalpha #{mask_options} -s_srs 'EPSG:4326' #{temp_filename}.vrt #{dest_filename} -co TILED=YES"
     command = "#{GDAL_PATH}gdalwarp #{memory_limit}  #{transform_option}  #{resample_option} -dstalpha #{mask_options} -s_srs 'EPSG:4326' #{temp_filename}.vrt #{dest_filename} -co TILED=YES -co COMPRESS=DEFLATE"
     w_stdin, w_stdout, w_stderr = Open3::popen3(command)
-    logger.info command
+    logger.info "Running: " + command
 
-    w_out = w_stdout.readlines.to_s
-    w_err = w_stderr.readlines.to_s
+    w_out = w_stdout.readlines
+    w_err = w_stderr.readlines
     if w_err.size > 0
-      logger.error "Error gdal warp script" + w_err
-      logger.error "output = "+w_out
-      w_out = "error with gdal warp: "+ w_err +"<br /> try it again?<br />"+ w_out
+      logger.error "Error gdal warp script" + w_err.to_s
+      logger.error "output = " + w_out.to_s
+      w_out = "error with gdal warp: #{w_err.to_s}<br /> try it again?<br />#{w_out.to_s}"
     else
-      w_out = "Okay, warp command ran fine! <div id='scriptout'>" + w_out +"</div>"
+      w_out = "Okay, warp command ran fine! <div id='scriptout'>#{w_out.to_s}</div>"
     end
       warp_output = w_out
 
@@ -630,14 +639,14 @@ class Map < ActiveRecord::Base
       o_stdin, o_stdout, o_stderr = Open3::popen3(command)
       logger.info command
 
-      o_out = o_stdout.readlines.to_s
-      o_err = o_stderr.readlines.to_s
+      o_out = o_stdout.readlines
+      o_err = o_stderr.readlines
       if o_err.size > 0
-         logger.error "Error gdal overview script" + o_err
-         logger.error "output = "+o_out
-         o_out = "error with gdal overview: "+ o_err +"<br /> try it again?<br />"+ o_out
+         logger.error "Error gdal overview script" + o_err.to_s
+         logger.error "output = " + o_out.to_s
+         o_out = "error with gdal overview:#{o_err.to_s}<br /> try it again?<br />#{o_out.to_s}"
       else
-         o_out = "Okay, overview command ran fine! <div id='scriptout'>" + o_out +"</div>"
+         o_out = "Okay, overview command ran fine! <div id='scriptout'>#{o_out.to_s}</div>"
       end
       overview_output = o_out
 
@@ -646,20 +655,20 @@ class Map < ActiveRecord::Base
       File.delete(temp_filename + '.vrt')
     end
 
-      # don't care too much if overviews threw a random warning
+    # don't care too much if overviews threw a random warning
     if w_err.size <= 0 and t_err.size <= 0
       self.status = :warped
-         spawn do
+         #spawn do
            convert_to_png
-         end
+         #end
       self.touch(:rectified_at)
     else
       self.status = :available
     end
     save!
-      update_layers
-      update_bbox
-      output = "Step 1: Translate: "+ trans_output + "<br />Step 2: Warp: " + warp_output + \
+    update_layers
+    update_bbox
+    output = "Step 1: Translate: "+ trans_output + "<br />Step 2: Warp: " + warp_output + \
                "Step 3: Add overviews:" + overview_output
   end
 
@@ -771,16 +780,14 @@ class Map < ActiveRecord::Base
   ############
 
    def convert_to_png
-     logger.info "start convert to png ->  #{warped_png_filename}"
+     logger.info "start convert to png"
      ext_command = "#{GDAL_PATH}gdal_translate -of png #{warped_filename} #{warped_png_filename}"
      stdin, stdout, stderr = Open3::popen3(ext_command)
      logger.debug ext_command
-     if stderr.readlines.to_s.size > 0
+     if stderr.readlines.size > 0
        logger.error "ERROR convert png #{warped_filename} -> #{warped_png_filename}"
        logger.error stderr.readlines.to_s
        logger.error stdout.readlines.to_s
-     else
-       logger.info "end, converted to png -> #{warped_png_filename}"
      end
    end
 
@@ -788,6 +795,8 @@ class Map < ActiveRecord::Base
    #it will also get a sibling map, if that has been rectified, to help determine appropriate zoom scale
    #TODO - weight the results to bias the text in the title, and experiment with the focusWoeid
    def find_bestguess_places
+    Rails.logger.info "Attempting to find bestguess place via Yahoo"
+    
      url = URI.parse('http://wherein.yahooapis.com/v1/document')
      appid = Yahoo_app_id
      builder = Nokogiri::XML::Builder.new do |xml|
@@ -810,8 +819,9 @@ class Map < ActiveRecord::Base
     'documentType' => documentType
      }
      begin
-       resp, data = Net::HTTP.post_form(url, post_args)
-       
+       resp = Net::HTTP.post_form(url, post_args)       
+       data = resp.body
+
        @newresults = Nokogiri::XML.parse(data)
        xmlroot = @newresults.root
        if xmlroot.at('document') && xmlroot.at('document').children.size > 1

@@ -1,10 +1,18 @@
-<h2>Edit mosaic</h2>
-<%= error_messages_for :layer %>
-<em>Note: All mosaics are public, you can add your private maps to them, they won't be listed<br />
-but they will be seen on the final map image.</em>
-<%- if (current_user = @layer.user || admin_authorized?) -%>
-  <p>&mdash; <%=  link_to 'Delete this mosaic.',
-  {:controller=>"layers", :action=>"delete", :id => @layer} %> &mdash; </p>
+<div class="row">
+	<div class="col-sm-12">
+		<h1>Edit mosaic</h1>
+		<%= error_messages_for :layer %>
+		<em>Note: All mosaics are public, you can add your private maps to them, they won't be listed<br />
+		but they will be seen on the final map image.</em>
+	</div>
+</div>
 
-<% end %>
 <%= render :partial => "form_remote", :locals => {:page => "edit"} %>
+
+<%- if (current_user = @layer.user || admin_authorized?) -%>
+<div class="row">
+	<div class="col-sm-12">
+  	<div class="mapbtn"><%=  link_to 'Delete this mosaic.', {:controller=>"layers", :action=>"delete", :id => @layer}, :class => "btn btn-danger" %></div>
+  </div>
+</div>
+<% end %>

@@ -1,36 +1,48 @@
-<% if admin_authorized? %>
-  <% form_tag url_for(:controller => "users"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
-    User Search
-    <select id="field" name="field">
-      <%= options_for_select([ ["Name", "login"],
-          ["Email", "email"]], @field)-%>
-    </select>
-    for
-    <%= text_field_tag 'query', @query -%>
-    <input type="submit" value=" Go " />
-  <% end -%>
-<% end %>
-<h2>Users
-  <% if @group -%> in Group <%= @group.id.to_s -%>. <% end -%>
-  <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
-  <%end-%></h2>
-
-<%= will_paginate @users %>
-<table class="usertable">
-  <thead>
-    <tr>
-      <%= sort_header_tag('login', :title => "Username") %>
-      <% if admin_authorized? %>
-        <%= sort_header_tag('email', :title => "Email") %>
-        <%= sort_header_tag('enabled', :title => "Enabled?") %>
-        <%= sort_header_tag('activated_at', :title => "Activated?") %>
-        <th>Roles</th>
+<div class="col-sm-12">
+  <% if admin_authorized? %>
+    <div class="row">
+      <% form_tag url_for(:controller => "users"), :id=>"searchform", :class=> "navbar-form",:name=> "searchform", :method => :get do -%>
+      <div class="form-group col-sm-6">
+          <div class="input-group mapsearch">
+            <%= text_field_tag 'query', @query, :class => "form-control", :placeholder => "Search Users" -%>
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="submit">Go</button>
+            </span>
+          </div>
+      </div>
+      <div class="form-group col-sm-3">
+        <select id="field" name="field" class="form-control mapsearch">
+          <%= options_for_select([ ["Name", "login"],
+              ["Email", "email"]], @field)-%>
+        </select>
+      </div>
       <% end -%>
-    </tr>
-  </thead>
-  <tbody>
-    <%= render :partial => "user", :collection => @users %>
-  </tbody>
-</table>
-<%= will_paginate @users %>
+    </div>
+  <% end %>
 
+  <div class="browse">
+    <h1>Users
+      <% if @group -%> in Group <%= @group.id.to_s -%>. <% end -%>
+      <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
+      <%end-%></h1>
+
+    <%= will_paginate @users %>
+    <table class="usertable">
+      <thead>
+        <tr>
+          <%= sort_header_tag('login', :title => "Username") %>
+          <% if admin_authorized? %>
+            <%= sort_header_tag('email', :title => "Email") %>
+            <%= sort_header_tag('enabled', :title => "Enabled?") %>
+            <%= sort_header_tag('activated_at', :title => "Activated?") %>
+            <th>Roles</th>
+          <% end -%>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render :partial => "user", :collection => @users %>
+      </tbody>
+    </table>
+    <%= will_paginate @users %>
+  </div>
+</div>

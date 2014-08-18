@@ -20,16 +20,15 @@ function updateFormats() {
 }
 
 function clipinit() {
-
-    var	mds = new OpenLayers.Control.MouseDefaults();
+    //var	mds = new OpenLayers.Control.MouseDefaults();
 
     var iw = clip_image_width + 1000;
     var ih = clip_image_height + 500;
     clipmap = new OpenLayers.Map('clipmap', {
-        controls: [mds, new OpenLayers.Control.PanZoomBar()],
+        controls: [new OpenLayers.Control.PanZoomBar()],
         maxExtent: new OpenLayers.Bounds(-1000, 0, iw, ih),
         maxResolution: 'auto',
-        numZoomLevels: 9
+        numZoomLevels: 7
     });
 
     var image = new OpenLayers.Layer.WMS( title,
@@ -84,6 +83,9 @@ function clipinit() {
     navigate = new OpenLayers.Control.Navigation({
         title: "Move around Map"
     });
+
+
+
     navigate.events.register("activate", this, function(){
         //check to see if theres something in the temp buffer
         if (scratchGeom) {
@@ -127,6 +129,16 @@ function clipinit() {
     controlpanel.addControls([deletePoly, modify, polygon, navigate]);
     clipmap.addControl(controlpanel);
     navigate.activate();
+
+    // Disable mousewheel zoom to prevent overloading server with too
+    // many requests. This version of open street map supports
+    // cumulative scroll, but not interval scrolling. Must upgrade
+    // OSM to get proper functionality.
+    // http://openlayers.org/dev/examples/mousewheel-interval.html
+    var i, l, c = clipmap.getControlsBy( "zoomWheelEnabled", true );
+    for ( i = 0, l = c.length; i < l; i++ ) {
+        c[i].disableZoomWheel();
+    }
 }
 
 function deletePolygon(feature){

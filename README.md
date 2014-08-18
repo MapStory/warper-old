@@ -8,10 +8,26 @@ If you are interested in forking this project, I suggest you go with the origina
 This project is currently in use at warper.mapstory.org
 
 
-## Map Story Integration
+## MapStory Integration
 
 ### Login
 A cookie set by mapstory.org is required to log on.
 
 ### User name Restrictions
 User names must not contain colons or double quotes.
+
+## Initial Setup
+
+Create folder /db/maptileindex
+
+Create symlink of public/mapimages to /data/mapimages
+
+in /data/mapimages create:
+	dst/
+	dst/png
+	src/
+
+## MapStory Theme Support
+
+Minimum usable width is about 1000px. Site will degrade somewhat gracefully
+below that, but not all controls will be aligned properly due to space constraints.

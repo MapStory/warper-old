@@ -1,31 +1,30 @@
-<tr>
-  <td>
-    <a name="a-map-row-<%=map.id%>"></a>
-    <%= link_to image_tag(map.upload.url(:thumb)), map %>
-  </td>
-  <td>
+<%# Usually shown as a list of maps %>
+<div class="row">
+  <div class="col-sm-8">
+    <div class="maplist_img">
+      <a name="a-map-row-<%=map.id%>"></a>
+      <%= link_to image_tag(map.upload.url(:thumb)), map %>
+    </div>
+
     <div class="maplist_title">
       <%=link_to(strip_brackets(h(map.title)), map) %>
-
     </div>
 
     <div class="map_description"><span><%=strip_brackets(h(map.description)) -%>
         <% if map.layers.count > 0 %>
-          (In <%=link_to(pluralize(map.layers.count, 'layer'), map_layers_path(map.id)) -%>)
+          (In <%=link_to(pluralize(map.layers.count, 'mosaic'), map_layers_path(map.id)) -%>)
         <%end %>
       </span>
 
       <span class="map_year">
-        <% if map.depicts_year -%>
+        <% unless map.depicts_year.blank? -%>
           Depicts: <%= map.depicts_year -%>
         <% end -%>
       </span>
       <% if !map.public? %><span class="publicprivate">(Not listed)</span><% end-%>
     </div>
     <div class="map_links_bigger">
-      <%= link_to("View Map",map) -%>
-      |
-      <%= link_to("Rectify Map", map_path(:id=> map,:anchor=>"Rectify_tab")) -%>
+      <%= link_to("Rectify Map", warp_map_path(:id=> map)) -%>
 
       <% if logged_in? -%>
         <% current_user_maps = current_user.maps %>
@@ -36,37 +35,18 @@
         <% end -%>
       <% end -%>
 
-
-      <% if admin_authorized? and @layer -%>
-        | <%= link_to "remove map from this mosaic", {:controller => "layers", :action=>"remove_map", :id => @layer, :map_id => map} %>
-      <%end -%>
-
-      <% if admin_authorized? -%>
-        <% @map = map-%>
-        | <%= render :partial  => 'maps/map_type', :object => @map -%>
-      <% end -%>
-
       <%if map.status == :warped -%> |
         <%= link_to("Download KML", map_url(:id => map, :format=>:kml)) -%>
       <% end -%>
     </div>
-    <div class="map_links">
-      <% if map.source_uri %>
-      Links: <%= link_to 'Source / Biblio Ref', map.source_uri  %>
-       <% end %>
-    </div>
+  </div>
 
-  </td>
-  <td>
-    <%=h time_ago_in_words(map.updated_at) -%> ago.
-  </td>
-  <td>
+  <div class="col-sm-4">
+    Modified <%=h time_ago_in_words(map.updated_at) -%> ago<br>
     <%if map.gcps.hard.size > 0 %>
-      <%=pluralize(map.gcps.hard.size, "control point") -%>.
+      <%=pluralize(map.gcps.hard.size, "control point") -%>
     <%else-%>
-      Unrectified.
+      Unrectified
     <%end-%>
-  </td>
-
-
-</tr>
+  </div>
+</div>

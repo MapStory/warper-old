@@ -1,5 +1,5 @@
 class MapsController < ApplicationController
-   layout 'mapdetail', :only => [:show, :edit, :preview, :warp, :clip, :align, :activity, :warped, :export, :metadata, :comments, :gaia_url, :otm_url]
+  layout 'mapdetail', :only => [:show, :edit, :warp, :clip, :align, :activity, :warped, :export, :metadata, :comments, :gaia_url, :otm_url]
   #before_filter :login_required, :only => [:destroy, :delete]
   before_filter :login_or_oauth_required, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align,
  :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid ]
@@ -89,8 +89,12 @@ class MapsController < ApplicationController
   def comments
     @html_title = "comments"
     @selected_tab = 9
+    @disabled_tabs = []
     @current_tab = "comments"
     @comments = @map.comments
+
+    @disabled_tabs = ["warp", "edit", "clip", "align", "activity"] if !logged_in?    
+
     choose_layout_if_ajax
     respond_to do | format |
       format.html {}
@@ -198,22 +202,31 @@ class MapsController < ApplicationController
   end
 
   def export
+    Rails.logger.debug "In export, exporting your maps"
     @current_tab = "export"
     @selected_tab = 6
     @html_title = "Export Map" + @map.id.to_s
-
-    @gaia_url = "gaiagps://addmapsource/" + CGI::escape(@map.title.to_s + "^^" + url_for(:controller => "maps", :action => "tile", :x => "XPARAM", :y => "YPARAM", :z => "ZPARAM", :only_path => false) + "^^" + @map.gaia_url())
-    @otm_url = "otm://addmapsource/" + CGI::escape(@map.title.to_s + "^^" + url_for(:controller => "maps", :action => "tile", :x => "XPARAM", :y => "YPARAM", :z => "ZPARAM", :only_path => false) + "^^" + @map.gaia_url())
+    @disabled_tabs = []
+    @disabled_tabs = ["warp", "edit", "clip", "align", "activity"] if !logged_in?
+    
+    Rails.logger.debug "My map status is " + @map.status.inspect
+    Rails.logger.debug "My map type is " + @map.map_type.inspect
 
     unless @map.status == :warped && @map.map_type == :is_map
       flash.now[:notice] = "Map needs to be rectified before being able to be exported"
-    end
-    choose_layout_if_ajax
-    respond_to do | format |
-      format.html {}
-      format.tif {  send_file @map.warped_filename, :x_sendfile => (RAILS_ENV != "development") }
-      format.png  { send_file @map.warped_png, :x_sendfile => (RAILS_ENV != "development") }
-      format.aux_xml { send_file @map.warped_png_aux_xml,:x_sendfile => (RAILS_ENV != "development") }
+    else
+
+      @gaia_url = "gaiagps://addmapsource/" + CGI::escape(@map.title.to_s + "^^" + url_for(:controller => "maps", :action => "tile", :x => "XPARAM", :y => "YPARAM", :z => "ZPARAM", :only_path => false) + "^^" + @map.gaia_url())
+      @otm_url = "otm://addmapsource/" + CGI::escape(@map.title.to_s + "^^" + url_for(:controller => "maps", :action => "tile", :x => "XPARAM", :y => "YPARAM", :z => "ZPARAM", :only_path => false) + "^^" + @map.gaia_url())
+
+
+      choose_layout_if_ajax
+      respond_to do | format |
+        format.html {}
+        format.tif {  send_file @map.warped_filename, :x_sendfile => (RAILS_ENV != "development") }
+        format.png  { send_file @map.warped_png, :x_sendfile => (RAILS_ENV != "development") }
+        format.aux_xml { send_file @map.warped_png_aux_xml,:x_sendfile => (RAILS_ENV != "development") }
+      end
     end
   end
 
@@ -261,8 +274,7 @@ class MapsController < ApplicationController
 
 
   def index
-
-    sort_init 'updated_at'
+    sort_init('updated_at', {:default_order => "desc"})
     sort_update
     @show_warped = params[:show_warped]
     request.query_string.length > 0 ?  qstring = "?" + request.query_string : qstring = ""
@@ -271,67 +283,73 @@ class MapsController < ApplicationController
 
     @query = params[:query]
 
-    @field = %w(tags title description status publisher authors).detect{|f| f == (params[:field])}
+    @field = %w(tags title description status publisher authors unique_id source_uri publication_place date_depicted published_date scale language owner_id).detect{|f| f == (params[:field])}
     
-   unless @field == "tags"
-     
-     @field = "title" if @field.nil?
+    unless @field == "tags"
+      @field = "title" if @field.nil?
 
       #we'll use POSIX regular expression for searches    ~*'( |^)robinson([^A-z]|$)' and to strip out brakets etc  ~*'(:punct:|^|)plate 6([^A-z]|$)';
-    if @query && @query.strip.length > 0 && @field
-        #conditions = ["#{@field}  ~* ?", '(:punct:|^|)'+@query+'([^A-z]|$)']
-        conditions = ["#{@field} LIKE ?", '%'+@query+'%']
-      else
-        conditions = nil
-      end
-
-      if params[:sort_order] && params[:sort_order] == "desc"
-        sort_nulls = " NULLS LAST"
-      else
-        sort_nulls = " NULLS FIRST"
-      end
-
-      paginate_params = {
-        :page => params[:page],
-        :per_page => 10,
-        :order => sort_clause,
-        :conditions => conditions
-      }
-
-      if @show_warped == "1"
-        @maps = Map.warped.public.paginate(paginate_params)
-      elsif @show_warped == "1" && (logged_in? and current_user.has_role?("editor"))
-        @maps = Map.warped.paginate(paginate_params)
-      elsif  @show_warped != "1" && (logged_in? and current_user.has_role?("editor"))
-        @maps = Map.paginate(paginate_params)
-      else
-        @maps = Map.public.paginate(paginate_params)
-      end
-
-      @html_title = "Browse Maps"
-      if request.xhr?
-        render :action => 'index.rjs'
-      else
-        respond_to do |format|
-          format.html{ render :layout =>'application' }  # index.html.erb
-        format.xml  { render :xml => @maps.to_xml(:root => "maps", :except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]) {|xml|
-        xml.tag!'stat', "ok"
-        xml.tag!'total-entries', @maps.total_entries
-        xml.tag!'per-page', @maps.per_page
-        xml.tag!'current-page',@maps.current_page} }
-
-        format.json { render :json => {:stat => "ok",
-          :current_page => @maps.current_page,
-          :per_page => @maps.per_page,
-          :total_entries => @maps.total_entries,
-          :total_pages => @maps.total_pages,
-          :items => @maps.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]) , :callback => params[:callback]
-        }
+      if @query && @query.strip.length > 0 && @field
+          #conditions = ["#{@field}  ~* ?", '(:punct:|^|)'+@query+'([^A-z]|$)']
+          if @field == "owner_id"
+            # Find id's of owners, search on those.
+            users = User.find(:all, :conditions => ["login LIKE ?", "%#{@query}%"])
+            id_list = users.map { |x| x.id }
+            conditions = ["#{@field} IN (?)", id_list]
+          else
+            conditions = ["#{@field} LIKE ?", '%'+@query+'%']
+          end
+        else
+          conditions = nil
         end
-      end
-   else
+
+        if params[:sort_order] && params[:sort_order] == "desc"
+          sort_nulls = " NULLS LAST"
+        else
+          sort_nulls = " NULLS FIRST"
+        end
+
+        paginate_params = {
+          :page => params[:page],
+          :per_page => 10,
+          :order => sort_clause,
+          :conditions => conditions
+        }
+
+        if @show_warped == "1"
+          @maps = Map.warped.public.paginate(paginate_params)
+        elsif @show_warped == "1" && (logged_in? and current_user.has_role?("editor"))
+          @maps = Map.warped.paginate(paginate_params)
+        elsif  @show_warped != "1" && (logged_in? and current_user.has_role?("editor"))
+          @maps = Map.paginate(paginate_params)
+        else
+          @maps = Map.public.paginate(paginate_params)
+        end
+
+        @html_title = "Browse All Maps"
+        if request.xhr?
+          render :action => 'index.rjs'
+        else
+          respond_to do |format|
+            format.html{ render :layout =>'application' }  # index.html.erb
+          format.xml  { render :xml => @maps.to_xml(:root => "maps", :except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]) {|xml|
+          xml.tag!'stat', "ok"
+          xml.tag!'total-entries', @maps.total_entries
+          xml.tag!'per-page', @maps.per_page
+          xml.tag!'current-page',@maps.current_page} }
+
+          format.json { render :json => {:stat => "ok",
+            :current_page => @maps.current_page,
+            :per_page => @maps.per_page,
+            :total_entries => @maps.total_entries,
+            :total_pages => @maps.total_pages,
+            :items => @maps.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]) , :callback => params[:callback]
+          }
+          end
+        end
+    else
      redirect_to :action => 'tag', :id => @query
-   end
+    end
   end
 
   def tag
@@ -389,7 +407,7 @@ class MapsController < ApplicationController
 
 
   def edit
-    @current_tab = :edit
+    @current_tab = "edit"
     @selected_tab = 1
     @html_title = "Editing Map #{@map.title} on"
     choose_layout_if_ajax
@@ -479,7 +497,7 @@ class MapsController < ApplicationController
       if @map.status.nil? or @map.status == :unloaded or @map.status == :loading
         @disabled_tabs += ["warped"]
       end
-        flash.now[:notice] = "You may need to %s to start editing the map"
+        flash.now[:notice] = "You'll need to %s to start editing the map"
         flash.now[:notice_item] = ["log in", new_session_path]
       if request.xhr?
         @xhr_flag = "xhr"
@@ -591,8 +609,12 @@ class MapsController < ApplicationController
   def warped
     @current_tab = "warped"
     @selected_tab = 5
+    @disabled_tabs = []
     @html_title = "Viewing Rectfied Map "+ @map.id.to_s
     if @map.status == :warped and @map.gcps.hard.size > 2
+      
+      @disabled_tabs = ["warp", "edit", "clip", "align", "activity"] if !logged_in?
+
       @title = "Viewing warped map"
       width = @map.width
       height = @map.height
@@ -642,50 +664,48 @@ class MapsController < ApplicationController
     choose_layout_if_ajax
   end
 
-   def warp
-     @current_tab = "warp"
-     @selected_tab = 2
-     @html_title = "Rectifying Map "+ @map.id.to_s
-     @bestguess_places = @map.find_bestguess_places  if @map.gcps.hard.empty?
-     @other_layers = Array.new
-     @map.layers.visible.each do |layer| 
-       @other_layers.push(layer.id)
+  def warp
+    @current_tab = "warp"
+    @selected_tab = 2
+    @html_title = "Rectifying Map "+ @map.id.to_s
+    #@bestguess_places = @map.find_bestguess_places  if @map.gcps.hard.empty?
+    # disabling this feature, as it requires yahoo api to be setup
+    @bestguess_places = true if @map.gcps.hard.empty?
+    @other_layers = Array.new
+    @map.layers.visible.each do |layer| 
+     @other_layers.push(layer.id)
+    end
+
+    @gcps = @map.gcps_with_error 
+
+    width = @map.width
+    height = @map.height
+    width_ratio = width / 180
+    height_ratio = height / 90
+
+    choose_layout_if_ajax 
+  end
+
+  def rectify
+   rectify_main
+
+   respond_to do |format|
+     unless @too_few || @fail
+       format.js if request.xhr?
+       format.html { render :text => @notice_text }
+       format.json { render :json=> {:stat => "ok", :message => @notice_text}.to_json, :callback => params[:callback] }
+     else
+       format.js if request.xhr?
+       format.html { render :text => @notice_text }
+       format.json { render :json=> {:stat => "fail", :message => @notice_text}.to_json , :callback => params[:callback]}
      end
-
-     @gcps = @map.gcps_with_error 
-
-     width = @map.width
-     height = @map.height
-     width_ratio = width / 180
-     height_ratio = height / 90
-
-     choose_layout_if_ajax 
    end
-
-
-
-
-   def rectify
-     rectify_main
-
-     respond_to do |format|
-       unless @too_few || @fail
-         format.js if request.xhr?
-         format.html { render :text => @notice_text }
-         format.json { render :json=> {:stat => "ok", :message => @notice_text}.to_json, :callback => params[:callback] }
-       else
-         format.js if request.xhr?
-         format.html { render :text => @notice_text }
-         format.json { render :json=> {:stat => "fail", :message => @notice_text}.to_json , :callback => params[:callback]}
-       end
-     end
-     
-   end
-
-
-
+  end
 
   def metadata
+    @current_tab = "metadata"
+    @disabled_tabs = []
+    @disabled_tabs = ["warp", "edit", "clip", "align", "activity"] if !logged_in?
     choose_layout_if_ajax
   end
 #################################################

@@ -1,26 +1,46 @@
-<% form_tag url_for(:controller => "maps"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
-  Search  
- <select id="field" name="field">
+<div class="row">
+<% form_tag url_for(:controller => "maps"), :id=>"searchform", :class=> "navbar-form",:name=> "searchform", :method => :get do -%>
+<div class="form-group col-sm-6">
+    <div class="input-group mapsearch">
+      <%= text_field_tag 'query', @query, :class => "form-control", :placeholder => "Search Maps" -%>
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="submit">Go</button>
+      </span>
+    </div>
+</div>
+<div class="form-group col-sm-3">
+  <select id="field" name="field" class="form-control mapsearch">
     <%= options_for_select([ ["Title", "title"], 
                            ["Description", "description"], 
+                           ["Tags", "tags"],
+                           ["Metadata unique ID", "unique_id"],
+                           ["Source / Reference URL", "source_uri"],
                            ["Publisher", "publisher"],
                            ["Author", "authors"],
-                            ["Tags", "tags"]], @field)-%>
-    </select>
-  for 
-  <%= text_field_tag 'query', @query -%>
-  <input type="submit" value=" Go ">
-  <% if @show_warped == "1" -%>
-    <% check_all = false -%>
-    <% check_rectified = true -%>
-  <% else -%>
-    <% check_all = true -%>
-    <% check_rectified = false -%>
-  <% end %>
+                           ["Collector / Owner", "publication_place"],
+                           ["Date depicted", "date_depicted"],
+                           ["Published date", "published_date"],
+                           ["Scale", "scale"],
+                           ["Language", "language"],
+                           ["User name", "owner_id"]
+                            ], @field)-%>
+  </select>
+</div>
 
-  <label for="all_maps">All maps</label>
-  <%= radio_button_tag('show_warped', 0, check_all, :id => 'all_maps') %>
-  <label for="rectified_maps">Rectified maps only</label>
-  <%= radio_button_tag('show_warped', 1, check_rectified, :id => 'rectified_maps') %>
 
+<div class="form-group col-sm-3">
+    <% if @show_warped == "1" -%>
+      <% check_all = false -%>
+      <% check_rectified = true -%>
+    <% else -%>
+      <% check_all = true -%>
+      <% check_rectified = false -%>
+    <% end %>
+
+    <%= radio_button_tag('show_warped', 0, check_all, :id => 'all_maps') %>
+    <label for="all_maps">All maps</label><br>
+    <%= radio_button_tag('show_warped', 1, check_rectified, :id => 'rectified_maps') %>
+    <label for="rectified_maps">Rectified maps only</label>
+</div>
 <% end -%>
+</div>

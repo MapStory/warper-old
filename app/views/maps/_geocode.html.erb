@@ -1,0 +1,43 @@
+<script type="text/javascript">
+
+    function submitgcform() {
+        var queryString = document.getElementById('gcquery').value;
+        OpenLayers.Request.GET({
+            url: "http://nominatim.openstreetmap.org/search",
+            scope: this,
+            failure: this.requestFailure,
+            success: this.requestSuccess,
+            params: {"q": queryString, "format": "json"}
+        });
+    }
+
+    function requestSuccess(response) {
+        var format = new OpenLayers.Format.JSON();
+        var output = format.read(response.responseText);
+        
+        console.debug(output);
+
+        if (output[0]) {
+            var foundPosition = new OpenLayers.LonLat(output[0].lon, output[0].lat).transform(
+                    new OpenLayers.Projection("EPSG:4326"),
+                    to_map.getProjectionObject()
+                    );
+            to_map.setCenter(foundPosition, 16);
+            jQuery("#gcsearchmsg").html(output[0].display_name);
+        } else {
+            jQuery("#gcsearchmsg").html("Sorry, no address found");
+        }
+        
+    }
+
+    function requestFailure(response) {
+        alert("An error occurred while communicating with the Geocoding service. Please try again.");
+    }
+</script>
+<form id="gcsearch" name="gcsearch" action="javascript: submitgcform();" method="post">
+    <div class="input-group">
+    <input type="text" id="gcquery" name="gcquery" class="form-control" placeholder="Search for an address">
+    <span class="input-group-btn"><button class="btn btn-default" type="submit">Search</button></span>
+    </div>
+</form>
+<div id="gcsearchmsg"></div>

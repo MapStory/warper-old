@@ -1,60 +1,76 @@
-<h2>metadata</h2>
+<div class="row">
+<div class="col-sm-12">
+  <h1>Metadata</h1>
+</div>
+</div>
 
+<div class="row">
 
-<div class="column span-12">
+  <div class="col-sm-6">
     <p>
       <b>Title</b><br />
       <%= h @map.title %>
     </p>
 
     <p>
-      <b>Description </b><br />
+      <b>Description</b><br />
       <%= h @map.description %>
     </p>
-    <p>
-       <% if @map.tags.count > 0 -%>
-      <span class="map_summary">Tags:</span>
+
+    <h2>Tags</h2>
+    <% if @map.tags.count > 0 -%>
       <span class="tags">
         <% @map.tags.each do | tag | -%>
           <%= link_to tag.name, { :controller=> :maps, :action => :tag, :id => tag.name } %>
         <% end %>
       </span>
-      <br />
     <% end -%>
-    </p>
-       <p>
-         <%= @map.map_type.to_s %>
-
-    </p>
   </div>
 
-  <div class="column span-12 last">
-  <p>
-    <b>Source/ Bibliographic Ref URL</b><br />
-    <%= @map.source_uri %>
-  </p>
+  <div class="col-sm-6">
     <p>
-      <b>Publisher</b><br />
+      <b>Metadata Unique ID</b><br>
+      <%= @map.unique_id %>
+    </p>
+    
+    <p>
+      <b>Source / Reference URL</b><br>
+      <%= @map.source_uri %>
+    </p>
+    
+    <p>
+      <b>Publisher</b><br>
       <%= @map.publisher %>
     </p>
 
     <p>
-      <b>Author(s)</b><br />
+      <b>Author</b><br>
       <%= @map.authors %>
     </p>
 
     <p>
-      <b>Scale</b><br />
+      <b>Collector / Owner</b><br>
+      <%= @map.publication_place %>
+    </p>
+
+    <p>
+      <b>Date depicted</b><br>
+      <%= @map.date_depicted %>
+    </p>
+
+    <p>
+      <b>Published date</b><br>
+      <%= @map.published_date %>
+    </p>
+    
+    <p>
+      <b>Scale</b><br>
       <%= @map.scale %>
     </p>
 
     <p>
-      <b>Published Date</b><br />
-      <%= @map.published_date %>
-
-    <p>
-      <b>Reprint Date<br />
-      <%= @map.reprint_date %>
+      <b>Language</b><br>
+      <%= @map.language %>
     </p>
   </div>
-
+</div>

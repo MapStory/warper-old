@@ -1,92 +1,98 @@
+<div class="row">
 <% form_for(@map, :html => {:multipart => true}) do |f| %>
-  <div class="column span-12">
+  <div class="col-lg-6">
+    <p>Title, Description, and Tags are required</p>
     <p>
-      <b>Title</b><br />
+      <%= f.label :title %>
+      <br>
       <%= f.text_field :title %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="The name of the map"></span>
     </p>
-
     <p>
-      <b>Description </b><span class="tiny-text">(max 256 chars)</span><br />
+      <%= f.label :description %> <span class="tiny-text">(max 256 chars)</span>
+      <br>
       <%= f.text_area(:description, :rows => 12) %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Textual outline of the content"></span>
     </p>
     <p>
-      <b>Tags </b><span class="tiny-text">(comma separated)</span> <br />
+      <%= f.label :tag_list, "Tags" %> <span class="tiny-text">(comma separated)</span>
+      <br>
       <%= f.text_field :tag_list %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Keywords that correspond to the content"></span>
     </p>
-       <p>
+    <p>
       <%= f.select(:map_type, Map.map_type_hash, :selected=>:is_map) -%>
     </p>
   </div>
 
-  <div class="column span-12 last">
+  <div class="col-lg-6">
+    <p>Please complete the following fields to the best of your ability. As with any reference, the quality of content is greatly increased with completed metadata.</p>    
     <p>
-      <b>Subject Area</b><span class="tiny-text">(optional)</span><br />
-      <%= f.text_field :subject_area %>
-    </p>
-
-    <p>
-      <b>Metadata Unique ID</b><span class="tiny-text">(optional)</span><br />
+      <%= f.label :unique_id, "Metadata unique ID" %> 
+      <br>
       <%= f.text_field :unique_id %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Create your own unique identifier for this map"></span>
     </p>
-
     <p>
-      <b>Source / Bibliographic Ref URL</b><span class="tiny-text">(optional)</span><br />
+      <%= f.label :source_uri, "Source / Reference URL" %>
+      <br>
       <%= f.text_field :source_uri %>
-    </p>
-
-    <p>
-      <b>Call Number</b><span class="tiny-text">(optional)</span><br />
-      <%= f.text_field :call_number %>
-    </p>
-
-    <p>
-      <b>Publisher</b><span class="tiny-text">(optional)</span><br />
-      <%= f.text_field :publisher %>
-    </p>
-
-    <p>
-      <b>Place of Publication</b><span class="tiny-text">(optional)</span><br />
-      <%= f.text_field :publication_place %>
-    </p>
-    <p>
-      <b>Author(s)</b><span class="tiny-text">(optional)</span><br />
-      <%= f.text_field :authors %>
-    </p>
-
-     <p>
-      <b>Date Depicted</b><span class="tiny-text">(year, optional)</span><br />
-      <%= f.text_field :date_depicted %>
-     </p>
-
-    <p>
-      <b>Published Date</b><span class="tiny-text">(optional)</span><br />
-      <%= f.date_select(:published_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
-    </p>
-
-    <p>
-      <b>Reprint Date </b><span class="tiny-text">(optional)</span><br />
-      <%= f.date_select(:reprint_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Link to where this map is from"></span>
     </p>
     
     <p>
-      <b>Scale</b><span class="tiny-text">(optional)</span><br />
+      <%= f.label :publisher, "Publisher" %>
+      <br>
+      <%= f.text_field :publisher %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="An entity responsible for making the content available"></span>
+    </p>
+
+    <p>
+      <%= f.label :authors, "Author" %>
+      <br>
+      <%= f.text_field :authors %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="The person responsible for the content"></span>
+    </p>
+    
+    <p>
+      <%= f.label :publication_place, "Collector / Owner" %>
+      <br>
+      <%= f.text_field :publication_place %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Library or collection where the map is kept"></span>
+    </p>
+    
+    <p>
+      <%= f.label :date_depicted %>
+      <br>
+      <%= f.text_field :date_depicted %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Enter yyyy-mm-dd. If this information is unavailable please enter the best information you have."></span>
+    </p>
+
+    <p>
+      <%= f.label :published_date %>
+      <br>
+      <%= f.text_field :published_date %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="Enter yyyy-mm-dd. If this information is unavailable please enter the best information you have."></span>
+    </p>
+    
+    <p>
+      <%= f.label :scale %>
+      <br>
       <%= f.text_field :scale %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="The ratio of a distance on the map to the corresponding distance on the ground."></span>
     </p>
 
     <p>
-      <b>Metadata Projection</b><span class="tiny-text">(optional)</span><br />
-      <%= f.text_field :metadata_projection %>
+      <%= f.label :language %>
+      <br>
+      <%= f.text_field :language %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="The language used on the map."></span>
     </p>
-    <p>
-      <b>Metadata Location</b><span class="tiny-text">(optional)</span><br />
-      <b>Lat: </b> <%= f.text_field :metadata_lat %><br />
-      <b>Lon: </b> <%= f.text_field :metadata_lon %>
-    </p>
-
   </div>
-
-  <div class="column span-24">
-      <%- if defined?(page)  && page =~ /new/ -%>
+</div>
+<div class="row">
+  <div class="col-lg-12">
+    <%- if defined?(page)  && page =~ /new/ -%>
       <p>
         <label for="upload"><b>Upload An Image File:</b>
           <br /><% if @max_size %>
@@ -99,15 +105,18 @@
       </p>
     <%- end -%>
 
-<%- if defined?(page)  && (page =~ /edit/ && logged_in? && (current_user == @map.owner || current_user.has_role?("editor")) || page =~ /new/ ) -%>
-<p>
-Map visibility. <br /><%= f.radio_button :public, "true" %><label for="map_public_true">Public(default)</label> <br/>
-<%= f.radio_button :public, "false" %><label for="map_public_false">Don't list the map (only you can see it)</label>
-</p>
-<%- end -%>
+    <%- if defined?(page)  && (page =~ /edit/ && logged_in? && (current_user == @map.owner || current_user.has_role?("editor")) || page =~ /new/ ) -%>
+    <div class="mapradio">
+    <h2>Map visibility</h2>
+    <%= f.radio_button :public, "true" %><label for="map_public_true">Public (default)</label> <br/>
+    <%= f.radio_button :public, "false" %><label for="map_public_false">Don't list the map (only you can see it)</label>
+    </div>
+    <%- end -%>
+
     <p>
       <%= f.submit((defined?(page) && page =~ /new/) ? "Create" : "Update" )%>
-    </p>
-    
+    </p>    
   </div>
 <% end %>
+
+</div>

@@ -1,7 +1,38 @@
-<div id="nav">
-  <%= link_to "About", :controller => "home", :action => "about" %> |
-  <%= link_to "Help", :controller => "home", :action => "help" %> |
-  <%= link_to "Terms &amp; Conditions", :controller => "home", :action => "terms" %>
-</div>
-
-
+<footer id="sitefooter" class="color4">
+  <section id="mainFooter">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-9">
+          <div class="footerWidget">
+            <span class="highlight"><a href="http://mapstory.org/">MapStory</a></span> is the atlas of change that everyone can edit. We are a community that envisions a world where everyone's wisdom can be tapped, peer reviewed, organized and shared so that we all can dramatically improve our understanding of the rich past, complex present and uncertain future we share as living beings on planet Earth.
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div>
+            <button class="btn btn-sm btn-block btn-default">
+              <a href="http://mapstory.org/mapstory/donate/">Help MapStory grow.<br/> Make a donation.</a>
+            </button>
+          </div>
+        </div>
+        </div>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <hr style="margin:10px 0 10px 0">
+      <div class="row">
+        <div class="col-sm-12">
+            <p><small>By using this site, you agree to the License, Terms of Use and Privacy Policy. MapStory® is a registered trademark of the MapStory Foundation, Inc., a non-profit organization.</small></p>
+            <p><small>
+  					  <%= link_to "About", :controller => "home", :action => "about" %> |
+  					  <%= link_to "Help", :controller => "home", :action => "help" %> |
+  					  <%= link_to "Terms &amp; Conditions", :controller => "home", :action => "terms" %> |
+              <%= link_to "License", "http://wiki.mapstory.org/wiki/License_and_Copyright" %> |
+              <%= link_to "Terms of Service", "http://wiki.mapstory.org/wiki/Terms_of_Service" %>
+            </small></p>
+        </div>
+      </div>
+    </div>
+</section>
+</footer>
+    

@@ -1,0 +1,578 @@
+/* 
+    Document   : colors
+    Author     : Little Neko
+    Description: template colors
+*/
+
+
+/* Table of Content
+==================================================
+
+#BOOSTRAP CUSTOMIZATION
+#TYPOGRAPHY
+#LINKS AND BUTTONS
+#HEADER
+#MAIN MENU 
+#FOOTER 
+#SLIDERS
+#MISCELANIOUS
+#NEKO CSS FRAMEWORK
+
+*/
+
+/* BOOSTRAP CUSTOMIZATION
+================================================== */
+
+/** tabs **/
+.panel-default>.panel-heading {background:white; }
+.panel-default>.panel-heading:hover {background:#fff; }
+.panel-default>.panel-heading:hover a {color:#EB7F37; }
+.panel-title>a {color:black;}
+.panel-title>a:hover {text-decoration: none;}
+
+/* END BOOSTRAP CUSTOMIZATION
+================================================== */
+
+/* TYPOGRAPHY
+================================================== */
+
+body {
+	color:#46443b;
+	font-weight: 100;
+	background: #fff;
+}
+
+blockquote small {
+	color:inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color:#46443B;
+}
+
+h2 {
+ color:#46443B;	
+}
+
+h2 i {color:#46443B}
+h2.subTitle:after, h1.noSubtitle:after{
+	background-color:#EB7F37;
+}
+
+
+/* END TYPOGRAPHY
+================================================== */
+
+/* LINKS AND BUTTONS
+================================================== */
+
+a {
+	font-weight: 100;
+}
+a:hover, .scrollspyNav .active a {
+	color: black;
+	text-decoration: none;
+}
+ul.iconsList li a {
+	color:#ffffff
+}
+ul.iconsList li a:hover, ul.iconsList i {
+	color:#46443B
+}
+
+/*** buttons ***/
+/*
+.btn {
+	background: white;
+	color:black;
+	border:1px solid gainsboro;
+}
+*/
+
+.btn-filter {
+	background: whitesmoke;
+	border: 1px solid orange;
+}
+
+.btn-filter:hover {
+	background: #eb7f37;
+	color:white;
+	border:1px solid transparent;
+}
+
+.btn-filter:active {
+	background: #eb7f37;
+	color:white;
+	border:1px solid transparent;
+}
+
+.btn:hover {
+	color:#ffffff;
+	border-color:#46443B;
+	text-shadow:none;
+	background:#46443B
+}
+.btn-primary {
+	background: #46443B;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
+	background: #46443B;
+}
+.btn-link, .btn-link:active, .btn-link[disabled], .btn-link:hover {
+	background:none;
+	border:none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow:none;
+	box-shadow: none;
+	color:#fffff;
+}
+.btnWrapper {
+	border:1px solid #ccc;
+}
+
+/* END LINKS AND BUTTONS
+================================================== */
+
+/* MAIN MENU 
+================================================== */
+
+#mainHeader{
+    background-color: white;
+	-webkit-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0 1px 10px rgba(0,0,0,.1);
+	box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+}
+
+#mainHeader .navbar-inner {
+	background: #444;
+	filter:none !important;
+}
+#mainMenu ul li a, #resMainMenu ul li a {
+	color:#444;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+	background: #46443B;
+	color:#fff;
+}
+
+/* END MAIN MENU 
+================================================== */
+
+/* FOOTER 
+================================================== */
+
+footer {
+	color:#777;
+	background:#EB7F37;
+	border-top:1px solid #555s;
+}
+
+#footerRights {
+	background-color:#fff;
+	color:#999;
+}
+p.credits {
+	color:#555;
+}
+p.credits a {
+	color:#EB7F37;
+}
+
+/* END FOOTER 
+================================================== */
+
+/* HOME
+================================================== */
+
+#home h1 {color:#FFFFFF;}
+
+/* END HOME
+================================================== */
+
+/* SLIDERS
+================================================== */
+
+/*** FLEX ***/
+
+.flexslider {
+	box-shadow:none;
+}
+.slides .txt div {
+	background:#444;
+	color:#FFFFFF;
+}
+.flexslider .flex-direction-nav a {
+	background-color:#EB7F37;
+}
+
+.flexslider .flex-control-paging li a:hover, #sliderWrapper .flex-control-paging li a.flex-active{
+	background: #fff;
+	border:2px solid #fff;
+}
+.flexslider .flex-control-paging li a {
+	background: transparent;
+	border:2px solid rgba(255,255,255,0.5);
+}
+.flexslider .flex-control-nav {
+	background:transparent;
+}
+.flexslider h1 {
+	color:#fff;
+	background-color:#EB7F37;
+}
+.flexslider h2 {
+	color:#fff;
+	background-color:#333;
+}
+.flexslider .caption p {
+	background-color:#fff;
+	color:#555
+}
+
+/*** flexHome ***/
+#flexHome  h1 {	color:#fff;
+	background:none;
+	}
+#flexHome  h2 {	color:#fff;
+	background:none;
+}
+
+/*** END FLEX SLIDER ***/
+
+/* END SLIDERS
+================================================== */
+
+
+/* MISCELANIOUS
+================================================== */
+/*** hover images ***/
+.iconLinks a span {color:#fff;}
+
+/*** pricing table ***/
+.pricingBloc {
+	background-color:#fff;
+	border:1px solid rgba(0, 0, 0, 0.2);
+
+}
+.pricingBloc ul li {
+	border-bottom:1px solid #ddd;
+	color:#444!important;
+}
+.pricingBloc ul li:last-child {
+	border-bottom:none;
+}
+.pricingBloc h2 {
+	background-color:#555;
+	color:#888!important;
+	border:none;
+}
+.pricingBloc h3 {
+	background-color:#777;
+	color:#fff!important;
+
+}
+.pricingBloc p {
+	background-color:#eee;
+	color:#444!important;
+}
+.pricingBloc.focusPlan {
+	margin-top:0;
+	border-color:#D1D1D1;
+}
+.pricingBloc.focusPlan h2{
+	background-color:#333;
+	color:#fff!important;
+}
+.pricingBloc.focusPlan h3 {
+	background-color:#EB7F37;
+	padding:1.25em;
+	color:#fff!important;
+}
+
+/*** Form ***/
+
+.form-control:focus{
+	background-color:#ddd;
+	box-shadow:none;
+	-webkit-box-shadow:none;
+	-moz-box-shadow:none;
+}
+.form-control {
+	color: #444;
+	background-color:#ededed;
+}
+
+.error {color: #B94A48;
+background-color: #F2DEDE;
+border-color: #EED3D7;}
+
+label.error {color:#fff;
+background-color: #B94A48;
+border:none}
+
+#projectQuote, #projectQuote h3{background:#ddd;color:#444;}
+
+/* END MISCELANIOUS
+================================================== */
+
+/* NEKO CSS FRAMEWORK
+================================================== */
+
+/*** Feature box **/
+
+.boxFeature i{color:#EB7F37;} 
+
+/*** slices ***/
+.slice{
+	background-color:#fff;
+}
+
+/*** call to action ***/
+.ctaBox {border:2px solid rgba(0,0,0,0.05);}
+.ctaBoxFullwidth{border:none}
+
+.ctaBox blockquote {
+	color:#fff;
+}
+
+/*color1*/
+.color1, .slice.color1, .bulle.color1, .ctaBox.color1{
+	background-color:#F7F7F7;
+	color:#444;
+}
+
+.color1 h1, .color1 h2, .color1 h3, .color1 h4, .color1 blockquote, .color1 a{
+	color:#444;
+}
+.color1 a.btn{color:darkgray;}
+.color1 a.btn:hover{color:white;}
+
+/*color4*/
+.color4, .slice.color4, .bulle.color4, .ctaBox.color4{
+	background-color:#EB7F37;
+	color:#fff;
+}
+
+.color4 h1, .color4 h2, .color4 h3, .color4 h4, .color4 blockquote, .color4 a {
+	color:#fff;
+}
+
+.color4 h2.subTitle:after, .color4 h1.noSubtitle:after {
+	background:#fff;
+} 
+
+/*color5*/
+.color5, .slice.color5, .bulle.color5, .ctaBox.color5{
+	background-color:#EBE0CC;
+	color:#444;
+}
+
+.color5 h1, .color5 h2, .color5 h3, .color5 h4, .color5 blockquote, .color5 a{
+	color:#444;
+}
+.color5 a.btn{color:#fff;}
+.color5 a.btn:hover{color:#EBE0CC;}
+
+/*** icons ***/
+.iconRounded {border:2px solid #000;color:#000;background-color:#fff;}
+.iconRounded:hover, .color1 .iconRounded:hover{background-color:#000;color:#fff;}
+.color1 .iconRounded {color:#000;}
+.color4 .iconRounded {background-color:#FFF;color:#000;}
+
+/* END NEKO CSS FRAMEWORK
+================================================== */
+
+/* Removes the default 20px margin and creates some padding space for the indicators and controls 
+.carousel {
+    margin-bottom: 0;
+	padding: 0 40px 30px 40px;
+}
+/* Reposition the controls slightly */
+.carousel-control {
+	left: -12px;
+}
+.carousel-control.right {
+	right: -12px;
+}
+/* Changes the position of the indicators */
+.carousel-indicators {
+	right: 50%;
+	top: auto;
+	bottom: 0px;
+	margin-right: -19px;
+}
+/* Changes the colour of the indicators */
+.carousel-indicators li {
+	background: #c0c0c0;
+}
+.carousel-indicators .active {
+background: #333333;
+}
+
+*/
+
+/*carousel preview*/
+
+/* Main carousel style */
+.carousel {
+    width: 600px;
+}
+
+/* Indicators list style */
+.article-slide .carousel-indicators {
+    bottom: 0;
+    left: 0;
+    margin-left: 5px;
+    width: 100%;
+}
+/* Indicators list style */
+.article-slide .carousel-indicators li {
+    border: medium none;
+    border-radius: 0;
+    float: left;
+    height: 54px;
+    margin-bottom: 5px;
+    margin-left: 0;
+    margin-right: 5px !important;
+    margin-top: 0;
+    width: 100px;
+}
+/* Indicators images style */
+.article-slide .carousel-indicators img {
+    border: 2px solid #FFFFFF;
+    float: left;
+    height: 54px;
+    left: 0;
+    width: 100px;
+}
+/* Indicators active image style */
+.article-slide .carousel-indicators .active img {
+    border: 2px solid #428BCA;
+    opacity: 0.7;
+}
+
+.text-orange {
+  color: #f8a326 !important; }
+
+.orange-background {
+  background-color: #f8a326 !important; }
+
+.orange-border {
+  border-color: #f8a326 !important; }
+
+.text-blue {
+  color: #00acec !important; }
+
+.blue-background {
+  background-color: #00acec !important; }
+
+.blue-border {
+  border-color: #00acec !important; }
+
+.text-purple {
+  color: #9564e2 !important; }
+
+.purple-background {
+  background-color: #9564e2 !important; }
+
+.purple-border {
+  border-color: #9564e2 !important; }
+
+.text-green {
+  color: #49bf67 !important; }
+
+.green-background {
+  background-color: #49bf67 !important; }
+
+.green-border {
+  border-color: #49bf67 !important; }
+
+.text-red {
+  color: #f34541 !important; }
+
+.red-background {
+  background-color: #f34541 !important; }
+
+.red-border {
+  border-color: #f34541 !important; }
+
+.text-muted {
+  color: #999999 !important; }
+
+.muted-background {
+  background-color: #999999 !important; }
+
+.muted-border {
+  border-color: #999999 !important; }
+
+.text-fb {
+  color: #3d579d !important; }
+
+.fb-background {
+  background-color: #3d579d !important; }
+
+.fb-border {
+  border-color: #3d579d !important; }
+
+.text-dark {
+  color: #2b2d30 !important; }
+
+.dark-background {
+  background-color: #2b2d30 !important; }
+
+.dark-border {
+  border-color: #2b2d30 !important; }
+
+.text-pink {
+  color: #c44a83 !important; }
+
+.pink-background {
+  background-color: #c44a83 !important; }
+
+.pink-border {
+  border-color: #c44a83 !important; }
+
+.text-grass-green {
+  color: #5daf2b !important; }
+
+.grass-green-background {
+  background-color: #5daf2b !important; }
+
+.grass-green-border {
+  border-color: #5daf2b !important; }
+
+.text-sea-blue {
+  color: #0163ac !important; }
+
+.sea-blue-background {
+  background-color: #0163ac !important; }
+
+.sea-blue-border {
+  border-color: #0163ac !important; }
+
+.text-banana {
+  color: #fcd052 !important; }
+
+.banana-background {
+  background-color: #fcd052 !important; }
+
+.banana-border {
+  border-color: #fcd052 !important; }
+
+.text-dark-orange {
+  color: #f56e00 !important; }
+
+.dark-orange-background {
+  background-color: #f56e00 !important; }
+
+.dark-orange-border {
+  border-color: #f56e00 !important; }
+
+.text-brown {
+  color: #924e31 !important; }
+
+.brown-background {
+  background-color: #924e31 !important; }
+
+.brown-border {
+  border-color: #924e31 !important; }

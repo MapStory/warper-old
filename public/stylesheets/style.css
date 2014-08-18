@@ -1,0 +1,500 @@
+/* custom styles to tweak default MapStory styles */
+
+.navbar-fixed-top .btn {
+	background-color:white;
+	border:transparent;
+}
+
+.navbar-fixed-top a {
+	text-decoration:none;
+	/*font-size:1.3em; */
+	color:black;
+}
+
+.navbar-fixed-top .btn a {
+	font-size: 1.3em;
+}
+
+.nav-tabs > li > a {
+  color: #888;
+}
+
+.errorExplanation {
+  border: 1px solid red;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border-radius: 5px;
+  padding: .5em;
+}
+
+.fieldWithErrors {
+  display: inline;
+}
+
+.fieldWithErrors label {
+  color: red;
+  text-decoration: underline;
+}
+
+
+#dashboard {
+	margin-top: 15px;
+}
+
+#sitefooter {
+	padding:20px 10px;
+	width:100%;
+	margin-top: 2em;
+}
+
+#tag-cloud {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#tag-cloud a {
+	color: #fff;
+}
+
+#sitefooter .btn {
+  background-color: #9E4C15;
+}
+
+button[type=submit] {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+/* bump down search bar elements */
+.form-group .mapsearch {
+  margin-top: 7px;
+}
+
+/* Add spacing between maps and layers */
+.mapblock .row {
+  margin-bottom: 10px;
+}
+.browse .row {
+  margin-bottom: 10px;
+}
+
+/* Overall site styles */
+.mapblock {
+  margin-bottom: 30px;
+}
+
+.mapblock p {
+  margin-top: 10px;
+}
+
+.mapblock h2 {
+  margin-bottom: 10px;
+}
+
+/*
+.mapblock .row {
+  background-color: #F7F7F7;
+  border-radius: 5px;
+}
+*/
+
+.maplist_img {
+  float: left;
+  text-align: center;
+  min-width: 100px;
+  margin-right: .5em;
+}
+
+#search-sort {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+/* add space to "button" links below maps */
+.mapbtn {
+  margin-top: 30px;
+}
+
+.mapradio {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.mapradio label {
+  margin-left: .7em;
+}
+
+#cliphelp {
+  margin-top: 30px;
+}
+
+th {
+  font-weight: normal;
+}
+
+.sitemsg {
+  text-align: center;
+}
+
+.map_links_bigger {
+  color: gainsboro;
+}
+
+.moreinfo {
+  color: #999;
+  /* fix for weird bootstrap/jquery/prototype tooltip conflict */
+  display: inline-block !important;
+}
+.tiny-text {
+  font-size: 80%;
+  color: #777;
+}
+.browse h1 {
+  margin-top: .4em;
+}
+
+
+
+#wooTabs {
+  margin-top: 15px;
+}
+
+#advancedLink{
+  margin-top: 1em;
+}
+#advanced_form_options {
+  margin-bottom: 1em;
+}
+
+#gcp_table_div {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+#gcp_table {
+  margin-bottom: 15px;
+  font-size: 85%;
+}
+
+#gcp_table input[type="text"] {
+  width: 12em;
+}
+
+#gcp_table input[type="text"].gcperror {
+  width: 6em;  
+}
+
+#gcp_table td {
+  color: #46443b;
+}
+
+#clipping_mask_buttons label {
+  margin-left: .6em;
+}
+#clipping_mask_buttons input {
+  margin-right: .3em;
+}
+
+.warpctl {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+#gcsearchmsg {
+  margin-top: 10px;
+}
+
+.warpsubmit {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+#rectifyNotice {
+  margin-bottom: 15px;
+}
+
+#Export ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+/* Call out MapStory link */
+.footerWidget .highlight {
+
+  font-size: 180%;
+
+}
+.footerWidget .highlight a {
+  font-weight: 600;
+}
+.footerWidget .highlight a:hover {
+  text-decoration: underline;
+}
+
+
+
+/* Open Layer Style */
+#map, #unmap, #clipmap, #warpedmap {
+	margin-left: 2px;
+  position: relative;
+  z-index: 22;
+	height: 600px;
+	border:1px solid gainsboro;
+}
+#to_map_block {
+  position: relative;
+  z-index: 20;
+	float:right;
+  border:1px solid gainsboro;
+	width:49.5%;
+}
+
+#from_map_block {
+  position: relative;
+  z-index: 20;
+	float:left;
+	border:1px solid gainsboro;
+	width:49.5%;
+}
+#from_map,#to_map {
+  position: relative;
+  z-index: 2;
+	height:420px;
+  cursor: crosshair;
+}
+
+#gcp {
+  clear:both;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:center;
+}
+
+#gcp input.gcp_button {
+  font-size:84%;
+  font-weight:bold;
+  margin-top:5px;
+  padding:2px;
+        /* cursor: pointer; */
+        
+}
+
+#gcp input.gcp_button_highlighted {
+  font-size:84%;
+  font-weight:bold;
+  margin-top:5px;
+  padding:2px;
+        cursor: pointer;
+        border: 2px solid #00F2AB;
+        
+}
+
+/* Most styles for openlayers must be !important due to how it includes the stylesheet via javascript */
+/* in draw point mode, hide cursor when mouse down (no openlayer css, we have to use active) */
+.olControlDrawFeaturePointActive:active {
+  cursor: none !important;
+}
+
+/* In Move point mode, hide cursor when dragging a marker */
+.olControlDragFeatureActive.olDragDown.olControlDragFeatureOver {
+  cursor: none !important;
+}
+
+/* move map mode */
+.olControlDragPanActive {
+  cursor: move;
+}
+
+/* Sortable */
+#sortable {list-style-type: none; margin:0; padding: 0;}
+#sortable li {margin: 3px 3px 3px 0; padding: 1px; float: left; 
+	width: 150px; height: 150px; font-size: 2em; text-align: center;line-height:150px; 
+	border: 1px solid #333;
+}
+#sortable li img {vertical-align: middle;display: inline; }
+#mapgrid {width:350px; margin:auto;}
+#align_form_div {	
+clear: both;
+}
+
+
+/* Deal with user interface popup / modals.  Currently using jquery-ui... */
+.ui-dialog {
+	border: 1px solid black;
+	background-color: #fff;
+  padding: 1em;
+  text-align: center;
+}
+
+
+/* OPENLAYERS */
+div.olControlMousePosition
+{
+	bottom:0;
+	display:block;
+	font-family:Arial;
+	font-size:smaller;
+	position:absolute;
+	right:3px;
+	color:red;
+}
+
+.olControlAttribution
+{
+	bottom:2px!important;
+}
+
+.olControlLayerSwitcher
+{
+	font-size:7pt!important;
+}
+
+ .olControlEditingToolbar  {
+    float:right;
+    right: 0px;
+    height: 32px;
+    width: 110px !important;
+    background: #FFFFFF;
+    border:1px solid gray;
+}
+
+.olControlEditingToolbar div { 
+  float:right;
+  width:  24px;
+  height: 24px;
+  margin: 5px;
+}
+ .olControlEditingToolbar2  {
+    float:right;
+    right: 0px;
+    height: 32px;
+    width: 155px !important;
+    background: #FFFFFF;
+    border:1px solid gray;
+}
+
+.olControlEditingToolbar2 div { 
+  float:right;
+  width:  24px;
+  height: 24px;
+  margin: 5px;
+}
+
+.olControlEditingToolbar .olControlDrawFeaturePointItemActive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -128px -23px; 
+}
+.olControlEditingToolbar .olControlDrawFeaturePointItemInactive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -128px -0px; 
+}
+
+.olControlEditingToolbar2 .olControlDrawFeatureItemActive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -26px -23px; 
+}
+.olControlEditingToolbar2 .olControlDrawFeatureItemInactive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -26px -0px; 
+}
+.olControlEditingToolbar2 .olControlModifyFeatureItemActive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -153px -23px; 
+}
+.olControlEditingToolbar2 .olControlModifyFeatureItemInactive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -153px -0px; 
+}
+
+.olControlEditingToolbar .olControlNavigationItemActive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -103px -23px; 
+}
+.olControlEditingToolbar .olControlNavigationItemInactive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -103px -0px; 
+}
+.olControlEditingToolbar2 .olControlNavigationItemActive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -103px -23px; 
+}
+.olControlEditingToolbar2 .olControlNavigationItemInactive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -103px -0px; 
+}
+
+.olControlEditingToolbar .olControlDragFeatureItemInactive {
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -1px 0px;
+}
+.olControlEditingToolbar .olControlDragFeatureItemActive {
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -1px -23px;
+
+}
+.olControlEditingToolbar2 .olControlDeleteFeatureItemInactive {
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -178px 0px;
+}
+.olControlEditingToolbar2 .olControlDeleteFeatureItemActive {
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -178px -23px;
+}
+
+
+/* Slider Styles */
+
+
+/*slider*/
+.ui-slider {
+  /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+  font-family: Verdana, Arial, sans-serif;
+  background: #ffffff url(../images/tabs/bg_y.gif) repeat-x scroll 0 50%;
+        border: 1px solid #d3d3d3;
+  height: .8em;
+  position: relative;
+}
+.ui-slider-handle {
+  /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+  position: absolute;
+  z-index: 2;
+  top: -3px;
+  width: 1.2em;
+  height: 1.2em;
+  background: #ffffff url(images/ffffff_40x100_textures_02_glass_65.png) 0 50% repeat-x;
+  border: 1px solid #dddddd;
+}
+.ui-slider-handle:hover {
+  background: #dadada url(images/dadada_40x100_textures_02_glass_75.png) 0 50% repeat-x;
+  border: 1px solid #999999;
+}
+.ui-slider-handle-active, .ui-slider-handle-active:hover {
+  background: #dadada url(images/dadada_40x100_textures_02_glass_75.png) 0 50% repeat-x;
+  border: 1px solid #dddddd;
+}
+.ui-slider-range {
+  /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+  height: .8em;
+  background: #dadada url(images/dadada_40x100_textures_02_glass_75.png) 0 50% repeat-x;
+  position: absolute;
+  border: 1px solid #d3d3d3;
+  border-left: 0;
+  border-right: 0;
+  top: -1px;
+  z-index: 1;
+}
+

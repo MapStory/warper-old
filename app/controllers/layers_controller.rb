@@ -155,7 +155,7 @@ end
       @page = "for_map"
     else
       @layers = Layer.paginate(paginate_params)
-      @html_title = "Browse Mosaic List"
+      @html_title = "Browse All Mosaics"
     end
     
     if request.xhr?
@@ -332,9 +332,9 @@ end
     end
 
     if @layer.destroy
-      flash[:notice] = "Layer deleted!"
+      flash[:notice] = "Mosaic deleted!"
     else
-      flash[:notice] = "Layer wasnt deleted"
+      flash[:notice] = "Mosaic wasn't deleted"
     end
     respond_to do |format|
       format.html { redirect_to(layers_url) }
@@ -346,7 +346,7 @@ end
     @current_tab = "export"
     @selected_tab = 3
 
-    @html_title = "Export Layer "+ @layer.id.to_s
+    @html_title = "Export Mosaic "+ @layer.id.to_s
     if request.xhr?
       @xhr_flag = "xhr"
       render :layout => "layer_tab_container"
@@ -403,21 +403,6 @@ def update_year
   render :text => "Depicts : " + @layer.depicts_year.to_s
 end
 
-  #merge this layer with another one
-  #moves all child object to new parent
-  def merge
-    if request.get?
-      #just show form
-      render :layout => 'application'
-    elsif request.put?
-      @dest_layer = Layer.find(params[:dest_id])
-      #TODO uncomment following line to enable this
-      #@layer.merge(@dest_layer.id)
-      render :text  => "Layer has been merged into new layer - all maps copied across! (functionality disabled at the moment)"
-    end
-  end
-
-
   def remove_map
     @map = Map.find(params[:map_id])
     if request.get?
@@ -427,16 +412,6 @@ end
       #TODO uncomment following line to enable this
       #@layer.remove_map(@map.id)
       render :text =>  "Map has been removed from this layer (functionality disabled at the moment) "
-    end
-  end
-
-  def publish
-    if @layer.rectified_percent < 100
-      render :text => "Layer has less than 100% of its maps rectified"
-      #redirect_to :action => 'index'
-    else
-      @layer.publish
-      render :text => "Layer will be published (this functionality is disabled at the moment)"
     end
   end
 

@@ -7,7 +7,7 @@
 #ENV['RAILS_ENV'] ||= 'production'
 #GDAL_PATH = ENV['GDAL_PATH'] || ""
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.3.15' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.18' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require 'thread'
@@ -35,6 +35,9 @@ Rails::Initializer.run do |config|
   # (by default production uses :info, the others :debug)
   config.log_level = :debug
 
+  # Fixup encoding issues for linux
+  Encoding.default_external = Encoding::UTF_8
+  Encoding.default_internal = Encoding::UTF_8
 
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper,

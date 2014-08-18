@@ -1,33 +1,44 @@
+<div class="col-sm-12">
+  <div class="row">
+    <% form_tag url_for(:controller => "groups"), :id=>"searchform", :class=> "navbar-form",:name=> "searchform", :method => :get do -%>
+    <div class="form-group col-sm-6">
+        <div class="input-group mapsearch">
+          <%= text_field_tag 'query', @query, :class => "form-control", :placeholder => "Search Groups" -%>
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">Go</button>
+          </span>
+        </div>
+    </div>
+    <div class="form-group col-sm-3">
+      <select id="field" name="field" class="form-control mapsearch">
+        <%= options_for_select([ ["Name", "name"],
+            ["Description", "description"]], @field)-%>
+      </select>
+    </div>
+    <% end -%>
+  </div>
 
-<% form_tag url_for(:controller => "groups"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
-  Groups Search
-  <select id="field" name="field">
-    <%= options_for_select([ ["Name", "name"],
-        ["Description", "description"]], @field)-%>
-  </select>
-  for
-  <%= text_field_tag 'query', @query -%>
-  <input type="submit" value=" Go " />
-<% end -%>
-<h2>Groups <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
-  <%end-%></h2>
-<%= link_to 'Add new group', new_group_url %>
-<%= will_paginate @groups %>
-<table class="usertable">
-  <thead>
-    <tr>
-      <%= sort_header_tag('name', :title => "Name") %>
-      <th>Description</th>
-      <th>Maps</th>
-      <th>Members</th>
-      <%= sort_header_tag('creator', :title => "Creator") %>
-      <%= sort_header_tag('updated_at', :title => "Last updated") %>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <%= render :partial => "group", :collection => @groups %>
-  </tbody>
-</table>
-<%= will_paginate @users %>
-
+  <div class="browse">
+    <h1>Groups <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
+      <%end-%></h1>
+    <%= link_to 'Add new group', new_group_url %>
+    <%= will_paginate @groups %>
+    <table class="usertable">
+      <thead>
+        <tr>
+          <%= sort_header_tag('name', :title => "Name") %>
+          <th>Description</th>
+          <th>Maps</th>
+          <th>Members</th>
+          <%= sort_header_tag('creator', :title => "Creator") %>
+          <%= sort_header_tag('updated_at', :title => "Last updated") %>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render :partial => "group", :collection => @groups %>
+      </tbody>
+    </table>
+    <%= will_paginate @users %>
+  </div>
+</div>
