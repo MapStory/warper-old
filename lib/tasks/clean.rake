@@ -26,15 +26,13 @@ namespace :remove do
     old_maps = Map.find(:all, :conditions => [ "updated_at < ?", MAP_EXPIRE_TIME.ago ])
     old_maps.each do |map|
       puts "CLEAN: Deleting map #{map.title}, last updated on #{map.updated_at}"
-      #todo, actually delete the map
-      # map.destroy
+      map.destroy
     end
   
     old_layers = Layer.find(:all, :conditions => [ "updated_at < ?", MAP_EXPIRE_TIME.ago ])
     old_layers.each do |layer|
       puts "CLEAN: Deleting layer #{layer.name}, last updated on #{layer.updated_at}"
-      #todo, actually delete the layer
-      # layer.destroy
+      layer.destroy
     end
   end
 end
