@@ -201,6 +201,14 @@ class Map < ActiveRecord::Base
       self.touch(:gcp_touched_at)
   end
 
+  def expires_on
+    updated_at + MAP_EXPIRE_TIME
+  end
+
+  def expired?
+    expires_on < Time.now
+  end
+
   #############################################
   #ACCESSOR METHODS
   #############################################

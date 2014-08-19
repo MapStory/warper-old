@@ -1,8 +1,18 @@
+<div class="row">
 <div class="col-sm-12">
-<h2>New mosaic</h2>
-<em>Note: All mosaics are public, you can add your private maps to them, they won't be listed<br />
-but they could be seen on the final map image.</em>
-<%= error_messages_for :layer %>
+	<h2>New mosaic</h2>
+	<em>Note: All mosaics are public, you can add your private maps to them, they won't be listed<br />
+	but they could be seen on the final map image.</em>
+	<%= error_messages_for :layer %>
 
-<%= render :partial => "form", :locals => {:page => "new"} %>
+	<%= render :partial => "form", :locals => {:page => "new"} %>
+
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="expire_notice">
+				<p>Please note, if mosaics are not updated within <%= MAP_EXPIRE_TIME/86400 %> days they will be automatically removed.</p>
+			</div>
+		</div>
+	</div>
+</div>
 </div>

@@ -1,0 +1,1 @@
+MAP_EXPIRE_TIME=7.days

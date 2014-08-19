@@ -56,6 +56,15 @@ class Layer < ActiveRecord::Base
     percent.nan? ? 0 : percent
   end
 
+  def expires_on
+    updated_at + MAP_EXPIRE_TIME
+  end
+
+  def expired?
+    expires_on < Time.now
+  end
+
+
   def publish
     #empty method for publish action of layer
   end
