@@ -451,7 +451,7 @@ class MapsController < ApplicationController
     if @map.destroy
       flash[:notice] = "Map deleted!"
     else
-      flash[:notice] = "Map wasnt deleted"
+      flash[:notice] = "Map wasn't deleted"
     end
     respond_to do |format|
       format.html { redirect_to(maps_url) }
