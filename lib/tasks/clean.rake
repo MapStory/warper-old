@@ -20,4 +20,16 @@ namespace :remove do
 
   end
 
+
+  desc "Removes maps, files, and all associated data for expired maps"
+  task :expired => :environment do
+    old_maps = Map.find(:all, :conditions => [ "updated_at < ?", MAP_EXPIRE_TIME.ago ])
+    old_maps.each do |map|
+      puts "Deleting map #{map.title} #{map.updated_at}"
+      #todo, actually delete the map
+      # map.destroy
+    end
+  end
+
+
 end
