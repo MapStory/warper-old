@@ -32,7 +32,7 @@ namespace :remove do
   
     old_layers = Layer.find(:all, :conditions => [ "updated_at < ?", MAP_EXPIRE_TIME.ago ])
     old_layers.each do |layer|
-      Rails.logger.warn "CLEAN: Deleting layer #{layer.title}, last updated on #layer.updated_at}"
+      Rails.logger.warn "CLEAN: Deleting layer #{layer.name}, last updated on #{layer.updated_at}"
       #todo, actually delete the layer
       # layer.destroy
     end
