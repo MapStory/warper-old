@@ -39,9 +39,6 @@ Rails::Initializer.run do |config|
   Encoding.default_external = Encoding::UTF_8
   Encoding.default_internal = Encoding::UTF_8
 
-  # Stop complaining in logs
-  I18n.enforce_available_locales = false
-
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper,
   # like if you have constraints or database-specific column types
