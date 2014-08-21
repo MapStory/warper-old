@@ -3,23 +3,15 @@
 	<div class="col-sm-12">
 		<h1>Upload a new map</h1>
 		<%= error_messages_for :map %>
-
 		<p>
 		  By uploading images to the website, you agree that you have permission to do so, and accept that anyone else
 		  can potentially view and use them, including changing control points.
 		</p>
+		<p>Please note, if maps are not updated within <%= MAP_EXPIRE_TIME/86400 %> days they will be automatically removed.</p>
 	</div>
 </div>
 
 <%= render :partial => "form", :locals => {:page => "new"} %>
-
-<div class="row">
-	<div class="col-sm-12">
-		<div class="expire_notice">
-			<p>Please note, if maps are not updated within <%= MAP_EXPIRE_TIME/86400 %> days they will be automatically removed.</p>
-		</div>
-	</div>
-</div>
 
 <div class="row">
 	<div class="col-sm-12">
