@@ -9,6 +9,19 @@
 
 <%= render :partial => "form_remote", :locals => {:page => "edit"} %>
 
+<div class="row">
+	<div class="col-sm-12">
+		<div class="expire_notice">
+			<p>If mosaics are not updated within <%= MAP_EXPIRE_TIME/86400 %> days they will be removed.</p>
+			<% if @layer.expired? %>
+			<p>This mosaic has not been edited recently and will be removed within a few minutes.</p>
+			<% else %>
+			<p>This mosaic will be removed on <%= @layer.expires_on.strftime("%A %B %-d at %l:%M %P") %>.</p>
+			<% end %>
+		</div>
+	</div>
+</div>
+
 <%- if (current_user = @layer.user || admin_authorized?) -%>
 <div class="row">
 	<div class="col-sm-12">

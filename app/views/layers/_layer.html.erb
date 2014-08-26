@@ -23,7 +23,7 @@
     </span>      
     <div class="map_links_bigger">
       <% if logged_in? && (admin_authorized? or current_user.own_this_layer?(layer.id)) -%>
-        <%= link_to "Edit Mosaic", layer_path(:id=>layer, :anchor=>"Edit_tab") -%> |
+        <%= link_to "Edit Mosaic", edit_layer_path(:id=>layer) -%> |
       <% end -%>
 
       <% if layer.is_visible && layer.rectified_maps_count > 0 %>

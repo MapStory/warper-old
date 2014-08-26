@@ -20,4 +20,32 @@ namespace :remove do
 
   end
 
+
+  desc "Removes maps, files, and all associated data for expired maps"
+  task :expired => :environment do
+    old_maps = Map.find(:all, :conditions => [ "updated_at < ?", MAP_EXPIRE_TIME.ago ])
+    old_maps.each do |map|
+      puts "CLEAN: Deleting map #{map.title}, last updated on #{map.updated_at}"
+      map.destroy
+    end
+  
+    # Remove any invalid layers that have zero maps. When maps are removed it updates
+    # the layer, preventing it from being automatically deleted.
+    layers = Layer.all
+    layers.each do |layer|
+      if layer.maps.count == 0      
+        puts "CLEAN: Deleting layer #{layer.name}, has zero maps."
+        layer.destroy
+      end
+    end
+
+    old_layers = Layer.find(:all, :conditions => [ "updated_at < ?", MAP_EXPIRE_TIME.ago ])
+    old_layers.each do |layer|
+      puts "CLEAN: Deleting layer #{layer.name}, last updated on #{layer.updated_at}"
+      layer.destroy
+    end
+
+
+
+  end
 end

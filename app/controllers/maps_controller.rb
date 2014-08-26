@@ -2,10 +2,10 @@ class MapsController < ApplicationController
   layout 'mapdetail', :only => [:show, :edit, :warp, :clip, :align, :activity, :warped, :export, :metadata, :comments, :gaia_url, :otm_url]
   #before_filter :login_required, :only => [:destroy, :delete]
   before_filter :login_or_oauth_required, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align,
- :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid ]
+ :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid, :newbulk, :createbulk ]
   before_filter :check_administrator_role, :only => [:publish]
   before_filter :find_map_if_available,
-    :except => [:show, :index, :wms, :tile, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch]
+    :except => [:show, :index, :wms, :tile, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch, :newbulk, :createbulk]
 
   before_filter :check_link_back, :only => [:show, :warp, :clip, :align, :warped, :export, :activity]
   before_filter :check_if_map_is_editable, :only => [:edit, :update]
@@ -26,6 +26,39 @@ class MapsController < ApplicationController
       render :layout => "tab_container"
     end
   end
+
+
+  # Form for bulk uploading
+  def newbulk
+
+    respond_to do |format|
+      format.html{ render :layout =>'application' }
+    end
+  end
+
+  # actual bulk upload process.
+  def createbulk
+    if params[:commit]
+
+      # we're interested in :title, :public and :upload
+
+      uploaded_io = params[:upload]
+      local_file = Rails.root.join('public', 'uploads', 'zip', uploaded_io.original_filename)
+      FileUtils.mv(uploaded_io, local_file)
+
+      respond_to do |format|
+        if Map.bulk(params[:title], params[:public], local_file, current_user)
+          flash[:notice] = "Maps successfully created"
+          # Go back to maps index
+          format.html { redirect_to maps_url }
+        else
+          flash[:error] = "There was a problem creating maps from your file."
+          format.html { redirect_to new_bulkmap_url }
+        end
+      end
+    end
+  end
+
 
   def get_rough_centroid
     map = Map.find(params[:id])
@@ -451,7 +484,7 @@ class MapsController < ApplicationController
     if @map.destroy
       flash[:notice] = "Map deleted!"
     else
-      flash[:notice] = "Map wasnt deleted"
+      flash[:notice] = "Map wasn't deleted"
     end
     respond_to do |format|
       format.html { redirect_to(maps_url) }

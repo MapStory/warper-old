@@ -110,9 +110,13 @@ button[type=submit] {
   margin-bottom: 1.5em;
 }
 
+.expire_notice {
+  margin-top: 15px;
+}
+
 /* add space to "button" links below maps */
 .mapbtn {
-  margin-top: 30px;
+  margin-top: 15px;
 }
 
 .mapradio {
