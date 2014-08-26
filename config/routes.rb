@@ -57,6 +57,11 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :password
   #end authentication route stuff
 
+  # Bulk map upload
+  map.new_bulkmap '/maps/bulkupload', :controller => 'maps', :action => 'newbulk'
+  map.bulkmap '/maps/create_bulkupload', :controller => 'maps', :action => 'createbulk'
+
+
   #nicer paths for often used map paths
   map.warp_map '/maps/warp/:id', :controller => 'maps', :action => 'warp'
   map.clip_map '/maps/crop/:id', :controller => 'maps', :action => 'clip'
@@ -121,6 +126,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :imports, :member => {:maps => :get, :start => :get, :status => :get }
  
+
+
+
   # The priority is based upon order of creation: first created -> highest priority.
 
 

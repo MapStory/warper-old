@@ -770,6 +770,77 @@ class Map < ActiveRecord::Base
     message = "Map clipping mask saved (gml)"
   end
 
+  # Handles bulk uploads. Unzips uploaded file and
+  # then creates a number of new maps.
+  # may need to capture Errno::EEXIST? 
+  # TODO, test with different nest levels of images.
+  def self.bulk(title, public_map, filename, current_user)
+    Rails.logger.debug "Starting processing of bulk upload."
+    Rails.logger.debug "Title #{title}"
+    Rails.logger.debug "public map #{public_map}"
+    Rails.logger.debug "filename #{filename}"
+
+    # Only work on zip files.
+    return false if File.extname(filename) != ".zip"
+
+    # Attempt to unzip file
+    # our base working folder is rails.root, public, uploads, zip, filename
+    Rails.logger.info "Creating temporary extraction folder"
+    unzip_folder = Rails.root.join('public', 'uploads', 'zip', File.basename(filename, ".zip"))      
+    FileUtils.mkdir(unzip_folder)
+
+    Rails.logger.info "Extracting files from archive"
+    `unzip #{filename} -d #{unzip_folder}`
+
+    Rails.logger.info "Removing uploaded zip file"
+    FileUtils.rm(filename)
+
+
+    # Parse through new files that were just created.
+
+    files = Dir.glob(unzip_folder.join("**/*"))
+
+    Rails.logger.debug "FOUND THE FOLLOWING FILES #{files.inspect}"     
+
+    # Allowed extensions for import
+    extensions = [".jpeg", ".jpg", ".png", ".gif", ".tif", ".tiff"]
+
+    # Parse through the files and do things with relevant ones.
+    # we can't use each_with_index because we discard some files.
+    which = 1
+    files.each do |f|
+      Rails.logger.debug "Working with file #{f}"
+      if extensions.include?(File.extname(f))
+        Rails.logger.debug "Found a valid file to import #{f}"
+
+        # TODO: Create a new map here, and pass along the relevant information.
+        # TODO: Should we populate the description and the tags? Or set to placeholders?
+        # TODO: How do we add attachment.
+        map = Map.new(
+              :title => "#{title} #{which}",
+              :description => "Bulk import",
+              :tag_list => "map",
+              #:map_type => :is_map,  # this is set by setup_image
+              :public => public_map,
+        )
+        map.owner = current_user
+        map.users << current_user
+
+        file = File.new(f,"r")
+        map.upload = file
+        file.close
+
+        map.save
+        which = which + 1
+        # after create the setup_image method should fire.
+      end
+    end
+
+    # Remove the temporary extraction folder and all contents
+    FileUtils.rm_rf(unzip_folder)
+  end
+
+
   def self.paged_find_tagged_with(tags, args = {})
     if tags.blank?
       paginate args

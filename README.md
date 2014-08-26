@@ -27,6 +27,10 @@ in /data/mapimages create:
 	dst/png
 	src/
 
+Create folder in public/uploads
+	zip/
+
+
 ## MapStory Theme Support
 
 Minimum usable width is about 1000px. Site will degrade somewhat gracefully

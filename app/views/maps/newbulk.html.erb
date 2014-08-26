@@ -1,0 +1,38 @@
+<div class="row">
+	<div class="col-sm-12">
+    <h1>Bulk Upload Form</h1>
+    <p>
+      You can upload a zip file containing multiple maps in png or jpg format. All the valid image files in the
+      archive will have a map created using the title prefix.
+    </p>
+  </div>
+</div>
+
+<div class="row">
+<% form_tag(bulkmap_url, :multipart => true) do %>
+  <div class="col-sm-12">
+    <p>Title prefix is required</p>
+    <p>
+      <%= label_tag :title, "Title prefix" %>
+      <br>
+      <%= text_field_tag :title %>
+      <span class="glyphicon glyphicon-info-sign moreinfo" data-toggle="tooltip" data-placement="right" title="The base name of the map, numbers will be automatically appended"></span>
+    </p>
+
+    <p>
+      <label for="upload"><b>Upload a zip file:</b></label><br />
+      <%= file_field_tag :upload %>
+    </p>
+
+    <h2>Map visibility</h2>
+    <p>
+	    <%= radio_button_tag :public, "true", :selected => true %> <%= label_tag :public_true, "Public (default)" %><br/>
+	    <%= radio_button_tag :public, "false" %> <%= label_tag :public_false, "Don't list the map (only you can see it)" %>
+    </p>
+
+    <p>
+    	<%= submit_tag("Upload") %>
+    </p>    
+  </div>
+<% end %>
+</div>
