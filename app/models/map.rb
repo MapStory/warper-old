@@ -773,13 +773,7 @@ class Map < ActiveRecord::Base
   # Handles bulk uploads. Unzips uploaded file and
   # then creates a number of new maps.
   # may need to capture Errno::EEXIST? 
-  # TODO, test with different nest levels of images.
   def self.bulk(title, public_map, filename, current_user)
-    Rails.logger.debug "Starting processing of bulk upload."
-    Rails.logger.debug "Title #{title}"
-    Rails.logger.debug "public map #{public_map}"
-    Rails.logger.debug "filename #{filename}"
-
     # Only work on zip files.
     return false if File.extname(filename) != ".zip"
 
@@ -795,12 +789,8 @@ class Map < ActiveRecord::Base
     Rails.logger.info "Removing uploaded zip file"
     FileUtils.rm(filename)
 
-
     # Parse through new files that were just created.
-
     files = Dir.glob(unzip_folder.join("**/*"))
-
-    Rails.logger.debug "FOUND THE FOLLOWING FILES #{files.inspect}"     
 
     # Allowed extensions for import
     extensions = [".jpeg", ".jpg", ".png", ".gif", ".tif", ".tiff"]
