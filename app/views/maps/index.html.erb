@@ -8,7 +8,7 @@
     </h1>
 
     <div id="search-sort">
-      Please note, if maps are not updated within 7 days they will be automatically removed<br>
+      Please note, if maps are not updated within <%= MAP_EXPIRE_TIME/86400 %> days they will be automatically removed<br>
       <%= render :partial => 'shared/sort' -%>
     </div>
     
