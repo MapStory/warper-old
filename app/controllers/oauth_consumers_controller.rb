@@ -1,6 +1,6 @@
 #require 'oauth/controllers/consumer_controller'
 class OauthConsumersController < ApplicationController
-  include Oauth::Controllers::ConsumerController
+  #include Oauth::Controllers::ConsumerController
 
   def index
     @consumer_tokens=ConsumerToken.all :conditions => {:user_id => current_user.id}
