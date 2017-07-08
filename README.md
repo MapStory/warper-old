@@ -31,6 +31,16 @@ Create folder in public/uploads
 	zip/
 
 
+Setup initalizers
+
+ * mapstory_cookie_secret.rb
+ * session_store.rb
+
+Setup Database config
+
+ * config/database.yml
+
+
 ## MapStory Theme Support
 
 Minimum usable width is about 1000px. Site will degrade somewhat gracefully
