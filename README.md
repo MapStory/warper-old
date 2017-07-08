@@ -40,6 +40,9 @@ Setup Database config
 
  * config/database.yml
 
+Setup Envionment
+
+ * config/environments/production.rb
 
 ## MapStory Theme Support
 
