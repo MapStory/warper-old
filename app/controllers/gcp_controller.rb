@@ -3,8 +3,7 @@ class GcpController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:update, :update_field, :add, :destroy, :show]
   #before_filter :semi_verify_authenticity_token, :only => [:update, :update_field, :add, :destroy]
 
-  #before_filter :login_or_oauth_required, :except => [:show, :index]
-  before_filter :login_or_oauth_required, :only => [:custom, :update, :update_field, :add, :destroy]
+  before_filter :login_required, :only => [:custom, :update, :update_field, :add, :destroy]
   before_filter :find_gcp, :only => [:show, :update,:update_field, :destroy ]
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
 

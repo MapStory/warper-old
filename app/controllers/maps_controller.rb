@@ -1,7 +1,6 @@
 class MapsController < ApplicationController
   layout 'mapdetail', :only => [:show, :edit, :warp, :clip, :align, :activity, :warped, :export, :metadata, :comments, :gaia_url, :otm_url]
-  #before_filter :login_required, :only => [:destroy, :delete]
-  before_filter :login_or_oauth_required, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align,
+  before_filter :login_required, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align,
  :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid, :newbulk, :createbulk ]
   before_filter :check_administrator_role, :only => [:publish]
   before_filter :find_map_if_available,

@@ -2,7 +2,7 @@ class LayersController < ApplicationController
 
 
   layout 'layerdetail', :only => [:show,  :edit, :export, :metadata]
-  before_filter :login_or_oauth_required , :except => [:wms, :wms2, :show_kml, :show, :index, :metadata, :maps, :thumb, :geosearch, :comments, :tile]
+  before_filter :login_required , :except => [:wms, :wms2, :show_kml, :show, :index, :metadata, :maps, :thumb, :geosearch, :comments, :tile]
   before_filter :check_administrator_role, :only => [:publish, :toggle_visibility, :merge] # :remove_map, :update_year, :update, :destroy, :create
   before_filter :find_layer, :only => [:show, :export, :metadata, :digitize, :toggle_visibility, :update_year, :publish, :remove_map, :merge, :maps, :thumb, :comments]
   before_filter :check_if_layer_is_editable, :only => [:edit, :update, :remove_map, :update_year, :update, :destroy]
